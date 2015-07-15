@@ -36,3 +36,22 @@ HICPYoY<-HICPYoY[order(HICPYoY$X,decreasing=TRUE),]
 HICPYoY$X<-NULL
 
 
+
+# Unemployment rate
+
+UNPLOY <- read.csv("data/ECB/unemploymentrate.csv")
+colnames(UNPLOY)<-c("time","UNPLOY_AUS","UNPLOY_BEL","UNPLOY_GER","UNPLOY_DEN","UNPLOY_SPA",
+                    "UNPLOY_FIN","UNPLOY_FRA","UNPLOY_UKI","UNPLOY_GRE","UNPLOY_IRL",
+                    "UNPLOY_ITA","UNPLOY_LUX","UNPLOY_NET","UNPLOY_POR","UNPLOY_SWE")
+UNPLOY$X<-seq(from=1, to=dim(UNPLOY)[1],by=1)
+UNPLOY<-UNPLOY[order(UNPLOY$X,decreasing=TRUE),]
+UNPLOY$X<-NULL
+
+
+# Exchange rate USD/EUR
+exchangerate <- read.csv("data/ECB/Exchangerate.csv")
+colnames(exchangerate)<-c("time","USDEUR_ROW")
+exchangerate$X<-seq(from=1, to=dim(exchangerate)[1],by=1)
+exchangerate<-exchangerate[order(exchangerate$X,decreasing=TRUE),]
+exchangerate$X<-NULL
+
