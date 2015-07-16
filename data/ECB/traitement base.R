@@ -55,3 +55,13 @@ exchangerate$X<-seq(from=1, to=dim(exchangerate)[1],by=1)
 exchangerate<-exchangerate[order(exchangerate$X,decreasing=TRUE),]
 exchangerate$X<-NULL
 
+help(merge)
+df <-data.frame(HICP[37:339,],UNPLOY[85:387,])
+df$time.1<-NULL
+
+exchrate<-rbind(as.matrix(rep(NA,105)),as.matrix(exchangerate[,2]))
+colnames(exchrate)<-"USDEUR_ROW"
+df2 <- data.frame(df,exchrate)
+
+
+

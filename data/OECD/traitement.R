@@ -10,3 +10,4 @@ colnames(STrate)<-c("time","STR_AUS","STR_BEL","STR_DEN","STR_FIN","STR_FRA",
                     "STR_GER","STR_GRE","STR_IRL","STR_ITA","STR_LUX",
                     "STR_NET","STR_POR","STR_SPA","STR_SWE","STR_UKI")
 
+df<-data.frame(STrate[1:303,],LTrate[1:303,])

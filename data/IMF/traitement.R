@@ -24,4 +24,6 @@ colnames(Prodindus) <- c("time","PINDUS_AUS","PINDUS_BEL","PINDUS_DEN","PINDUS_F
 
 
 
+df<-data.frame(MonetaryAgreg,oilprice[-305,],LIBOR3M_US[-305,],tauxdirecteuretbilanBC[-305,],Prodindus)
+df2<-df[-304,]
 
