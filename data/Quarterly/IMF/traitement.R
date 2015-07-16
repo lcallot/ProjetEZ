@@ -9,7 +9,13 @@ PPI <- read.csv("data/Quarterly/IMF/PPI.csv", sep=";", dec=",")
 
 #Monetary Agregate
 Monetary <- read.csv("data/Quarterly/IMF/M1_M3quarterly.csv")
-colnames(Monetary)<-c("time","M1_ZE","M3_ZE")
+colnames(Monetary)<-c("time","M1_EZ","M3_EZ")
+
+
+# Money rate EZ
+rates <- read.csv("~/Documents/Stage VU/ProjetEZ/data/Quarterly/IMF/rates.csv")
+MONRATE_EZ<-rates[,2]
+MONRATE_EZ<-rbind(as.matrix(rep(NA,16)),as.matrix(MONRATE_ZE))
 
 # Industrial production, oil, CB asset, taux directeurs
 load("data/Quarterly/IMF/subset.RData")
