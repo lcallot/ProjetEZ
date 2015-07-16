@@ -74,5 +74,3 @@ df<-data.frame(dfq)
 setwd("~/Documents/Stage VU/ProjetEZ/data/Quarterly/IMF")
 save(df, file="ecb.RData")
 
-
-
