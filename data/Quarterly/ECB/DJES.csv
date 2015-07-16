@@ -1,8 +1,4 @@
-"Dataset name: Financial market data (Other data); Frequency: Quarterly; Reference area: Euro area (changing composition); Currency: Euro; Financial market provider: DataStream; Financial market instrument: Equity/index; Financial market data type: Historical close, average of observations through period"
 ,FM.Q.U2.EUR.DS.EI.DJES50I.HSTA,FM.Q.U2.EUR.DS.EI.DJEURST.HSTA
-,Dow Jones Euro Stoxx 50 Price Index,Dow Jones Euro Stoxx Price Index
-Collection:,Average of observations through period (A),Average of observations through period (A)
-Period\Unit:,[Points ],[Points ]
 2015Q2,3621.1146,373.2619
 2015Q1,3441.9822,351.8175
 2014Q4,3102.4749,313.0017

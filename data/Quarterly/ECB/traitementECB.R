@@ -35,9 +35,28 @@ productivity<-productivity[41:141,]
 
 
 #DowJones EURONEXT
+DJES <- read.csv("data/Quarterly/ECB/DJES.csv")
+DJES$x<-seq(from=1, to=dim(DJES)[1],by=1)
+DJES<-DJES[order(DJES$x,decreasing=TRUE),]
+DJES$x<-NULL
+DJES<-DJES[13:113,-3]
+DJES$X<-NULL
+names(DJES)<-"DJES"
+
+
+#NEER
+NEER <- read.csv("data/Quarterly/ECB/NEER.csv")
+NEER$x<-seq(from=1, to=dim(NEER)[1],by=1)
+NEER<-NEER[order(NEER$x,decreasing=TRUE),]
+NEER$x<-NULL
+NEER$X<-NULL
+NEER<-rbind(as.matrix(rep(NA,12)),as.matrix(NEER),NA)
+NEER<-data.frame(NEER)
+names(NEER)<-"NEER"
 
 
 
+# Merge
 
 df<-data.frame(productivity,GDP,compensation)
 df$time.1<-NULL
