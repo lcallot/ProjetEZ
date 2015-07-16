@@ -65,3 +65,14 @@ df2 <- data.frame(df,exchrate)
 
 
 
+
+dfts <- ts(df2, ,start=c(1990,1),frequency=12)
+dfq <- aggregate(dfts, FUN=sum, nfrequency=4)/3
+df<-data.frame(dfq)
+
+
+setwd("~/Documents/Stage VU/ProjetEZ/data/Quarterly/IMF")
+save(df, file="ecb.RData")
+
+
+

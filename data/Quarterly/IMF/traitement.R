@@ -11,8 +11,8 @@ PPI <- read.csv("data/Quarterly/IMF/PPI.csv", sep=";", dec=",")
 Monetary <- read.csv("data/Quarterly/IMF/M1_M3quarterly.csv")
 colnames(Monetary)<-c("time","M1_ZE","M3_ZE")
 
-# Industrial production, 
-load("subset.RData")
+# Industrial production, oil, CB asset, taux directeurs
+load("data/Quarterly/IMF/subset.RData")
 
 PPI$Time<-NULL
 Monetary$time<-NULL
