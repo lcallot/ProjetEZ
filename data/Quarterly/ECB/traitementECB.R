@@ -34,6 +34,11 @@ productivity$x<-NULL
 productivity<-productivity[41:141,]
 
 
+#DowJones EURONEXT
+
+
+
+
 df<-data.frame(productivity,GDP,compensation)
 df$time.1<-NULL
 df$time.2<-NULL
