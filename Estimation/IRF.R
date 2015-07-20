@@ -4,19 +4,29 @@ require(reshape2)
 require(urca)
 require(MSBVAR)
 
+options(digits=2) 
 
-#load("Result/vardata3.Rdata")
+#from 1990Q1 to 2015Q1
+load("data/Quarterly/vardata.Rdata")
+data[,1]<-NULL
+datats<-ts(data,frequency=4, start=1990)
 
-#data<-subset(vardataframe[113:176,])
-#datats<-ts(data,frequency=4, start=1998)
+datats[,1]
 
-load("Result/vardata2")
-data<-subset(vardataframe[117:180,])
-datats<-ts(data,frequency=4, start=1998)
+# data from 2000Q1 to 2013Q4
+data2<-data[41:96,]
+
 
 #difdata <- tail(data,-1) - head(data,-1)
 
+data2$CBASSET_ZE<-NULL
+data2$CBASSET_US<-NULL
+data2$LTR_LUX<-NULL
+data2$STR_SWE<-NULL
 
+
+lassovar(data2,lags=1)
+help(lassovar)
 
 
 ##############################
@@ -206,6 +216,7 @@ true<-as.matrix(inflation[49:64])
 ecart<-true-estimateur
 sumecart<-t(ecart)%*%ecart
 RMSE<-sumecart/length(ecart)
+
 
 
 

@@ -1,9 +1,9 @@
 # Interest rates
 load("data/Quarterly/OECD/oecd.RData")
-dfOECD<-df
+dfoecd<-df
 
 
 
-data<-data.frame(dfecb,dfIMF,dfOECD)
+data<-data.frame(dfecb,dfimf,dfoecd)
 setwd("~/Documents/Stage VU/ProjetEZ/data/Quarterly")
 save(data, file="vardata.RData")

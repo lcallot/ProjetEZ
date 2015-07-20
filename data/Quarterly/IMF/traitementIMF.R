@@ -28,6 +28,6 @@ load("data/Quarterly/IMF/subset.RData")
 
 
 
-dfIMF<-data.frame(deflator,PPI,Monetary,MONRATE_EZ,subset)
-
+dfimf<-data.frame(deflator,PPI,Monetary,MONRATE_EZ,subset)
+dfimf$Time<-NULL
 

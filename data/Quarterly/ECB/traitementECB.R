@@ -42,7 +42,7 @@ DJES<-DJES[order(DJES$x,decreasing=TRUE),]
 DJES$x<-NULL
 DJES<-DJES[13:113,-3]
 DJES$X<-NULL
-names(DJES)<-"DJES"
+names(DJES)<-"DJES_EZ"
 
 
 #NEER
@@ -53,7 +53,7 @@ NEER$x<-NULL
 NEER$X<-NULL
 NEER<-rbind(as.matrix(rep(NA,12)),as.matrix(NEER),NA)
 NEER<-data.frame(NEER)
-names(NEER)<-"NEER"
+names(NEER)<-"NEER_EZ"
 
 
 # Monthly variables from ECB datawarehouse : CPI and unemployment
@@ -64,7 +64,7 @@ load("data/Quarterly/ECB/ecb.RData")
 # Merge
 
 dfecb<-data.frame(productivity,GDP,compensation,DJES,NEER,df)
-
+dfecb$time.1<-NULL
 
 
 
