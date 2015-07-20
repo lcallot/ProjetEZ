@@ -9,7 +9,7 @@ compensation<-compensation[41:141,]
 colnames(compensation)<-c("time","COMP_AUS","COMP_BEL","COMP_GER","COMP_DEN","COMP_SPA",
   "COMP_FIN","COMP_FRA","COMP_UKI","COMP_GRE","COMP_IRL",
   "COMP_ITA","COMP_LUX","COMP_NET","COMP_POR","COMP_SWE")
-
+compensation$time<-NULL
 
 # GPD in millions (domestic currency)
 GDP <- read.csv("data/Quarterly/ECB/GDP.csv")
@@ -21,6 +21,7 @@ GDP<-GDP[order(GDP$x,decreasing=TRUE),]
 GDP$x<-NULL
 
 GDP<-GDP[141:241,]
+GDP$time<-NULL
 
 
 # Productivity
@@ -55,9 +56,15 @@ NEER<-data.frame(NEER)
 names(NEER)<-"NEER"
 
 
+# Monthly variables from ECB datawarehouse : CPI and unemployment
+load("data/Quarterly/ECB/ecb.RData")
+
+
 
 # Merge
 
-df<-data.frame(productivity,GDP,compensation)
-df$time.1<-NULL
-df$time.2<-NULL
+dfecb<-data.frame(productivity,GDP,compensation,DJES,NEER,df)
+
+
+
+

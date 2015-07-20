@@ -6,11 +6,12 @@ deflator<-Gdp_deflator[,1:16]
 
 #PPI without Luxembourg
 PPI <- read.csv("data/Quarterly/IMF/PPI.csv", sep=";", dec=",")
+PPI$Time<-NULL
 
 #Monetary Agregate
 Monetary <- read.csv("data/Quarterly/IMF/M1_M3quarterly.csv")
 colnames(Monetary)<-c("time","M1_EZ","M3_EZ")
-
+Monetary$time<-NULL
 
 # Money rate EZ
 rates <- read.csv("~/Documents/Stage VU/ProjetEZ/data/Quarterly/IMF/rates.csv")
@@ -23,17 +24,10 @@ MONRATE_EZ<-data.frame(MONRATE_EZ)
 load("data/Quarterly/IMF/subset.RData")
 
 
-# WORLD REAL GDP
 
 
 
 
-
-
-
-
-PPI$Time<-NULL
-Monetary$time<-NULL
-df<-data.frame(deflator,PPI,Monetary)
+dfIMF<-data.frame(deflator,PPI,Monetary,MONRATE_EZ,subset)
 
 

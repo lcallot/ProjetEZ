@@ -59,6 +59,8 @@ help(merge)
 df <-data.frame(HICP[37:339,],UNPLOY[85:387,])
 df$time.1<-NULL
 
+
+
 exchrate<-rbind(as.matrix(rep(NA,105)),as.matrix(exchangerate[,2]))
 colnames(exchrate)<-"USDEUR_ROW"
 df2 <- data.frame(df,exchrate)
@@ -69,6 +71,8 @@ df2 <- data.frame(df,exchrate)
 dfts <- ts(df2, ,start=c(1990,1),frequency=12)
 dfq <- aggregate(dfts, FUN=sum, nfrequency=4)/3
 df<-data.frame(dfq)
+
+
 
 
 setwd("~/Documents/Stage VU/ProjetEZ/data/Quarterly/IMF")
