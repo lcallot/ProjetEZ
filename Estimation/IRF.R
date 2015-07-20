@@ -4,18 +4,17 @@ require(reshape2)
 require(urca)
 require(MSBVAR)
 
-options(digits=2) 
+options(digits=4) 
 
 #from 1990Q1 to 2015Q1
 load("data/Quarterly/vardata.Rdata")
 data[,1]<-NULL
 datats<-ts(data,frequency=4, start=1990)
 
-datats[,1]
 
 # data from 2000Q1 to 2013Q4
 data2<-data[41:96,]
-
+data2ts<-ts(data2,frequency=4, start=2000)
 
 #difdata <- tail(data,-1) - head(data,-1)
 
@@ -23,10 +22,38 @@ data2$CBASSET_ZE<-NULL
 data2$CBASSET_US<-NULL
 data2$LTR_LUX<-NULL
 data2$STR_SWE<-NULL
+rownames(data2) <- NULL
+
+lassovar(data2,lags=1,ic="BIC",adaptive="none")
 
 
-lassovar(data2,lags=1)
-help(lassovar)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ##############################
