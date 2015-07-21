@@ -37,10 +37,19 @@ XTR<-log(subsets[,"XTR"])
 #### ECB DATABASE ####
 
 #Monetary Agregate
-dataMagreg <- read.csv("Agrege/Base/ECB/dataMagreg.csv", sep=";")
-dataMagreg$X<-NULL
+M1 <- read.csv("Agrege/Base/ECB/M1.csv")
+M3 <- read.csv("Agrege/Base/ECB/M3.csv")
 
-monthly <- ts(dataMagreg,start=c(1970,1),frequency=12)
+M1$M3<-M3[,2]
+M1$t<-seq(from=1, to=dim(M1)[1],by=1)
+M1<-M1[order(M1$t,decreasing=TRUE),]
+M1$t<-NULL
+colnames(M1)<-c("time","M1","M3")
+rownames(M1)<-NULL
+dataMagreg<-M1
+
+
+monthly <- ts(dataMagreg,start=c(1980,1),frequency=12)
 quarterly <- aggregate(monthly, nfrequency=4)/3
 logquarterly <- log(quarterly)
 
@@ -62,7 +71,13 @@ LHO<-logquarterly2[,"LHO"]
 #Price Producer Index
 PPI <- read.csv("Agrege/Base/ECB/PPI.csv")
 
-monthly3 <- ts(rev(PPI[,2]),start=c(1981,1),frequency=12)
+PPI$t<-seq(from=1, to=dim(PPI)[1],by=1)
+PPI<-PPI[order(PPI$t,decreasing=TRUE),]
+PPI$t<-NULL
+colnames(PPI)<-c("time","PPI")
+rownames(PPI)<-NULL
+
+monthly3 <- ts(PPI[,2],start=c(1990,1),frequency=12)
 quarterly3 <- aggregate(monthly3, nfrequency=4)/3
 PPI <- log(quarterly3)
 

@@ -12,12 +12,77 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{graphics}
+\usepackage{hyperref}
+
 
 \usepackage[left=1cm,right=3cm,top=3cm,bottom=3cm]{geometry}
+\title{Note on the Database}
 \author{clément carrier}
 
-\begin{document}
 
+\begin{document}
+\maketitle
+
+\section{Database}
+
+In this file, I describe the database used, and explain in more details the transformation made before using them into our model. 
+
+\subsection{ECB}
+
+These are the variables from ECB data warehouse :
+\begin{itemize}
+\item ECB loans to household : BSI.M.U2.N.A.A20.A.1.U2.2250.Z01.E
+\item ECB loans to NFI : BSI.M.U2.N.A.A20.A.1.U2.2240.Z01.E
+\item M1 : BSI.M.U2.N.V.M10.X.1.U2.2300.Z01.E
+\item M3 : BSI.M.U2.N.V.M30.X.1.U2.2300.Z01.E
+\item Total Industry excluding construction and MIG Energy (PPI) : STS.M.I6.N.PRIN.NS0021.4.000
+\end{itemize}
+
+\vspace{0.5cm}
+
+These variables are in the folder /ECB and are raw variables directly loaded from the ECB database. These variables are then transformed into log in the R file called "transformation.R" in the folder /Agrege/Base. 
+
+\subsection{IMF}
+
+These are the variables from IMF (IFS) :
+\begin{itemize}
+\item LIBOR 3 month, USA
+\end{itemize}
+
+\vspace{0.5cm}
+
+This variable is in the folder /IMF and is a raw variable directly loaded from the IFS database.
+
+\subsection{EUROSTAT}
+
+These are the variables from EUROSTAT :
+\begin{itemize}
+\item Economic Sentiment Indicator
+\end{itemize}
+
+\vspace{0.5cm}
+
+This variable is in the folder /EUROSTAT and is a raw variable directly loaded from the EUROSTAT database. We then made a log transformation. 
+
+\subsection{Datastream}
+
+These are the variables from Datastream :
+\begin{itemize}
+\item Dow jones euro stoxx 50
+\end{itemize}
+
+\vspace{0.5cm}
+
+This variable is in the folder /Datastream and is a raw variable directly loaded from the Datastream database. We then made a log transformation. 
+
+
+\subsection{AWM}
+
+Other variables are directly taken from the AWM database (\href{http://www.eabcn.org/page/area-wide-model}{link}). You can find in the folder /AWM a notice that describe the dataset. 
+
+
+
+\section{Recapitulation table}
 
 \begin{table}[htbp]
   \centering
