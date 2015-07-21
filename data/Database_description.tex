@@ -12,134 +12,165 @@
 \usepackage{booktabs}
 \usepackage{array}
 
-\usepackage[left=3cm,right=3cm,top=3cm,bottom=3cm]{geometry}
+\usepackage[left=1cm,right=3cm,top=3cm,bottom=3cm]{geometry}
 \author{clément carrier}
 
 \begin{document}
 
 
 
-
+\begin{center}
 \begin{table}[h]
- 
-    \begin{tabular}{crrrr}
+ \centering
+    \begin{tabular}{crrrrr}
     \toprule
     \multicolumn{5}{c}{Database}
+      \\
+      \toprule
+       &
+      Variable  &
+      Source &
+      Country &
+      Original &
+      Transformation 
+      
       \\
     \midrule
     \multirow{7}[14]{*}{Price} &
       HICP  &
       ECB &
       by country &
-      index
+      index &
+      log
       \\
      &
-      Processed food exc. Alcohol and tobacco &
+      Processed food exc. Alc \& tob &
       ECB &
       by country &
-      index
+      index &
+      log
       \\
      &
       Unprocessed food &
       ECB &
       by country &
-      index
+      index &
+      log
       \\
      &
       Indus good exc. Energy &
       ECB &
       by country &
-      index
+      index &
+      log
       \\
      &
       Energy &
       ECB &
       by country &
-      index
+      index &
+      log
       \\
      &
       Services &
       ECB &
       by country &
-      index
+      index &
+      log
       \\
      &
       Oil Price &
       IFS (IMF) &
       World &
-      index
+      index &
+      log
       \\
+      \midrule
     \multirow{2}[4]{*}{Economic Activity} &
       Indus. Production &
       IFS (IMF) &
       by country &
-      index
+      index &
+      log
       \\
      &
       Unemployment rate &
       ECB &
       by country &
-      \%
+      \% & 
+      log
       \\
+      \midrule
     \multirow{3}[6]{*}{Interest rates} &
       Short-term Interest rates &
       OECD &
       by country &
-      annual \%
+      annual \% & 
+      -
       \\
      &
       Long-term Interest rates &
       OECD &
       by country &
-      annual \%
+      annual \% & 
+      -
       \\
      &
       LIBOR 3 month &
       IFS (IMF) &
       US &
-      annual \%
+      annual \% &
+      -
       \\
+      \midrule
     \multirow{4}[8]{*}{Monetary} &
       M1 &
       IFS (IMF) &
       EZ &
-      EUR
+      EUR &
+      log
       \\
      &
       M3 &
       IFS (IMF) &
       EZ &
-      EUR
+      EUR &
+      log
       \\
      &
-      Monetary Policy-Related Interest Rate &
+      Monetary Policy-Related Rate &
       IFS (IMF) &
       US/EZ &
-      annual \%
+      annual \% &
+      -
       \\
      &
       Central Bank Asset &
       IFS (IMF) &
       US/EZ &
-      USD/EUR
+      USD/EUR &
+      log
       \\
+      \midrule
     \multirow{2}[4]{*}{Other} &
       NEER &
       IFS (IMF) &
       EZ &
-      index
+      index &
+      log
       \\
      &
       EUR/USD exchange rate &
       ECB &
       EZ &
-      index
+      index &
+      
       \\
     \bottomrule
     \end{tabular}
 
 \end{table}
-
+\end{center}
 
 
 \end{document}

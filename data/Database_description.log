@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  21 JUL 2015 12:26
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  21 JUL 2015 12:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -538,14 +538,14 @@ e
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(85.35826pt, 426.79135pt, 85.35826pt)
+* h-part:(L,W,R)=(28.45274pt, 483.69687pt, 85.35826pt)
 * v-part:(T,H,B)=(85.35826pt, 674.33032pt, 85.35826pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=426.79135pt
+* \textwidth=483.69687pt
 * \textheight=674.33032pt
-* \oddsidemargin=13.08827pt
-* \evensidemargin=13.08827pt
+* \oddsidemargin=-43.81725pt
+* \evensidemargin=-43.81725pt
 * \topmargin=-23.91173pt
 * \headheight=12.0pt
 * \headsep=25.0pt
@@ -573,8 +573,8 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 25.
 (/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-Overfull \hbox (68.36713pt too wide) in paragraph at lines 25--140
-[][] 
+Overfull \hbox (47.89034pt too wide) in paragraph at lines 25--171
+ [][] 
  []
 
 [1
@@ -584,15 +584,15 @@ Overfull \hbox (68.36713pt too wide) in paragraph at lines 25--140
 Here is how much of TeX's memory you used:
  4102 strings out of 493488
  53753 string characters out of 3141326
- 123670 words of memory out of 3000000
+ 124672 words of memory out of 3000000
  7326 multiletter control sequences out of 15000+200000
  9057 words of font info for 33 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,9n,24p,253b,197s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,9n,24p,253b,252s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2012/texmf-dist/fonts/enc/dvi
 ps/cm-super/cm-super-t1.enc}</usr/local/texlive/2012/texmf-dist/fonts/type1/pub
 lic/cm-super/sfrm1095.pfb>
-Output written on Database_description.pdf (1 page, 24576 bytes).
+Output written on Database_description.pdf (1 page, 25424 bytes).
 PDF statistics:
  13 PDF objects out of 1000 (max. 8388607)
  8 compressed objects within 1 object stream
