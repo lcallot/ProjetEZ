@@ -23,9 +23,32 @@ dataM3<-data1[,c("time","HICP_AUS","HICP_BEL", "HICP_GER","HICP_DEN",
 dataM1<-dataM1[73:300,]
 dataM3<-dataM3[73:300,]
 
+# I use variable in log
+log<-function(x){
+  y<-NULL
+  for (i in dim(x)[2]){
+    y[,i]<-log(x[,i])
+  }
+  return(y)
+}
+log(dataM1)
+dataM1<-log(dataM1)
+
+difdata <- tail(data,-1) - head(data,-1)
 
 
 
+
+
+
+
+
+
+
+
+
+
+help(log)
 
 
 # Plot
