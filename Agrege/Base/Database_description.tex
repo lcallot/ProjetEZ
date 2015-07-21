@@ -18,159 +18,204 @@
 \begin{document}
 
 
-
-\begin{center}
-\begin{table}[h]
- \centering
-    \begin{tabular}{crrrrr}
+\begin{table}[htbp]
+  \centering
+  \caption{Add caption}
+    \begin{tabular}{rrrrrr}
     \toprule
-    \multicolumn{5}{c}{Database}
-      \\
-      \toprule
-       &
-      Variable  &
-      Source &
-      Country &
-      Original &
-      Transformation 
-      
+    \multicolumn{6}{c}{Database}
       \\
     \midrule
-    \multirow{7}[14]{*}{Price} &
-      HICP  &
-      ECB &
-      by country &
-      index &
-      log
+    Source &
+      Variables &
+      Name &
+      Adjustment &
+      Origin &
+      transformation
       \\
-     &
-      Processed food exc. Alc \& tob &
-      ECB &
-      by country &
-      index &
-      log
-      \\
-     &
-      Unprocessed food &
-      ECB &
-      by country &
-      index &
-      log
-      \\
-     &
-      Indus good exc. Energy &
-      ECB &
-      by country &
-      index &
-      log
-      \\
-     &
-      Energy &
-      ECB &
-      by country &
-      index &
-      log
-      \\
-     &
-      Services &
-      ECB &
-      by country &
-      index &
-      log
-      \\
-     &
-      Oil Price &
-      IFS (IMF) &
-      World &
+      \midrule
+    DataStream &
+      dow jones euro stoxx 50 &
+      DJES &
+      - &
       index &
       log
       \\
       \midrule
-    \multirow{2}[4]{*}{Economic Activity} &
-      Indus. Production &
-      IFS (IMF) &
-      by country &
-      index &
-      log
-      \\
-     &
-      Unemployment rate &
-      ECB &
-      by country &
-      \% & 
-      log
-      \\
-      \midrule
-    \multirow{3}[6]{*}{Interest rates} &
-      Short-term Interest rates &
-      OECD &
-      by country &
-      annual \% & 
-      -
-      \\
-     &
-      Long-term Interest rates &
-      OECD &
-      by country &
-      annual \% & 
-      -
-      \\
-     &
-      LIBOR 3 month &
-      IFS (IMF) &
-      US &
-      annual \% &
-      -
-      \\
-      \midrule
-    \multirow{4}[8]{*}{Monetary} &
+    \multicolumn{1}{c}{\multirow{5}[10]{*}{ECB}} &
       M1 &
-      IFS (IMF) &
-      EZ &
-      EUR &
+      M1 &
+      NSA &
+      Millions of Euro &
       log
       \\
-     &
+    \multicolumn{1}{c}{} &
       M3 &
-      IFS (IMF) &
-      EZ &
-      EUR &
+      M3 &
+      NSA &
+      Millions of Euro &
       log
       \\
-     &
-      Monetary Policy-Related Rate &
-      IFS (IMF) &
-      US/EZ &
-      annual \% &
-      -
+    \multicolumn{1}{c}{} &
+      loans to household &
+      LHO &
+      NSA &
+      Millions of Euro &
+      log
       \\
-     &
-      Central Bank Asset &
-      IFS (IMF) &
-      US/EZ &
-      USD/EUR &
+    \multicolumn{1}{c}{} &
+      loans to NFI &
+      LFI &
+      NSA &
+      Millions of Euro &
+      log
+      \\
+    \multicolumn{1}{c}{} &
+      Producer price index &
+      PPI &
+      NSA &
+      index &
       log
       \\
       \midrule
-    \multirow{2}[4]{*}{Other} &
-      NEER &
-      IFS (IMF) &
-      EZ &
+    IMF &
+      LIBOR 3M &
+      LIB &
+      - &
+      annual \% &
+      /100
+      \\
+      \midrule
+    EUROSTAT &
+      Economic Sentiment Indicator &
+      ESI &
+      - &
       index &
       log
       \\
-     &
-      EUR/USD exchange rate &
-      ECB &
-      EZ &
+      \midrule
+    \multicolumn{1}{c}{\multirow{17}[34]{*}{AWM}} &
+      commodity price &
+      COMPR &
+      NSA &
       index &
-      
+      log
+      \\
+    \multicolumn{1}{c}{} &
+      oil price &
+      POILU &
+      NSA &
+      index &
+      log
+      \\
+    \multicolumn{1}{c}{} &
+      non oil com. Price &
+      PCOMU &
+      NSA &
+      index &
+      log
+      \\
+    \multicolumn{1}{c}{} &
+      HICP energy &
+      HEG &
+      NSA &
+      index &
+      log
+      \\
+    \multicolumn{1}{c}{} &
+      HICP exc. Energy &
+      HEXSA &
+      SA &
+      index &
+      log
+      \\
+    \multicolumn{1}{c}{} &
+      HICP  &
+      HICPSA &
+      SA &
+      index &
+      log
+      \\
+    \multicolumn{1}{c}{} &
+      HICP &
+      HICP &
+      NSA &
+      index &
+      log
+      \\
+    \multicolumn{1}{c}{} &
+      Effective exchange rate &
+      EEN &
+      - &
+      index &
+      -
+      \\
+    \multicolumn{1}{c}{} &
+      EUR/USD &
+      EXR &
+      - &
+      index &
+      -
+      \\
+    \multicolumn{1}{c}{} &
+      unemployment rate &
+      URX &
+       &
+      \% &
+      -
+      \\
+    \multicolumn{1}{c}{} &
+      short term interest rate &
+      STN &
+      - &
+      annual \% &
+      /100
+      \\
+    \multicolumn{1}{c}{} &
+      long term interest rate &
+      LTN &
+      - &
+      annual \% &
+      /100
+      \\
+    \multicolumn{1}{c}{} &
+      World demand &
+      YWRX &
+      NSA &
+      index &
+      log
+      \\
+    \multicolumn{1}{c}{} &
+      GDP (real) &
+      YER &
+      SA &
+      Millions of Euro &
+      log
+      \\
+    \multicolumn{1}{c}{} &
+      compensation per employee &
+      CPE &
+      NSA &
+      Millions of Euro/nb actifs &
+      log
+      \\
+    \multicolumn{1}{c}{} &
+      imports of good &
+      MTR &
+      NSA &
+      Millions of Euro &
+      log
+      \\
+    \multicolumn{1}{c}{} &
+      export of good &
+      XTR &
+      NSA &
+      Millions of Euro &
+      log
       \\
     \bottomrule
-    \end{tabular}
-
-\end{table}
-\end{center}
-
+    \end{tabular}%
+  \label{tab:addlabel}%
+\end{table}%
 
 \end{document}

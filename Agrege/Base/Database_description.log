@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  21 JUL 2015 14:08
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  21 JUL 2015 14:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -564,17 +564,17 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 25.
+LaTeX Font Info:    Try loading font information for U+msa on input line 24.
 (/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 25.
+LaTeX Font Info:    Try loading font information for U+msb on input line 24.
 
 (/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-Overfull \hbox (47.89034pt too wide) in paragraph at lines 25--171
- [][] 
+Overfull \hbox (83.76358pt too wide) in paragraph at lines 24--219
+ [][][] 
  []
 
 [1
@@ -582,20 +582,21 @@ Overfull \hbox (47.89034pt too wide) in paragraph at lines 25--171
 {/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 (./Database_description.aux) ) 
 Here is how much of TeX's memory you used:
- 4102 strings out of 493488
- 53753 string characters out of 3141326
- 124672 words of memory out of 3000000
- 7326 multiletter control sequences out of 15000+200000
- 9057 words of font info for 33 fonts, out of 3000000 for 9000
+ 4105 strings out of 493488
+ 53792 string characters out of 3141326
+ 126680 words of memory out of 3000000
+ 7328 multiletter control sequences out of 15000+200000
+ 9733 words of font info for 34 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,9n,24p,253b,252s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,9n,24p,253b,209s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2012/texmf-dist/fonts/enc/dvi
 ps/cm-super/cm-super-t1.enc}</usr/local/texlive/2012/texmf-dist/fonts/type1/pub
-lic/cm-super/sfrm1095.pfb>
-Output written on Database_description.pdf (1 page, 25424 bytes).
+lic/cm-super/sfcc1095.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/publi
+c/cm-super/sfrm1095.pfb>
+Output written on Database_description.pdf (1 page, 34870 bytes).
 PDF statistics:
- 13 PDF objects out of 1000 (max. 8388607)
- 8 compressed objects within 1 object stream
+ 17 PDF objects out of 1000 (max. 8388607)
+ 11 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
