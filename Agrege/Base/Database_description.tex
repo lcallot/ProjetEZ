@@ -11,6 +11,7 @@
 \usepackage{multirow}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{graphics}
 
 \usepackage[left=1cm,right=3cm,top=3cm,bottom=3cm]{geometry}
 \author{clément carrier}
@@ -21,6 +22,7 @@
 \begin{table}[htbp]
   \centering
   \caption{Add caption}
+  \scalebox{0.9}{
     \begin{tabular}{rrrrrr}
     \toprule
     \multicolumn{6}{c}{Database}
@@ -214,8 +216,10 @@
       log
       \\
     \bottomrule
-    \end{tabular}%
-  \label{tab:addlabel}%
-\end{table}%
+    \end{tabular}
+
+  \label{tab:addlabel}
+}
+\end{table}
 
 \end{document}
