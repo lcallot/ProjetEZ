@@ -23,60 +23,63 @@
 
 \section{Database}
 
-In this file, I describe the database used, and explain in more details the transformation made before using them into our model. 
+In this file, I describe the database used, and explain in more details the transformation made before using them into our model. If not mentioned, variables are introduce for the 11 original members countries of the eurozone + Greece + Sweden + UK + Denmark.\\
+
+All the variable in the folder /IMF, /ECB and /OECD contain .csv file corresponding to original (raw) database. We transform the variables thanks to the .R file called "transformation". Then we save subsets from the complete database according to the model that we want to estimate. 
+
 
 \subsection{ECB}
 
 These are the variables from ECB data warehouse :
 \begin{itemize}
-\item ECB loans to household : BSI.M.U2.N.A.A20.A.1.U2.2250.Z01.E
-\item ECB loans to NFI : BSI.M.U2.N.A.A20.A.1.U2.2240.Z01.E
-\item M1 : BSI.M.U2.N.V.M10.X.1.U2.2300.Z01.E
-\item M3 : BSI.M.U2.N.V.M30.X.1.U2.2300.Z01.E
-\item Total Industry excluding construction and MIG Energy (PPI) : STS.M.I6.N.PRIN.NS0021.4.000
+\item HICP : ICP.M.COUNTRY.N.000000.4.INX
+\item Processed food exc. Alcohol and tobacco : ICP.M.COUNTRY.N.FDPXAT.4.INX
+\item Unprocessed food	: ICP.M.COUNTRY.N.FOODUN.4.INX
+\item Indus good exc. Energy : ICP.M.COUNTRY.N.IGXE00.4.INX
+\item Energy	:	ICP.M.COUNTRY.N.NRGY00.4.INX
+\item Services	:	ICP.M.COUNTRY.N.SERV00.4.INX
+\item Unemployment : STS.M.COUNTRY.S.UNEH.RTT000.4.000
+\item EUR/USD exchange rate (nominal) : EXR.M.USD.EUR.SP00.A
 \end{itemize}
 
 \vspace{0.5cm}
 
-These variables are in the folder /ECB and are raw variables directly loaded from the ECB database. These variables are then transformed into log in the R file called "transformation.R" in the folder /Agrege/Base. 
+These variables are in the folder /ECB and are raw variables directly loaded from the ECB database. These variables are to be transformed. 
 
 \subsection{IMF}
 
 These are the variables from IMF (IFS) :
 \begin{itemize}
-\item LIBOR 3 month, USA
+\item Commodity Prices, Crude Oil, Petroleum (World)
+\item London Interbank Offer Rate, 3-Month (US)
+\item M1 (Eurozone)
+\item M3 (Eurozone)
+\item Interest Rates, Monetary Policy-Related Interest Rate, FPOLM (Eurozone + US)
+\item Central Bank, Total Gross Assets (ECB + FED)
+\item Nominal Effective Exchange Rate, Consumer Price Index (Eurozone)
+\item Industrial Production
 \end{itemize}
 
 \vspace{0.5cm}
 
 This variable is in the folder /IMF and is a raw variable directly loaded from the IFS database.
 
-\subsection{EUROSTAT}
 
-These are the variables from EUROSTAT :
+\subsection{OECD}
+
+These are the variables from OECD :
 \begin{itemize}
-\item Economic Sentiment Indicator
+\item Short-term Interest rates (Monthly Monetary and Financial Statistics)
+\item Long-term Interest rates (Monthly Monetary and Financial Statistics)
 \end{itemize}
 
 \vspace{0.5cm}
 
-This variable is in the folder /EUROSTAT and is a raw variable directly loaded from the EUROSTAT database. We then made a log transformation. 
-
-\subsection{Datastream}
-
-These are the variables from Datastream :
-\begin{itemize}
-\item Dow jones euro stoxx 50
-\end{itemize}
-
-\vspace{0.5cm}
-
-This variable is in the folder /Datastream and is a raw variable directly loaded from the Datastream database. We then made a log transformation. 
+This variable is in the folder /OECD and is a raw variable directly loaded from the OECD database. We then made a log transformation. 
 
 
-\subsection{AWM}
 
-Other variables are directly taken from the AWM database (\href{http://www.eabcn.org/page/area-wide-model}{link}). You can find in the folder /AWM a notice that describe the dataset. 
+
 
 
 
@@ -88,8 +91,8 @@ Other variables are directly taken from the AWM database (\href{http://www.eabcn
 \begin{center}
 \begin{table}[h]
  \centering
-  \scalebox{0.9}{
-    \begin{tabular}{crrrrr}
+  \scalebox{0.8}{
+    \begin{tabular}{crrrrrrr}
     \toprule
     \multicolumn{5}{c}{Database}
       \\
@@ -98,7 +101,9 @@ Other variables are directly taken from the AWM database (\href{http://www.eabcn
       Variable  &
       Source &
       Country &
+      Adjustment &
       Original &
+      Frequency &
       Transformation 
       
       \\
@@ -107,49 +112,63 @@ Other variables are directly taken from the AWM database (\href{http://www.eabcn
       HICP  &
       ECB &
       by country &
+      NSA/NWD &
       index &
+      monthly&
       log
       \\
      &
       Processed food exc. Alc \& tob &
       ECB &
       by country &
+      NSA/NWD &
       index &
+      monthly &
       log
       \\
      &
       Unprocessed food &
       ECB &
       by country &
+      NSA/NWD &
       index &
+      monthly &
       log
       \\
      &
       Indus good exc. Energy &
       ECB &
       by country &
+      NSA/NWD &
       index &
+      monthly &
       log
       \\
      &
       Energy &
       ECB &
       by country &
+      NSA/NWD &
       index &
+      monthly &
       log
       \\
      &
       Services &
       ECB &
       by country &
+      NSA/NWD &
       index &
+      monthly &
       log
       \\
      &
       Oil Price &
       IFS (IMF) &
       World &
+      NSA&
       index &
+      monthly &
       log
       \\
       \midrule
@@ -157,14 +176,18 @@ Other variables are directly taken from the AWM database (\href{http://www.eabcn
       Indus. Production &
       IFS (IMF) &
       by country &
+      NSA&
       index &
+      monthly &
       log
       \\
-     &
+      &
       Unemployment rate &
       ECB &
       by country &
+      SA/NWD&
       \% & 
+      monthly &
       log
       \\
       \midrule
@@ -172,50 +195,64 @@ Other variables are directly taken from the AWM database (\href{http://www.eabcn
       Short-term Interest rates &
       OECD &
       by country &
+      NSA/NWD &
       annual \% & 
-      -
+      monthly &
+      /100
       \\
      &
       Long-term Interest rates &
       OECD &
       by country &
+      NSA/NWD &
       annual \% & 
-      -
+      monthly &
+      /100
       \\
      &
       LIBOR 3 month &
       IFS (IMF) &
       US &
+      NSA/NWD &
       annual \% &
-      -
+      monthly &
+      /100
       \\
       \midrule
     \multirow{4}[8]{*}{Monetary} &
       M1 &
       IFS (IMF) &
       EZ &
+      NSA/NWD &
       EUR &
+      monthly &
       log
       \\
      &
       M3 &
       IFS (IMF) &
       EZ &
+      NSA/NWD &
       EUR &
+      monthly &
       log
       \\
      &
       Monetary Policy-Related Rate &
       IFS (IMF) &
       US/EZ &
+      NSA/NWD &
       annual \% &
-      -
+      monthly &
+      /100
       \\
      &
       Central Bank Asset &
       IFS (IMF) &
       US/EZ &
+      NSA/NWD &
       USD/EUR &
+      monthly &
       log
       \\
       \midrule
@@ -223,14 +260,19 @@ Other variables are directly taken from the AWM database (\href{http://www.eabcn
       NEER &
       IFS (IMF) &
       EZ &
+      NSA/NWD &
       index &
+      monthly &
       log
       \\
      &
       EUR/USD exchange rate &
       ECB &
       EZ &
-      index &
+      NSA/NWD &
+      1 EUR = x USD &
+      monthly &
+      -
       
       \\
     \bottomrule
