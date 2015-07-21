@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{letter}
+\documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
 \usepackage[T1]{fontenc}
@@ -9,17 +9,19 @@
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{multirow}
+\usepackage{booktabs}
 \usepackage{array}
+
 \usepackage[left=3cm,right=3cm,top=3cm,bottom=3cm]{geometry}
 \author{clément carrier}
+
 \begin{document}
 
 
 
 
-\begin{table}[htbp]
-  \centering
-  \caption{Add caption}
+\begin{table}[h]
+ 
     \begin{tabular}{crrrr}
     \toprule
     \multicolumn{5}{c}{Database}
@@ -134,9 +136,10 @@
       index
       \\
     \bottomrule
-    \end{tabular}%
-  \label{tab:addlabel}%
+    \end{tabular}
+
 \end{table}
+
 
 
 \end{document}
