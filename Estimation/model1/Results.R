@@ -22,74 +22,10 @@ dataM3<-difvardatam[,c("HICP_AUS","HICP_BEL", "HICP_GER","HICP_DEN",
 
 dataM1<-dataM1[73:300,]
 dataM3<-dataM3[73:300,]
+dataM1ts<-ts(dataM1,start=1996,frequency=12)
 
 
 
-fun<-function(data,lag,horizon,preforecast,adap){
-  fore<-matrix(0,nrow=dim(data)[2],ncol=horizon+preforecast)
-  fore[,1:(preforecast)]<-t(data[(dim(data)[1]-preforecast+1):dim(data)[1],])
-  lv<-lassovar(dat=data,lags=lag,adaptive=adap,trend=TRUE)
-  intercept<-as.matrix(lv$coefficients[1,],dim(data)[2],1)
-  coef<-as.matrix(lv$coefficients[2:(lag*dim(data)[2]+1),],lag*dim(data)[2],dim(data)[2])
-  trend<-as.matrix(lv$coefficients[lag*dim(data)[2]+2,],dim(data)[2],1)
-  
-  for (i in (preforecast+1):(horizon+preforecast)){
-    M<-NULL
-    for (l in 1:lag){
-      M<-c(fore[,(i-l)],M)
-    }
-    fore[,i]<-t(M%*%coef)+intercept+trend*(i+dim(data)[1]-(preforecast))
-  }
-  rownames(fore)<-names(data)
-  return(t(fore))
-}
-fun(dataM1,2,16,16,"none")
-
-
-
-lv<-lassovar(dat=dataM1,lags=2,adaptive="none",trend=TRUE)
-
-
-summary(lv)
-
-
-
-
-
-
-
-
-
-
-
-
-help(log)
-
-
-# Plot
-var1<-subset[,1:5]
-var2<-subset[,6:10]
-var3<-subset[,11:15]
-var4<-subset[,16:20]
-var5<-subset[,21:26]
-
-var1$time<-seq(as.Date("1997/10/01"), as.Date("2013/12/31"), by = "quarter")
-var2$time<-seq(as.Date("1997/10/01"), as.Date("2013/12/31"), by = "quarter")
-var3$time<-seq(as.Date("1997/10/01"), as.Date("2013/12/31"), by = "quarter")
-var4$time<-seq(as.Date("1997/10/01"), as.Date("2013/12/31"), by = "quarter")
-var5$time<-seq(as.Date("1997/10/01"), as.Date("2013/12/31"), by = "quarter")
-
-mvar1 <- melt(var1,  id = 'time', variable.name = 'series')
-mvar2 <- melt(var2,  id = 'time', variable.name = 'series')
-mvar3 <- melt(var3,  id = 'time', variable.name = 'series')
-mvar4 <- melt(var4,  id = 'time', variable.name = 'series')
-mvar5 <- melt(var5,  id = 'time', variable.name = 'series')
-
-ggplot(mvar1, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="free")
-ggplot(mvar2, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="free")
-ggplot(mvar3, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="free")
-ggplot(mvar4, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="free")
-ggplot(mvar5, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="free")
 
 
 
