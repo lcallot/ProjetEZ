@@ -4,16 +4,16 @@ require(reshape2)
 require(urca)
 require(MSBVAR)
 
-# I load variables from Q1 1990 
-load("Estimation/model1/data1.RData")
+# I load differentiated variables from Q2 1990 
+load("data/difvardatam.RData")
 
 # I keep HICP variable only
-dataM1<-data1[,c("time","HICP_AUS","HICP_BEL", "HICP_GER","HICP_DEN",
+dataM1<-difvardatam[,c("HICP_AUS","HICP_BEL", "HICP_GER","HICP_DEN",
                "HICP_FRA","HICP_UKI", "HICP_SPA","HICP_GRE",
                "HICP_FIN","HICP_IRL","HICP_ITA","HICP_LUX",
                "HICP_POR","HICP_SWE","HICP_NET","M1_ZE")]
 
-dataM3<-data1[,c("time","HICP_AUS","HICP_BEL", "HICP_GER","HICP_DEN",
+dataM3<-difvardatam[,c("HICP_AUS","HICP_BEL", "HICP_GER","HICP_DEN",
                  "HICP_FRA","HICP_UKI", "HICP_SPA","HICP_GRE",
                  "HICP_FIN","HICP_IRL","HICP_ITA","HICP_LUX",
                  "HICP_POR","HICP_SWE","HICP_NET","M3_ZE")]
@@ -22,17 +22,6 @@ dataM3<-data1[,c("time","HICP_AUS","HICP_BEL", "HICP_GER","HICP_DEN",
 
 dataM1<-dataM1[73:300,]
 dataM3<-dataM3[73:300,]
-
-# I use variable in log
-log<-function(x){
-  y<-NULL
-  for (i in dim(x)[2]){
-    y[,i]<-log(x[,i])
-  }
-  return(y)
-}
-log(dataM1)
-dataM1<-log(dataM1)
 
 difdata <- tail(data,-1) - head(data,-1)
 
