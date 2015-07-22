@@ -32,7 +32,7 @@ All the variable in the folder /IMF, /ECB and /OECD contain .csv file correspond
 
 \subsection{ECB}
 
-These are the variables from ECB data warehouse :
+These are the variables from ECB data warehouse originally in monthly frequency (I took the mean on each quarter) : 
 \begin{itemize}
 \item HICP : ICP.M.COUNTRY.N.000000.4.INX
 \item Processed food exc. Alcohol and tobacco : ICP.M.COUNTRY.N.FDPXAT.4.INX
@@ -41,10 +41,17 @@ These are the variables from ECB data warehouse :
 \item Energy	:	ICP.M.COUNTRY.N.NRGY00.4.INX
 \item Services	:	ICP.M.COUNTRY.N.SERV00.4.INX
 \item Unemployment : STS.M.COUNTRY.S.UNEH.RTT000.4.000
-\item EUR/USD exchange rate (nominal) : EXR.M.USD.EUR.SP00.A
 \end{itemize}
 
 \vspace{0.5cm}
+
+I also use : 
+
+\begin{itemize}
+\item Compensation per employee : MNA.Q.N.COUNTRY.W2.S1.S1._Z.COM_PS._Z._T._Z.IX.V.N
+\item 
+\item 
+\end{itemize}
 
 These variables are in the folder Data/ECB and are raw variables directly loaded from the ECB database. These variables are transformed in the .R file called "traitementECB" located in the subfolder Data/ECB. (The transformation are describe in the following table) \\
 

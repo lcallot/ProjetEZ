@@ -73,23 +73,24 @@ exchrate<-rbind(as.matrix(rep(NA,105)),as.matrix(exchangerate[,2]))
 
 
 # Merge of monthly ECB data
-df <-data.frame(HICP[37:339,],UNPLOY[85:387,],exchrate)
+df <-data.frame(HICP[37:339,],UNPLOY[85:387,])
 df$time.1<-NULL
+df2<-data.frame(df,exchrate)
 rownames(df)<-NULL
-
+rownames(df2)<-NULL
 
 #data from Jan 1990
-save(df, file="data/ECB/ecb.RData")
+save(df2, file="data/ECB/ecb.RData")
 
 
 # Differentiation of the database / starting date : Feb 1990
-difdf <- tail(df[,-1],-1) - head(df[,-1],-1)
-save(difdf, file="data/ECB/difecb.RData")
+difdf2 <- tail(df2[,-1],-1) - head(df2[,-1],-1)
+save(difdf2, file="data/ECB/difecb.RData")
 
 
 
 # In order to add variable not available in quarterly frequency / starting date Q1 1990
-dfts <- ts(df, ,start=c(1990,1),frequency=12)
+dfts <- ts(df[,-1], ,start=c(1990,1),frequency=12)
 dfq <- aggregate(dfts, FUN=sum, nfrequency=4)/3
 dfecb<-data.frame(dfq)
 
