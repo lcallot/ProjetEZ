@@ -66,14 +66,13 @@ These variables are in the folder Data/ECB and are raw variables directly loaded
 Two databases are saved in the subfolder Data/ECB, one in level, the other one differentiated one time: 
 
 \begin{itemize}
-\item ecb.Rdata 
-\item difecb.RData 
+\item dfecbq.Rdata 
+\item difdfecbq.RData 
 \end{itemize}
 
 \vspace{0.5cm}
 
-In this file ("traitementECB.R"), I also transform the monthly frequency database into quarterly  frequency in order to add variable to the quarterly database when not available in quarterly frequency. This file is saved in the subfolder /Data/Quarterly/ECB under the name "ecbq.RData" 
-
+The first one starts from Q1 1990, whereas the differentiated one starts from Q2 1990.
 
 
 
@@ -81,23 +80,33 @@ In this file ("traitementECB.R"), I also transform the monthly frequency databas
 
 \subsection{IMF}
 
-These are the variables from IMF (IFS) :
+These are the variables from IMF (IFS) originaly in monthly frequency, but transformed into quarterly frequency :
 \begin{itemize}
 \item Commodity Prices, Crude Oil, Petroleum (World)
 \item London Interbank Offer Rate, 3-Month (US)
-\item M1 (Eurozone)
-\item M3 (Eurozone)
+\item Industrial Production
 \item Interest Rates, Monetary Policy-Related Interest Rate, FPOLM (Eurozone + US)
 \item Central Bank, Total Gross Assets (ECB + FED)
-\item Nominal Effective Exchange Rate, Consumer Price Index (Eurozone)
-\item Industrial Production
 \end{itemize}
 
 \vspace{0.5cm}
 
-These variable are in the folder Data/IMF and are raw variable directly loaded from the IFS database. These variables are transformed in the .R file called "traitementIMF" located in the subfolder Data/IMF. (The transformation are describe in the following table) \\
 
-Two databases are saved in the subfolder Data/IMF, one in level, the other one differentiated one time: 
+
+These are the variables from IMF (IFS) loaded in quarterly frequency :
+\begin{itemize}
+\item M1 (Eurozone)
+\item M3 (Eurozone)
+\item Producer Price, all comodities
+\item GDP deflator 
+\item Interest Rates, Money Market Rate (FED + ECB)
+\end{itemize}
+
+\vspace{0.5cm}
+
+These variable are in the folder Data/Quarterly/IMF and are raw variable directly loaded from the IFS database. These variables are transformed in the .R file called "traitementIMF" located in the subfolder Data/Quarterly/IMF. (The transformation are describe in the following table) \\
+
+Two databases are saved in the subfolder Data/Quarterly/IMF, one in level, the other one differentiated one time: 
 
 \begin{itemize}
 \item imf.Rdata 
