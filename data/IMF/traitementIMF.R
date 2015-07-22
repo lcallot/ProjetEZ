@@ -64,7 +64,14 @@ df2$time.3<-NULL
 df2$time.4<-NULL
 
 
+#data from Jan 1990 
+save(df2, file="data/IMF/imf.RData")
 
+
+# Differentiation of the database / starting date : Feb 1990
+difdf2 <- tail(df2[,-1],-1) - head(df2[,-1],-1)
+rownames(difdf2)<-NULL
+save(difdf2, file="data/IMF/difimf.RData")
 
 
 
@@ -77,4 +84,4 @@ dfq <- aggregate(dfts, FUN=sum, nfrequency=4)/3
 df<-data.frame(dfq)
 
 subset<-df[,-(1:2)]
-save(subset, file="data/Quarterly/IMF/subset.RData")
+save(subset, file="data/Quarterly/IMF/imfq.RData")

@@ -46,7 +46,7 @@ These are the variables from ECB data warehouse :
 
 \vspace{0.5cm}
 
-These variables are in the folder /ECB and are raw variables directly loaded from the ECB database. These variables are transformed in the .R file called "traitementECB" located in the subfolder /ECB. (The transformation are describe in the following table) \\
+These variables are in the folder Data/ECB and are raw variables directly loaded from the ECB database. These variables are transformed in the .R file called "traitementECB" located in the subfolder Data/ECB. (The transformation are describe in the following table) \\
 
 Two databases are saved in the subfolder Data/ECB, one in level, the other one differentiated one time: 
 
@@ -58,6 +58,8 @@ Two databases are saved in the subfolder Data/ECB, one in level, the other one d
 \vspace{0.5cm}
 
 In this file ("traitementECB.R"), I also transform the monthly frequency database into quarterly  frequency in order to add variable to the quarterly database when not available in quarterly frequency. This file is saved in the subfolder /Data/Quarterly/ECB under the same "ecbq.RData" 
+
+
 
 
 
@@ -78,7 +80,22 @@ These are the variables from IMF (IFS) :
 
 \vspace{0.5cm}
 
-This variable is in the folder /IMF and is a raw variable directly loaded from the IFS database.
+These variable are in the folder Data/IMF and are raw variable directly loaded from the IFS database. These variables are transformed in the .R file called "traitementIMF" located in the subfolder Data/IMF. (The transformation are describe in the following table) \\
+
+Two databases are saved in the subfolder Data/IMF, one in level, the other one differentiated one time: 
+
+\begin{itemize}
+\item imf.Rdata 
+\item difimf.RData 
+\end{itemize}
+
+\vspace{0.5cm}
+
+In this file ("traitementIMF.R"), I also transform the monthly frequency database into quarterly  frequency in order to add variable to the quarterly database when not available in quarterly frequency. This file is saved in the subfolder /Data/Quarterly/IMF under the same "imfq.RData" 
+
+
+
+
 
 
 \subsection{OECD}
