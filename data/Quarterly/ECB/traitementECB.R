@@ -71,9 +71,6 @@ names(DJES)<-"DJES_EZ"
 DJES<-log(DJES)
 
 
-
-
-
 #NEER
 NEER <- read.csv("data/Quarterly/ECB/NEER.csv")
 NEER$x<-seq(from=1, to=dim(NEER)[1],by=1)
@@ -88,18 +85,31 @@ names(NEER)<-"NEER_EZ"
 
 NEER<-log(NEER)
 
+#EUR/USD Exchange Rate
+EXR <- read.csv("data/Quarterly/ECB/EUR:USD.csv")
+EXR$x<-seq(from=1, to=dim(EXR)[1],by=1)
+EXR<-EXR[order(EXR$x,decreasing=TRUE),]
+EXR$x<-NULL
+EXR$X<-NULL
+EXR<-rbind(as.matrix(rep(NA,36)),as.matrix(EXR))
+EXR<-data.frame(EXR[-102,])
+names(EXR)<-"EXR_EURUSD"
+
+    # log transformation
+
+EXR<-log(EXR)
 
 
 
-# Monthly variables from ECB datawarehouse : CPI, unemployment & EXR EUR/USD
+
+# Monthly variables from ECB datawarehouse : CPI, unemployment 
 load("data/Quarterly/ECB/ecbq.RData")
 
 
 
 # Merge
-
-dfecbq<-data.frame(productivity,GDP,compensation,DJES,NEER,dfecb)
-
+dfecbq<-data.frame(productivity,GDP,compensation,DJES,NEER,EXR,dfecb)
+rownames(dfecbq)<-NULL
 #save database from Q1 1990
 save(dfecbq, file="data/Quarterly/ECB/dfecbq.RData")
 

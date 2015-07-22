@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  22 JUL 2015 12:36
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  22 JUL 2015 12:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -583,11 +583,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 48--49
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 50--51
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 64--65
 
  []
@@ -626,7 +621,7 @@ ublic/cm-super/sfbx1440.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/pub
 lic/cm-super/sfrm1095.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/publi
 c/cm-super/sfrm1200.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/
 cm-super/sfrm1728.pfb>
-Output written on Database_descriptionq.pdf (3 pages, 110323 bytes).
+Output written on Database_descriptionq.pdf (3 pages, 110381 bytes).
 PDF statistics:
  47 PDF objects out of 1000 (max. 8388607)
  33 compressed objects within 1 object stream
