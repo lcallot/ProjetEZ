@@ -45,13 +45,21 @@ These are the variables from ECB data warehouse originally in monthly frequency 
 
 \vspace{0.5cm}
 
-I also use : 
+These variables are loaded directly from a file called ecbq.RData in the subfolder data/Quarterly/ECB. This file was built from the .R file used for the monthly frequency database. \\
+
+I also use in quarterly frequency : 
 
 \begin{itemize}
 \item Compensation per employee : $MNA.Q.N.COUNTRY.W2.S1.S1._Z.COM_PS._Z._T._Z.IX.V.N$
 \item Exchange rate EUR/USD : EXR.Q.USD.EUR.SP00.A
-\item 
+\item Nominal Effective Exchange Rate : EXR.Q.E1.EUR.ERC0.A
+\item GDP : $MNA.Q.N.COUNTRY.W2.S1.S1.B.B1GQ._Z._Z._Z.XDC.LR.N$
+\item Productivity : $MNA.Q.N.COUNTRY.W0.S1.S1._Z.LPR_PS._Z._T._Z.IX.LR.N$
+\item DowJones Euro Stoxx 50 index : FM.Q.U2.EUR.DS.EI.DJES50I.HSTA
+
 \end{itemize}
+
+\vspace{0.5cm}
 
 These variables are in the folder Data/ECB and are raw variables directly loaded from the ECB database. These variables are transformed in the .R file called "traitementECB" located in the subfolder Data/ECB. (The transformation are describe in the following table) \\
 
