@@ -144,13 +144,27 @@ hr {
 <body>
 <h2>ProjetEZ</h2>
 
+<h3>Agrege folder</h3>
+
 <p>Agregated data are in the folder called &ldquo;Agrege/Base&rdquo;. Here you can find subfolder from the several databases used (ECB, EUROSTAT, IMF, AWM, Datastream). The original database are in .csv in these subfolders. </p>
 
 <p>The .R file called &ldquo;transformation&rdquo; corresponds to the code used to modify the variables (log ..). </p>
 
 <p>The .pdf file called &ldquo;database_description&rdquo; gives an overview of the database and the transformations made. </p>
 
-<p>If you want to use the dataset of agregated data for the EZ that we used in our estimation, load the database called &ldquo;vardata.Rdata&rdquo; in the folder /Agrege/Base. </p>
+<p>If you want to use the dataset of agregated data for the EZ that we used in our estimation, load the database called &ldquo;vardata.Rdata&rdquo; in the folder /Agrege/Base.  </p>
+
+<h3>data folder</h3>
+
+<p>In the data folder you will find the two main database. The first one is monthly frequency, the other is quarterly frequency. The .pdf file in the subfolder /data and /data/Quarterly describe how we transform the database. </p>
+
+<p>Raw data loaded from the several databases used are in the subfolders names from these databases (ex : /ECB ). In each subfolder, a .R file called &ldquo;traitement&hellip;&rdquo; load raw dataset and transform them. Then We save these transformed data into .RData file. </p>
+
+<p>Finally, we merged these data and created 4 main files :
+1. vardatam.RData : monthly database transformed 
+2. difvardatam.RData : monthly database transformed and differentiated once
+3. vardataq.RData : quarterly database transformed 
+4. difvardataq.RData : quarterly database transformed and differentiated once</p>
 
 </body>
 

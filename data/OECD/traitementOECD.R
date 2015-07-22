@@ -22,9 +22,10 @@ df<-data.frame(STrate[1:303,],LTrate[1:303,])
 df$time.1<-NULL
 df$time<-NULL
 
+oecd<-df
 
 #data from Jan 1990
-save(df, file="data/OECD/oecd.RData")
+save(oecd, file="data/OECD/oecd.RData")
 
 
 # Differentiation of the database / starting date : Feb 1990

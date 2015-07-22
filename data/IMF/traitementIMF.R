@@ -63,9 +63,10 @@ df2$time.2<-NULL
 df2$time.3<-NULL
 df2$time.4<-NULL
 
+imf<-df2
 
 #data from Jan 1990 
-save(df2, file="data/IMF/imf.RData")
+save(imf, file="data/IMF/imf.RData")
 
 
 # Differentiation of the database / starting date : Feb 1990

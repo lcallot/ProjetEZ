@@ -79,8 +79,10 @@ df2<-data.frame(df,exchrate)
 rownames(df)<-NULL
 rownames(df2)<-NULL
 
+
+ecb<-df2
 #data from Jan 1990
-save(df2, file="data/ECB/ecb.RData")
+save(ecb, file="data/ECB/ecb.RData")
 
 
 # Differentiation of the database / starting date : Feb 1990
