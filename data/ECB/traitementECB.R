@@ -1,3 +1,8 @@
+                                ## ECB Database ##
+
+
+# Price index 
+
 HICP_Finlande <- read.csv("data/ECB/HICP_Finlande.csv")
 HICP_fin <- read.csv("data/ECB/HICP_fin.csv")
 HICP_fin$X<-NULL
@@ -20,20 +25,26 @@ nomenclature<-c("time","HICP_AUS","PFOOD_AUS","UPFOOD_AUS","INDGOOD_AUS","NRJ_AU
                 "HICP_SWE","PFOOD_SWE","UPFOOD_SWE","INDGOOD_SWE","NRJ_SWE","SER_SWE")
 colnames(HICP)<-nomenclature
 
-
-HICP_Finlande2 <- read.csv("data/ECB/HICP_Finlande2.csv")
-HICP_fin2 <- read.csv("data/ECB/HICP_fin2.csv")
-HICP_fin2$X<-NULL
-HICPYoY<-data.frame(HICP_Finlande2,HICP_fin2)
-colnames(HICPYoY)<-nomenclature
-
 HICP$X<-seq(from=1, to=dim(HICP)[1],by=1)
 HICP<-HICP[order(HICP$X,decreasing=TRUE),]
 HICP$X<-NULL
 
-HICPYoY$X<-seq(from=1, to=dim(HICPYoY)[1],by=1)
-HICPYoY<-HICPYoY[order(HICPYoY$X,decreasing=TRUE),]
-HICPYoY$X<-NULL
+
+    # Log transformation 
+HICP[,-1]<-log(HICP[,-1])
+
+
+
+######### Inflation Year-on-Year ###############
+#HICP_Finlande2 <- read.csv("data/ECB/HICP_Finlande2.csv")
+#HICP_fin2 <- read.csv("data/ECB/HICP_fin2.csv")
+#HICP_fin2$X<-NULL
+#HICPYoY<-data.frame(HICP_Finlande2,HICP_fin2)
+#colnames(HICPYoY)<-nomenclature
+
+#HICPYoY$X<-seq(from=1, to=dim(HICPYoY)[1],by=1)
+#HICPYoY<-HICPYoY[order(HICPYoY$X,decreasing=TRUE),]
+#HICPYoY$X<-NULL
 
 
 
@@ -47,34 +58,40 @@ UNPLOY$X<-seq(from=1, to=dim(UNPLOY)[1],by=1)
 UNPLOY<-UNPLOY[order(UNPLOY$X,decreasing=TRUE),]
 UNPLOY$X<-NULL
 
+    # /100 transformation
+
+UNPLOY[,-1]<-UNPLOY[,-1]*(1/100)
+
 
 # Exchange rate USD/EUR
 exchangerate <- read.csv("data/ECB/Exchangerate.csv")
-colnames(exchangerate)<-c("time","USDEUR_ROW")
+colnames(exchangerate)<-c("time","EURUSD_ROW")
 exchangerate$X<-seq(from=1, to=dim(exchangerate)[1],by=1)
 exchangerate<-exchangerate[order(exchangerate$X,decreasing=TRUE),]
 exchangerate$X<-NULL
-
-help(merge)
-df <-data.frame(HICP[37:339,],UNPLOY[85:387,])
-df$time.1<-NULL
-
-
-
 exchrate<-rbind(as.matrix(rep(NA,105)),as.matrix(exchangerate[,2]))
-colnames(exchrate)<-"USDEUR_ROW"
-df2 <- data.frame(df,exchrate)
+
+
+# Merge of monthly ECB data
+df <-data.frame(HICP[37:339,],UNPLOY[85:387,],exchrate)
+df$time.1<-NULL
+rownames(df)<-NULL
+
+
+#data from Jan 1990
+save(df, file="data/ECB/ecb.RData")
+
+
+# Differentiation of the database / starting date : Feb 1990
+difdf <- tail(df[,-1],-1) - head(df[,-1],-1)
+save(difdf, file="data/ECB/difecb.RData")
 
 
 
-
-dfts <- ts(df2, ,start=c(1990,1),frequency=12)
+# In order to add variable not available in quarterly frequency / starting date Q1 1990
+dfts <- ts(df, ,start=c(1990,1),frequency=12)
 dfq <- aggregate(dfts, FUN=sum, nfrequency=4)/3
-df<-data.frame(dfq)
+dfecb<-data.frame(dfq)
 
-
-
-
-
-save(df, file="data/ECBecb.RData")
+save(dfecb, file="data/Quarterly/ECB/ecbq.RData")
 

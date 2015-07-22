@@ -13,7 +13,7 @@
 \usepackage{array}
 
 
-\usepackage[left=1cm,right=3cm,top=3cm,bottom=3cm]{geometry}
+\usepackage[left=1cm,right=1cm,top=3cm,bottom=3cm]{geometry}
 \title{Note on the Database}
 \author{clément carrier}
 
@@ -26,6 +26,8 @@
 In this file, I describe the database used, and explain in more details the transformation made before using them into our model. If not mentioned, variables are introduce for the 11 original members countries of the eurozone + Greece + Sweden + UK + Denmark.\\
 
 All the variable in the folder /IMF, /ECB and /OECD contain .csv file corresponding to original (raw) database. We transform the variables thanks to the .R file called "transformation". Then we save subsets from the complete database according to the model that we want to estimate. 
+
+
 
 
 \subsection{ECB}
@@ -44,7 +46,21 @@ These are the variables from ECB data warehouse :
 
 \vspace{0.5cm}
 
-These variables are in the folder /ECB and are raw variables directly loaded from the ECB database. These variables are to be transformed. 
+These variables are in the folder /ECB and are raw variables directly loaded from the ECB database. These variables are transformed in the .R file called "traitementECB" located in the subfolder /ECB. (The transformation are describe in the following table) \\
+
+Two databases are saved in the subfolder Data/ECB, one in level, the other one differentiated one time: 
+
+\begin{itemize}
+\item ecb.Rdata 
+\item difecb.RData 
+\end{itemize}
+
+\vspace{0.5cm}
+
+In this file ("traitementECB.R"), I also transform the monthly frequency database into quarterly  frequency in order to add variable to the quarterly database when not available in quarterly frequency. This file is saved in the subfolder /Data/Quarterly/ECB under the same "ecbq.RData" 
+
+
+
 
 \subsection{IMF}
 
@@ -188,7 +204,7 @@ This variable is in the folder /OECD and is a raw variable directly loaded from 
       SA/NWD&
       \% & 
       monthly &
-      log
+      /100
       \\
       \midrule
     \multirow{3}[6]{*}{Interest rates} &
