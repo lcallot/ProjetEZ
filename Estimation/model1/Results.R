@@ -23,8 +23,34 @@ dataM3<-difvardatam[,c("HICP_AUS","HICP_BEL", "HICP_GER","HICP_DEN",
 dataM1<-dataM1[73:300,]
 dataM3<-dataM3[73:300,]
 
-difdata <- tail(data,-1) - head(data,-1)
 
+
+fun<-function(data,lag,horizon,preforecast,adap){
+  fore<-matrix(0,nrow=dim(data)[2],ncol=horizon+preforecast)
+  fore[,1:(preforecast)]<-t(data[(dim(data)[1]-preforecast+1):dim(data)[1],])
+  lv<-lassovar(dat=data,lags=lag,adaptive=adap,trend=TRUE)
+  intercept<-as.matrix(lv$coefficients[1,],dim(data)[2],1)
+  coef<-as.matrix(lv$coefficients[2:(lag*dim(data)[2]+1),],lag*dim(data)[2],dim(data)[2])
+  trend<-as.matrix(lv$coefficients[lag*dim(data)[2]+2,],dim(data)[2],1)
+  
+  for (i in (preforecast+1):(horizon+preforecast)){
+    M<-NULL
+    for (l in 1:lag){
+      M<-c(fore[,(i-l)],M)
+    }
+    fore[,i]<-t(M%*%coef)+intercept+trend*(i+dim(data)[1]-(preforecast))
+  }
+  rownames(fore)<-names(data)
+  return(t(fore))
+}
+fun(dataM1,2,16,16,"none")
+
+
+
+lv<-lassovar(dat=dataM1,lags=2,adaptive="none",trend=TRUE)
+
+
+summary(lv)
 
 
 
