@@ -25,7 +25,7 @@
 
 In this file, I describe the database used, and explain in more details the transformation made before using them into our model. If not mentioned, variables are introduce for the 11 original members countries of the eurozone + Greece + Sweden + UK + Denmark.\\
 
-All the variable in the folder /IMF, /ECB and /OECD contain .csv file corresponding to original (raw) database. We transform the variables thanks to the .R file called "transformation". Then we save subsets from the complete database according to the model that we want to estimate. 
+All the variables in the folders /IMF, /ECB and /OECD contain .csv file corresponding to original (raw) database. We transform the variables thanks to the .R file called "transformation". Then we save subsets from the complete database according to the model that we want to estimate. 
 
 
 
@@ -115,7 +115,9 @@ Two databases are saved in the subfolder Data/Quarterly/IMF, one in level, the o
 
 \vspace{0.5cm}
 
-In this file ("traitementIMF.R"), I also transform the monthly frequency database into quarterly  frequency in order to add variable to the quarterly database when not available in quarterly frequency. This file is saved in the subfolder /Data/Quarterly/IMF under the name "imfq.RData" 
+
+
+The first one starts from Q1 1990, whereas the differentiated one starts from Q2 1990.
 
 
 
@@ -140,203 +142,301 @@ In this file ("traitementOECD.R"), I also transform the monthly frequency databa
 
 
 
-\section{Recapitulation table}
+\section{Recapitulative table}
 
 
-
-\begin{center}
 \begin{table}[h]
- \centering
-  \scalebox{0.76}{
-    \begin{tabular}{crrrrrrr}
+  \centering
+  \caption{Database quarterly}
+     \scalebox{0.6}{
+    \begin{tabular}{crrrrrrrr}
     \toprule
-    \multicolumn{5}{c}{Database}
-      \\
-      \toprule
-       &
-      Variable  &
-      Source &
-      Country &
-      Adjustment &
-      Original &
-      Frequency &
-      Transformation 
-      
+    \multicolumn{9}{c}{Database}
       \\
     \midrule
-    \multirow{7}[14]{*}{Price} &
+    Concept &
+      \multicolumn{1}{c}{Variables} &
+      \multicolumn{1}{c}{Source} &
+      Frequency  (original) &
+      Frequency (transformed) &
+      Adjustment &
+      \multicolumn{1}{c}{Country} &
+      \multicolumn{1}{c}{Original} &
+      \multicolumn{1}{c}{Transformation}
+      \\
+      \midrule
+    \multirow{10}[20]{*}{Price} &
       HICP  &
       ECB &
+      monthly &
+      quarterly &
+      NSA/NWD  &
       by country &
-      NSA/NWD &
       index &
-      monthly&
       log
       \\
      &
-      Processed food exc. Alc \& tob &
+      Processed food exc. Alcohol and tobacco &
       ECB &
-      by country &
-      NSA/NWD &
-      index &
       monthly &
+      quarterly &
+      NSA/NWD  &
+      by country &
+      index &
       log
       \\
      &
       Unprocessed food &
       ECB &
-      by country &
-      NSA/NWD &
-      index &
       monthly &
+      quarterly &
+      NSA/NWD  &
+      by country &
+      index &
       log
       \\
      &
       Indus good exc. Energy &
       ECB &
-      by country &
-      NSA/NWD &
-      index &
       monthly &
+      quarterly &
+      NSA/NWD  &
+      by country &
+      index &
       log
       \\
      &
       Energy &
       ECB &
-      by country &
-      NSA/NWD &
-      index &
       monthly &
+      quarterly &
+      NSA/NWD  &
+      by country &
+      index &
       log
       \\
      &
       Services &
       ECB &
-      by country &
-      NSA/NWD &
-      index &
       monthly &
+      quarterly &
+      NSA/NWD  &
+      by country &
+      index &
       log
+      \\
+     &
+      GDP deflator &
+      IFS (IMF) &
+      quarterly &
+      quarterly &
+      NSA/NWD  &
+      by country &
+      index &
+      log
+      \\
+     &
+      PPI (all commodities) &
+      IFS (IMF) &
+      quarterly &
+      quarterly &
+      NSA/NWD  &
+      by country &
+      index &
+      log
+      \\
+      &
+      &
+      &
+      &
+      &
+      &
+      (exc. Luxemburg) &
+      &
+      
       \\
      &
       Oil Price &
       IFS (IMF) &
-      World &
-      NSA&
-      index &
       monthly &
+      quarterly &
+      NSA/NWD  &
+      World &
+      index &
+      log
+      \\
+     &
+      Compensation per employee &
+      ECB &
+      quarterly &
+      quarterly &
+      NSA/NWD  &
+      EZ &
+      index &
       log
       \\
       \midrule
-    \multirow{2}[4]{*}{Economic Activity} &
-      Indus. Production &
-      IFS (IMF) &
+    \multirow{4}[8]{*}{Economic Activity} &
+      GDP (nominal) &
+      ECB &
+      quarterly &
+      quarterly &
+      NSA/NWD  &
       by country &
-      NSA&
-      index &
-      monthly &
+      Millions EUR &
       log
       \\
-      &
+     &
+      Productivity &
+      ECB &
+      quarterly &
+      quarterly &
+      NSA/NWD  &
+      by country &
+      index &
+      log
+      \\
+     &
+      Indus. Production &
+      IFS (IMF) &
+      monthly &
+      quarterly &
+      NSA &
+      by country &
+      index &
+      log
+      \\
+     &
       Unemployment rate &
       ECB &
-      by country &
-      SA/NWD&
-      \% & 
       monthly &
+      quarterly &
+      SA/NWD &
+      by country &
+      \% &
       /100
       \\
       \midrule
-    \multirow{3}[6]{*}{Interest rates} &
+    \multirow{4}[8]{*}{Interest rates} &
       Short-term Interest rates &
       OECD &
-      by country &
-      NSA/NWD &
-      annual \% & 
       monthly &
+      quarterly &
+      NSA/NWD  &
+      by country &
+      annual \% &
       /100
       \\
      &
       Long-term Interest rates &
       OECD &
-      by country &
-      NSA/NWD &
-      annual \% & 
       monthly &
+      quarterly &
+      NSA/NWD  &
+      by country &
+      annual \% &
+      /100
+      \\
+     &
+      Interest Rates, Money Market Rate &
+      IFS (IMF) &
+      quarterly &
+      quarterly &
+      NSA/NWD  &
+      by country &
+      annual \% &
       /100
       \\
      &
       LIBOR 3 month &
       IFS (IMF) &
-      US &
-      NSA/NWD &
-      annual \% &
       monthly &
+      quarterly &
+       &
+      US &
+      annual \% &
       /100
       \\
       \midrule
     \multirow{4}[8]{*}{Monetary} &
       M1 &
       IFS (IMF) &
+      quarterly &
+      quarterly &
+      NSA/NWD  &
       EZ &
-      NSA/NWD &
       EUR &
-      monthly &
-      log
+       $*10^{-6}$ + log
       \\
      &
       M3 &
       IFS (IMF) &
+      quarterly &
+      quarterly &
+      NSA/NWD  &
       EZ &
-      NSA/NWD &
       EUR &
-      monthly &
-      log
+      $*10^{-6}$ + log
       \\
      &
-      Monetary Policy-Related Rate &
+      Monetary Policy-Related Interest Rate &
       IFS (IMF) &
-      US/EZ &
-      NSA/NWD &
-      annual \% &
       monthly &
+      quarterly &
+      NSA/NWD  &
+      US/EZ &
+      annual \% &
       /100
       \\
      &
       Central Bank Asset &
       IFS (IMF) &
-      US/EZ &
-      NSA/NWD &
-      USD/EUR &
       monthly &
+      quarterly &
+      NSA/NWD  &
+      US/EZ &
+      USD/EUR &
       log
       \\
       \midrule
-    \multirow{2}[4]{*}{Other} &
+    \multirow{3}[6]{*}{Other} &
       NEER &
-      IFS (IMF) &
+      ECB &
+      quarterly &
+      quarterly &
+      NSA/NWD  &
       EZ &
-      NSA/NWD &
       index &
-      monthly &
       log
       \\
      &
       EUR/USD exchange rate &
       ECB &
+      quarterly &
+      quarterly &
+      NSA/NWD  &
       EZ &
-      NSA/NWD &
-      1 EUR = x USD &
-      monthly &
+      index &
       -
-      
+      \\
+     &
+      DowJones Euro Stoxx 50 &
+      ECB &
+      quarterly &
+      quarterly &
+      NSA/NWD  &
+      EZ &
+      index &
+      log
       \\
     \bottomrule
     \end{tabular}
     }
-
+ \label{tab:addlabel}
 \end{table}
-\end{center}
+
+
+
 
 
 \end{document}
