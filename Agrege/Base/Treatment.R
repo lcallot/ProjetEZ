@@ -119,6 +119,7 @@ DJES<-log(DJES)
 
 
 total <- as.ts(cbind(datats,LHO, LFI , M1 , M3 ,ESI, LIB, PPI, DJES, HICP ))
+colnames(total)<-c(colnames(datats),"LHO", "LFI" , "M1" , "M3" ,"ESI", "LIB", "PPI", "DJES",colnames(HICP))
 var<-data.frame(total)
 var$date<-seq(as.Date("1970/1/1"), by = "quarter", length.out = nrow(var))
 
