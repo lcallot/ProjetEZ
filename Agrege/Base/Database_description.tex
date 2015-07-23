@@ -15,7 +15,7 @@
 \usepackage{hyperref}
 
 
-\usepackage[left=1cm,right=3cm,top=3cm,bottom=3cm]{geometry}
+\usepackage[left=1cm,right=1cm,top=1cm,bottom=1.5cm]{geometry}
 \title{Note on the Database}
 \author{clément carrier}
 
@@ -33,9 +33,15 @@ These are the variables from ECB data warehouse :
 \begin{itemize}
 \item ECB loans to household : BSI.M.U2.N.A.A20.A.1.U2.2250.Z01.E
 \item ECB loans to NFI : BSI.M.U2.N.A.A20.A.1.U2.2240.Z01.E
-\item M1 : BSI.M.U2.N.V.M10.X.1.U2.2300.Z01.E
-\item M3 : BSI.M.U2.N.V.M30.X.1.U2.2300.Z01.E
+\item M1 : BSI.M.U2.Y.V.M10.X.1.U2.2300.Z01.E
+\item M3 : BSI.M.U2.Y.V.M30.X.1.U2.2300.Z01.E
 \item Total Industry excluding construction and MIG Energy (PPI) : STS.M.I6.N.PRIN.NS0021.4.000
+\item HICP : ICP.M.U2.S.000000.3.INX (SA)
+\item HICP Unpro. food : ICP.M.U2.S.FOODUN.3.INX (SA)
+\item HICP Indus. good exc. energy : ICP.M.U2.S.IGXE00.3.INX (SA)
+\item HICP Services : ICP.M.U2.S.SERV00.3.INX (SA)
+\item HICP Proc. food exc. alco \& tob : ICP.M.U2.N.FDPXAT.4.INX (NSA)
+\item HICP Energy : ICP.M.U2.N.NRGY00.4.INX (NSA)
 \end{itemize}
 
 \vspace{0.5cm}
@@ -81,13 +87,12 @@ This variable is in the folder /Datastream and is a raw variable directly loaded
 Other variables are directly taken from the AWM database (\href{http://www.eabcn.org/page/area-wide-model}{link}). You can find in the folder /AWM a notice that describe the dataset. 
 
 
-
 \section{Recapitulative table}
 
 \begin{table}[htbp]
   \centering
   \caption{Database description and transformation}
-  \scalebox{0.9}{
+  \scalebox{0.65}{
     \begin{tabular}{rrrrrr}
     \toprule
     \multicolumn{6}{c}{Database}
@@ -112,14 +117,14 @@ Other variables are directly taken from the AWM database (\href{http://www.eabcn
     \multicolumn{1}{c}{\multirow{5}[10]{*}{ECB}} &
       M1 &
       M1 &
-      NSA &
+      SA &
       Millions of Euro &
       log
       \\
     \multicolumn{1}{c}{} &
       M3 &
       M3 &
-      NSA &
+      SA &
       Millions of Euro &
       log
       \\
@@ -144,8 +149,63 @@ Other variables are directly taken from the AWM database (\href{http://www.eabcn
       index &
       log
       \\
+      
+       \multicolumn{1}{c}{} &
+      HICP &
+      HICP-EZ &
+      SA &
+      index &
+      log
+      \\
+      
+       \multicolumn{1}{c}{} &
+      HICP Unpro. food &
+      UNFOOD &
+      SA &
+      index &
+      log
+      \\
+      
+       \multicolumn{1}{c}{} &
+      HICP Indus. Good &
+      INDGOOD &
+      SA &
+      index &
+      log
+      \\
+      
+       \multicolumn{1}{c}{} &
+      HICP Services &
+      SERVI &
+      SA &
+      index &
+      log
+      \\
+      
+       \multicolumn{1}{c}{} &
+      HICP Proc. Food  &
+      PROFOOD &
+      NSA &
+      index &
+      log
+      \\
+      \multicolumn{1}{c}{} &
+      exc. alc. \& tob.  &
+       &
+       &
+       &
+      
+      \\
+      
+       \multicolumn{1}{c}{} &
+      HICP Energy &
+      NRJ &
+      NSA &
+      index &
+      log
+      \\
       \midrule
-    IMF &
+      IMF &
       LIBOR 3M &
       LIB &
       - &
@@ -162,122 +222,376 @@ Other variables are directly taken from the AWM database (\href{http://www.eabcn
       \\
       \midrule
     \multicolumn{1}{c}{\multirow{17}[34]{*}{AWM}} &
+      Current Account/GDP &
+      CAN-YEN &
+      SA &
+      ratio &
+      -
+      \\
+      \multicolumn{1}{c}{} &
       commodity price &
       COMPR &
-      NSA &
-      index &
-      log
-      \\
-    \multicolumn{1}{c}{} &
-      oil price &
-      POILU &
-      NSA &
-      index &
-      log
-      \\
-    \multicolumn{1}{c}{} &
-      non oil com. Price &
-      PCOMU &
-      NSA &
-      index &
-      log
-      \\
-    \multicolumn{1}{c}{} &
-      HICP energy &
-      HEG &
-      NSA &
-      index &
-      log
-      \\
-    \multicolumn{1}{c}{} &
-      HICP exc. Energy &
-      HEXSA &
       SA &
       index &
       log
       \\
-    \multicolumn{1}{c}{} &
-      HICP  &
-      HICPSA &
-      SA &
-      index &
-      log
-      \\
-    \multicolumn{1}{c}{} &
-      HICP &
-      HICP &
-      NSA &
-      index &
-      log
-      \\
-    \multicolumn{1}{c}{} &
+      \multicolumn{1}{c}{} &
       Effective exchange rate &
       EEN &
       - &
       index &
       -
       \\
-    \multicolumn{1}{c}{} &
+      \multicolumn{1}{c}{} &
       EUR/USD &
       EXR &
       - &
       index &
       -
       \\
-    \multicolumn{1}{c}{} &
-      unemployment rate &
-      URX &
-      NSA &
-      \% &
+       \multicolumn{1}{c}{} &
+      Gov. Consum. deflator &
+      GCD &
+      SA &
+      index &
+      log
+      \\
+       \multicolumn{1}{c}{} &
+      Gov. Consum. &
+      GCR &
+      SA &
+      Millions Euros &
+      log
+      \\
+       \multicolumn{1}{c}{} &
+      Gross Ope. surplus &
+      GON &
+      SA &
+      Millions Euros &
+      log
+      \\
+       \multicolumn{1}{c}{} &
+      HICP energy &
+      HEG &
+      SA &
+      index &
+      log
+      \\
+       \multicolumn{1}{c}{} &
+      Weight of HEG &
+      HEGWEI &
+      - &
+      ratio &
       -
       \\
-    \multicolumn{1}{c}{} &
-      short term interest rate &
-      STN &
-      - &
-      annual \% &
-      /100
+       \multicolumn{1}{c}{} &
+      HICP exc. energy &
+      HEX &
+      NSA &
+      index &
+      log
       \\
-    \multicolumn{1}{c}{} &
+      \multicolumn{1}{c}{} &
+      HICP exc. energy &
+      HEXSA &
+      SA &
+      index &
+      log
+      \\
+      \multicolumn{1}{c}{} &
+      HICP  &
+      HICP &
+      NSA &
+      index &
+      log
+      \\
+      \multicolumn{1}{c}{} &
+      HICP  &
+      HICPSA &
+      SA &
+      index &
+      log
+      \\
+      \multicolumn{1}{c}{} &
+      Gross. Inv. deflator  &
+      ITD &
+      SA &
+      index &
+      log
+      \\
+      \multicolumn{1}{c}{} &
+      Gross. Inv.   &
+      ITR &
+      SA &
+      index &
+      log
+      \\
+      \multicolumn{1}{c}{} &
+      Employees   &
+      LEN &
+      - &
+      Thousands persons &
+      log
+      \\
+      \multicolumn{1}{c}{} &
+      Labour Force   &
+      LFN &
+      - &
+      Thousands persons &
+      log
+      \\
+      \multicolumn{1}{c}{} &
+      Total employment   &
+      LNN &
+      - &
+      Thousands persons &
+      log
+      \\
+      
+      \multicolumn{1}{c}{} &
+      Labour Prod.   &
+      LPROD &
+      SA &
+      index &
+      log
+      \\
+      \multicolumn{1}{c}{} &
       long term interest rate &
       LTN &
       - &
       annual \% &
       /100
       \\
+      
+    
     \multicolumn{1}{c}{} &
-      World demand &
-      YWRX &
-      NSA &
-      index &
-      log
-      \\
-    \multicolumn{1}{c}{} &
-      GDP (real) &
-      YER &
+      imports of good deflator &
+      MTD &
       SA &
-      Millions of Euro &
-      log
-      \\
-    \multicolumn{1}{c}{} &
-      compensation per employee &
-      CPE &
-      NSA &
-      Millions of Euro/nb actifs &
+      index &
       log
       \\
     \multicolumn{1}{c}{} &
       imports of good &
       MTR &
-      NSA &
+      SA &
       Millions of Euro &
       log
       \\
+    
     \multicolumn{1}{c}{} &
-      export of good &
-      XTR &
+      Net factor income &
+      NFN-YEN &
+      SA &
+      ratio &
+      -
+      \\
+      \multicolumn{1}{c}{} &
+      from abroad / GDP &
+       &
+       &
+       &
+      
+      \\
+      \multicolumn{1}{c}{} &
+      Consum. deflator &
+      PCD &
+      SA &
+      index &
+      log
+      \\
+      \multicolumn{1}{c}{} &
+      non oil com. Price &
+      PCOMU &
+      SA &
+      index &
+      log
+      \\
+      
+      \multicolumn{1}{c}{} &
+      Private consum &
+      PCR &
+      SA &
+      Millions Euros &
+      log
+      \\
+      
+      \multicolumn{1}{c}{} &
+      oil price &
+      POILU &
       NSA &
+      index &
+      log
+      \\
+
+      \multicolumn{1}{c}{} &
+      Household's savings ratio &
+      SAX &
+      NSA &
+      ratio &
+      log
+      \\
+
+      \multicolumn{1}{c}{} &
+      short term interest rate &
+      STN &
+      - &
+      annual \% &
+      /100
+      \\
+
+      \multicolumn{1}{c}{} &
+      Indirect Taxes &
+      TIN &
+      SA &
+      Millions Euros &
+      log
+      \\
+      
+      \multicolumn{1}{c}{} &
+      Unit labour cost &
+      ULC &
+      SA &
+      ratio &
+      -
+      \\
+      
+      \multicolumn{1}{c}{} &
+      Number of Unemployed &
+      UNN &
+      - &
+      Millions persons &
+      log
+      \\
+
+
+    \multicolumn{1}{c}{} &
+      unemployment rate &
+      URX &
+      NSA &
+      ratio &
+      -
+      \\
+    
+      \multicolumn{1}{c}{} &
+      Compensation to Employees &
+      WIN &
+      SA &
+      ratio &
+      log
+      \\
+      
+      \multicolumn{1}{c}{} &
+      Wage per head &
+      WRN &
+      SA &
+      ratio &
+      log
+      \\
+      
+      \multicolumn{1}{c}{} &
+      Export deflator &
+      XTD &
+      SA &
+      index &
+      log
+      \\
+      
+       \multicolumn{1}{c}{} &
+      Export (real) &
+      XTR &
+      SA &
+      Millions Euros &
+      log
+      \\
+    
+    \multicolumn{1}{c}{} &
+      GDP deflator &
+      YED &
+      SA &
+      index &
+      log
+      \\
+      
+     \multicolumn{1}{c}{} &
+      GDP (real) &
+      YER &
+      SA &
+      Millions Euros &
+      log
+      \\
+      
+      \multicolumn{1}{c}{} &
+      GDP at factor &
+      YFD &
+      SA &
+      index &
+      log
+      \\
+      \multicolumn{1}{c}{} &
+      cost deflator &
+      &
+      &
+      &
+      
+      \\
+    
+    \multicolumn{1}{c}{} &
+      GDP at factor costs &
+      YFN &
+      SA &
+      Millions Euros &
+      log
+      \\
+      \multicolumn{1}{c}{} &
+      (WIN + GON) &
+      &
+      &
+      &
+      
+      \\
+      
+      \multicolumn{1}{c}{} &
+      GDP, Income side &
+      YIN &
+      SA &
       Millions of Euro &
+      log
+      \\
+
+
+      \multicolumn{1}{c}{} &
+      World GDP deflator &
+      YWD &
+      SA &
+      index &
+      log
+      \\
+
+      \multicolumn{1}{c}{} &
+      World demand deflator&
+      YWDX &
+      SA &
+      index &
+      log
+      \\
+
+
+    \multicolumn{1}{c}{} &
+      World GDP &
+      YWR &
+      SA &
+      ?? &
+      log
+      \\
+
+
+
+    \multicolumn{1}{c}{} &
+      World demand &
+      YWRX &
+      SA &
+      ?? &
       log
       \\
     \bottomrule

@@ -8,6 +8,7 @@ library(MASS)
 # I load differentiated variables from Q2 1990 
 load("data/difvardatam.RData")
 
+
 # I keep HICP variable only
 dataM1<-difvardatam[,c("HICP_AUS","HICP_BEL", "HICP_GER","HICP_DEN",
                        "HICP_FRA","HICP_UKI", "HICP_SPA","HICP_GRE",
@@ -19,12 +20,11 @@ dataM3<-difvardatam[,c("HICP_AUS","HICP_BEL", "HICP_GER","HICP_DEN",
                        "HICP_FIN","HICP_IRL","HICP_ITA","HICP_LUX",
                        "HICP_POR","HICP_SWE","HICP_NET","M3_ZE")]
 
-# I keep variable from Jan 1996
+# I keep variable from Feb 1996
 
 dataM1<-dataM1[73:300,]
 dataM3<-dataM3[73:300,]
 dataM1ts<-ts(dataM1,start=1996,frequency=12)
-
 
 
 ## Choix du nb de lag
@@ -39,7 +39,7 @@ lagchoice<-function(data,lagmax){
     res<-lv$y-matrix(rep(1,dim(lv$y)[1]))%*%t(cons)-lv$x%*%coef
     Sigma<-((dim(lv$y)[1])^-1)*(t(as.matrix(res))%*%as.matrix(res))
     det<-det(Sigma)
-    AIC[i]<-log(det)+2*i*dim(data)[2]^2/dim(subset)[1]
+    AIC[i]<-log(det)+2*i*(dim(data)[2]^2)/(dim(data)[1])
     HQ[i]<-log(det)+2*log(log(dim(data)[1]))*i*dim(data)[2]^2/dim(data)[1]
     SC[i]<-log(det)+log(dim(data)[1])*i*dim(data)[2]^2/dim(data)[1]
   }
@@ -52,13 +52,17 @@ lagchoice(dataM1,lagmax=10)
 
 # Forecast
 
-fun<-function(data,lag,preforecast,horizon,adap){
+fun<-function(data,lag,preforecast,horizon,adap,trend){
   fore<-matrix(0,nrow=dim(data)[2],ncol=horizon+preforecast)
   fore[,1:(preforecast)]<-t(data[(dim(data)[1]-preforecast+1):dim(data)[1],])
-  lv<-lassovar(dat=data,lags=lag,adaptive=adap,trend=TRUE)
+  lv<-lassovar(dat=data,lags=lag,adaptive=adap,trend=trend)
   intercept<-as.matrix(lv$coefficients[1,],dim(data)[2],1)
+  if (trend==TRUE){
+    trend<-as.matrix(lv$coefficients[lag*dim(data)[2]+2,],dim(data)[2],1)
+  } else {
+    trend<-matrix(0,dim(data)[2],1)
+  }
   coef<-as.matrix(lv$coefficients[2:(lag*dim(data)[2]+1),],lag*dim(data)[2],dim(data)[2])
-  trend<-as.matrix(lv$coefficients[lag*dim(data)[2]+2,],dim(data)[2],1)
   
   for (i in (preforecast+1):(horizon+preforecast)){
     M<-NULL
@@ -70,7 +74,7 @@ fun<-function(data,lag,preforecast,horizon,adap){
   rownames(fore)<-names(data)
   return(t(fore))
 }
-forecast<-fun(dataM1,5,12,36,"none")
+forecast<-fun(dataM1,5,12,36,"none",FALSE)
 forecast<-data.frame(forecast)
 var1<-forecast[,1:5]
 var2<-forecast[,6:10]
@@ -108,32 +112,39 @@ rw<-function(t,x){
   return(y[,-1])
 }
 
-conditional<-function(exogen,data,lag,preforecast,horizon,adap){
+conditional<-function(exogen,data,lag,preforecast,horizon,adap,trend){
   all=data.frame(exogen,data)
   fore<-matrix(0,nrow=dim(all)[2],ncol=horizon+preforecast)
   fore[,1:(preforecast)]<-t(all[(dim(all)[1]-preforecast+1):dim(all)[1],])
   fore[1:dim(exogen)[2],-c(1:(preforecast))]<-rw(horizon+1,exogen)
-  lv<-lassovar(dat=all,lags=lag,adaptive=adap)
+  lv<-lassovar(dat=all,lags=lag,adaptive=adap,trend=trend)
   intercept<-as.matrix(lv$coefficients[1,],dim(all)[2],1)
   coef<-as.matrix(lv$coefficients[2:(lag*dim(all)[2]+1),],lag*dim(all)[2],dim(all)[2])
+  
+  if (trend==TRUE){
+    trend<-as.matrix(lv$coefficients[lag*dim(all)[2]+2,],dim(all)[2],1)
+  } else {
+    trend<-matrix(0,dim(all)[2],1)
+  }
+  
   for (i in (preforecast+1):(horizon+preforecast)){
     M<-NULL
     for (l in 1:lag){
       M<-c(fore[,(i-l)],M)
     }
-    fore[-c(1:dim(exogen)[2]),i]<-(t(M%*%coef)+intercept)[-c(1:dim(exogen)[2]),]
+    fore[-c(1:dim(exogen)[2]),i]<-(t(M%*%coef)+intercept+trend*(i+dim(data)[1]-(preforecast)))[-c(1:dim(exogen)[2]),]
   }
   
   rownames(fore)<-names(all)
   return(t(fore))
 }
 
-exo<-data.frame(dataM1[,16])
+exo<-data.frame(dataM1$HICP_FRA)
 end<-dataM1[,-16]
 
 
 
-forecast<-conditional(exo,end,2,12,36,"none")
+forecast<-conditional(exo,end,5,12,36,"none",FALSE)
 forecast<-data.frame(forecast)
 var1<-forecast[,1:5]
 var2<-forecast[,6:10]
@@ -153,13 +164,14 @@ ggplot(mvar3, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="fr
 iter<-50
 preforecast<-12
 horizon<-36
+lag=10
 
 exo<-data.frame(dataM1[,16])
 end<-dataM1[,-16]
 
 HICPpred<-matrix(0,horizon+preforecast,iter)
 for (i in 1:iter){
-  HICPpred[,i]<-matrix(conditional(exo,end,4,preforecast,horizon,"none")[,"HICP_FRA"])
+  HICPpred[,i]<-matrix(conditional(exo,end,lag,preforecast,horizon,"none",FALSE)[,"HICP_FRA"])
 }
 HICPpred
 HICPpred<-data.frame(HICPpred)
