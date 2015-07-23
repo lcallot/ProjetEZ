@@ -1,0 +1,276 @@
+
+\documentclass[11pt,oneside, a4paper]{amsart}
+\usepackage{natbib}
+
+\usepackage{amsbsy,amsmath}
+\usepackage{amssymb,amsfonts}
+\usepackage{bbm}%give 1 with dbl vertical bar 
+\usepackage{booktabs,url,enumerate}
+\usepackage{color,xcolor,colortbl}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{rotating,graphicx,lscape}
+\usepackage{commath}
+\usetikzlibrary{arrows,positioning} 
+\usepackage[hypcap]{caption}
+\newcommand{\sgn}{\mathrm{sign}}
+\usepackage{setspace}
+
+
+\begin{document}
+	
+\title{Inspection of the AWM data set and Estimation of Eurozone aggregated Money/Inflation }   
+\author{Laurent Callot}
+\date{\today}
+\maketitle
+
+<<init,echo=FALSE,cache=FALSE>>=
+library(knitr)
+opts_chunk$set(fig.align='center',
+               dev='pdf',
+               out.width='\\textwidth',
+               fig.width=12,
+               fig.height=8,
+               cache=TRUE,
+               echo=FALSE,
+               eval=TRUE,
+               message=FALSE,
+               warning=FALSE)
+
+
+@
+
+<<data,cache=TRUE>>=
+#  Loading required libraries. The dependencies should be installed as well. 
+require('reshape2')
+require('ggplot2')
+library('lassovar')
+library('dplyr')
+
+load('..//Agrege/Base//vardata.Rdata')
+awm <- vardataframe # shorter name
+#adding the vector of quaters from the raw AWM data
+awm$dates <- seq(as.Date("1970/1/1"), by = "quarter", length.out = nrow(awm))
+
+colnames(awm)
+
+@
+
+
+In this document we estimate models for money demand and inflation on aggregated Eurozone data following \cite{baardsen2005econometrics}
+
+
+\section{Visualisation of the data}
+
+
+<<plot_moneyir, dependson='data'>>=
+
+
+pnames <- c('M1','M3','STN','LTN')
+
+dp <- rbind(rep(NA,length(pnames)),diff(as.matrix(awm[,which(names(awm)%in%pnames)]),lag=1))
+dp <- cbind(awm$dates,data.frame(dp))
+names(dp)[1] <- 'dates'
+
+mdp <- melt(dp,id.vars = 'dates')
+mdp$diff <- 'first difference'
+
+mlp <- melt(awm[,which(names(awm)%in%c('dates',pnames))],id.vars = 'dates')
+
+mlp$diff <- 'level'
+
+mp <- rbind(mlp,mdp)
+
+#splitting in two groups
+mp$grp <- as.factor(mp$variable%in%pnames[1:2])
+levels(mp$grp) <- c('Money','Interest Rates')
+
+gm <- ggplot(mp,aes(x=dates,y=value,colour=variable,linetype=variable)) + geom_line() + theme_bw() + theme(legend.position="bottom") + facet_wrap(~ grp + diff,scales='free',ncol=2)
+
+print(gm)
+@
+
+Strong seasonal effect in M1, M3 seems better behaved. 
+
+
+<<plot_price, dependson='data'>>=
+
+
+pnames <- c('COMPR','PCOMU','POILU','HEG','HEXSA','HICPSA','PPI')
+
+dp <- rbind(rep(NA,length(pnames)),diff(as.matrix(awm[,which(names(awm)%in%pnames)]),lag=1))
+dp <- cbind(awm$dates,data.frame(dp))
+names(dp)[1] <- 'dates'
+
+mdp <- melt(dp,id.vars = 'dates')
+mdp$diff <- 'first difference'
+
+mlp <- melt(awm[,which(names(awm)%in%c('dates',pnames))],id.vars = 'dates')
+
+mlp$diff <- 'level'
+
+mp <- rbind(mlp,mdp)
+
+#splitting in two groups
+mp$grp <- as.factor(mp$variable%in%pnames[1:3])
+levels(mp$grp) <- c('Commodities','Prices')
+gm <- ggplot(mp,aes(x=dates,y=value,colour=variable,linetype=variable)) + geom_line() + theme_bw() + theme(legend.position="bottom") + facet_wrap(~ grp + diff,scales='free',ncol=2)
+
+print(gm)
+@
+
+
+
+
+<<plot_cou_uem, dependson='data'>>=
+
+
+pnames <- c('CPE','URX')
+
+dp <- rbind(rep(NA,length(pnames)),diff(as.matrix(awm[,which(names(awm)%in%pnames)]),lag=1))
+dp <- cbind(awm$dates,data.frame(dp))
+names(dp)[1] <- 'dates'
+
+mdp <- melt(dp,id.vars = 'dates')
+mdp$diff <- 'first difference'
+
+mlp <- melt(awm[,which(names(awm)%in%c('dates',pnames))],id.vars = 'dates')
+
+mlp$diff <- 'level'
+
+mp <- rbind(mlp,mdp)
+
+#splitting in two groups
+grp1 <- mp$variable%in%pnames[1]
+#grp2 <- mp$variable%in%pnames[3:4]
+mp$grp <-as.factor(grp1) 
+levels(mp$grp) <- c('Compensations','Unemployment')
+gm <- ggplot(mp,aes(x=dates,y=value,colour=variable,linetype=variable)) + geom_line() + theme_bw() + theme(legend.position="bottom") + facet_wrap(~ grp + diff,scales='free',ncol=2)
+
+print(gm)
+@
+
+
+
+<<plot_rest, dependson='data'>>=
+
+
+pnames <- c('LHO','LFI','MTR','XTR')
+
+dp <- rbind(rep(NA,length(pnames)),diff(as.matrix(awm[,which(names(awm)%in%pnames)]),lag=1))
+dp <- cbind(awm$dates,data.frame(dp))
+names(dp)[1] <- 'dates'
+
+mdp <- melt(dp,id.vars = 'dates')
+mdp$diff <- 'first difference'
+
+mlp <- melt(awm[,which(names(awm)%in%c('dates',pnames))],id.vars = 'dates')
+
+mlp$diff <- 'level'
+
+mp <- rbind(mlp,mdp)
+
+#splitting in two groups
+grp1 <- mp$variable%in%pnames[1:2]
+#grp2 <- mp$variable%in%pnames[3:4]
+mp$grp <-as.factor(grp1) 
+levels(mp$grp) <- c('Loans','Trade')
+gm <- ggplot(mp,aes(x=dates,y=value,colour=variable,linetype=variable)) + geom_line() + theme_bw() + theme(legend.position="bottom") + facet_wrap(~ grp + diff,scales='free',ncol=2)
+
+print(gm)
+@
+
+\clearpage
+\newpage
+
+\section{Money demand function}
+
+\cite{baardsen2005econometrics} estimates a money demand function on AWM data from 1980:4 to 1997:2. The equation is based on a model from \cite{coenen2001demand} and it includes lagged and contemporanous variables as well as an error correction term. It has the form:
+\begin{align*}
+\Delta \widehat{\left(m-p\right)_t} &= \alpha_0 + \alpha_1 \Delta \Delta y_t + \alpha_2 \frac{\Delta RS_t + \Delta RS_{t-1}}{2} 
++ \alpha_3 \Delta RL_{t-1} \\
+&+ \alpha_4 \frac{\Delta pan_t + \Delta pan_{t-1}}{2} + \alpha_5 emc_{t-2},\\
+ecm_t &= (m-p)_t + \beta_1 y_t + \beta_2 \Delta pan_t + \beta_3 (RL-RS)_t.
+\end{align*}
+
+The \text{it} is a co-intergration relation taken form references in \cite[p. 152]{baardsen2005econometrics}. $RL$ and $RS$ are the short and long rates from the AWM, $y_t$ the log of real GDP, and $\Delta pan$ is the annualized change in the GDP deflator.  
+
+Let's try to estimate some variation of it. We do not include an ECM term for starters, and the GDP deflator isn't in the data yet. 
+<<model1>>=
+
+# real money
+awm$mp <- awm$M3-awm$HICPSA
+# interest rate spread
+awm$irp <- awm$LTN - awm$STN
+
+
+# real money diff and lagged diff
+awm$dmp <- c(NA,diff(awm$M3-awm$HICPSA))
+awm[['L1_dmp']] <- c(NA,NA,head(diff(awm$M3-awm$HICPSA),-1))
+
+awm$ddy <- c(NA,NA,diff(diff(awm$YER)))
+
+# building lags 
+# there has to be a simpler way...
+lnames <- c('STN','LTN','HICPSA')
+LD <- lnm <-  NULL
+for(l in 0:2){
+  if(l>0)ltmp <- rbind(matrix(NA,nrow=l+1,ncol=length(lnames)),head(diff(as.matrix(awm[,which(names(awm)%in%lnames)]),1),-1*l)) 
+  if(l==0)ltmp <- rbind(matrix(NA,nrow=l+1,ncol=length(lnames)),diff(as.matrix(awm[,which(names(awm)%in%lnames)]),1)) 
+  lnm <- c(lnm,paste0(paste0('LD',l,'_'),lnames))
+  LD <- cbind(LD,ltmp)
+}
+LD <- data.frame(LD)
+names(LD) <- lnm
+
+
+mod1 <- lm(dmp ~ L1_dmp + ddy + LD0_STN + LD1_STN + LD2_STN + LD0_LTN + LD1_LTN + LD2_LTN ,data=cbind(awm,LD))
+summary(mod1)
+
+var1 <- subset(cbind(awm,LD),select=c('dmp','LD0_HICPSA','LD0_STN','LD0_LTN'))
+var1 <- var1[rowSums(is.na(var1))==0,]
+lv1 <- lassovar(var1,lags = 4)
+summary(lv1)
+coef(lv1)
+
+
+@
+
+
+Some models in levels:
+<<modlev>>=
+
+mod2 <- lm(mp ~ YER + STN + LTN,data=awm)
+summary(mod2)
+
+
+var2 <- subset(cbind(awm,LD),select=c('mp','STN','LTN','YER','LD0_HICPSA'))
+var2 <- var2[rowSums(is.na(var2))==0,]
+exo2 <- subset(var2,select=c('STN','LTN','YER','LD0_HICPSA'))
+lv2 <- lassovar(var2$mp,exo = exo2,lags = 1)
+lv3 <- lassovar(var2,lags = 1)
+#summary(lv2) crash with exo variables!
+coef(lv2)
+coef(lv3)
+
+# Write a BIC selection function post glmnet estimation for single equations like these.
+
+
+@
+Totally different from the relation in JAE/Baardsen, but then again the modes are totally difference as well.
+
+\section{Inflation models}
+
+
+
+
+
+
+
+\clearpage
+\newpage
+
+\bibliographystyle{chicagoa}
+\bibliography{bib}
+
+\end{document}
