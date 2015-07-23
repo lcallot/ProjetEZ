@@ -16,6 +16,7 @@
 \newcommand{\sgn}{\mathrm{sign}}
 \usepackage{setspace}
 
+\usepackage[top=1.5cm, bottom=1.5cm, left=2.0cm, right=2.5cm]{geometry}
 
 \begin{document}
 	
@@ -261,6 +262,14 @@ Totally different from the relation in JAE/Baardsen, but then again the modes ar
 
 \section{Inflation models}
 
+
+<<hp_filter,dependson='data'>>=
+library('mFilter')
+nona <- !is.na(awm$M3)
+HPM3 <- hpfilter(ts(awm$M3[nona],frequency = 4))
+
+plot.ts(as.matrix(cbind(awm$M3[nona],HPM3$cycle)))
+@
 
 
 
