@@ -1,9 +1,9 @@
-
 require('reshape2')
 require('ggplot2')
 library('lassovar')
 library('dplyr')
 library('urca')
+library('stats')
 
 load("Agrege/Base/vardata.Rdata")
 
@@ -84,9 +84,20 @@ a<-(dRS[-(1:2)] + lag(dRS)[-(1:2)])/2
 b<-(dpi[-(1:2)]+lag(dpi)[-(1:2)])/2
 
 ecm<-lm(dRM3[-(1:2)] ~ ddGDP[-(1:2)] + a + b +dRL[-(1:2)] + lag(res,lag=2)[-(1:2)])
-
 summary(ecm)
 
+ecm$res
+
+edf<-function(x,alpha){
+  y<-NULL
+  y[i]<-(length(x)^-1)
+}
+
+
+edf<-ecdf(ecm$res)
+plot.ecdf(edf)
+summary(edf)
+help(ecdf)
 
 
 
