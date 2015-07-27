@@ -64,6 +64,8 @@
 \usepackage[hypcap]{caption}
 \newcommand{\sgn}{\mathrm{sign}}
 \usepackage{setspace}
+
+\usepackage[top=1.5cm, bottom=1.5cm, left=2.0cm, right=2.5cm]{geometry}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 	
@@ -72,15 +74,25 @@
 \date{\today}
 \maketitle
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: ggplot2\\\#\# \\\#\# Attaching package: 'dplyr'\\\#\# \\\#\# The following object is masked from 'package:stats':\\\#\# \\\#\#\ \ \ \  filter\\\#\# \\\#\# The following objects are masked from 'package:base':\\\#\# \\\#\#\ \ \ \  intersect, setdiff, setequal, union}}\end{kframe}
+\end{knitrout}
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{verbatim}
-##  [1] "COMPR"  "PCOMU"  "POILU"  "HEG"    "HEXSA"  "HICPSA" "HICP"  
-##  [8] "EEN"    "EXR"    "STN"    "LTN"    "URX"    "YER"    "XTR"   
-## [15] "MTR"    "CPE"    "YWRX"   "LHO"    "LFI"    "M1"     "M3"    
-## [22] "ESI"    "LIB"    "PPI"    "DJES"   "dates"
+##  [1] "YER"     "PCR"     "GCR"     "ITR"     "XTR"     "MTR"     "YED"    
+##  [8] "PCD"     "GCD"     "ITD"     "XTD"     "MTD"     "YFD"     "YIN"    
+## [15] "WIN"     "GON"     "TIN"     "YFN"     "HICP"    "HEX"     "HEG"    
+## [22] "HICPSA"  "HEXSA"   "HEGWEI"  "CAN_YEN" "NFN_YEN" "LFN"     "LNN"    
+## [29] "UNN"     "URX"     "LEN"     "STN"     "LTN"     "COMPR"   "POILU"  
+## [36] "PCOMU"   "YWD"     "YWDX"    "YWR"     "YWRX"    "LPROD"   "ULC"    
+## [43] "WRN"     "SAX"     "EEN"     "EXR"     "LHO"     "LFI"     "M1"     
+## [50] "M3"      "ESI"     "LIB"     "PPI"     "DJES"    "PROFOOD" "NRJ"    
+## [57] "HICP_EZ" "UNFOOD"  "INDGOOD" "SERVI"   "date"
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -165,31 +177,35 @@ Let's try to estimate some variation of it. We do not include an ECM term for st
 \begin{verbatim}
 ## 
 ## Call:
-## lm(formula = dmp ~ L1_dmp + ddy + LD0_STN + LD1_STN + LD2_STN + 
-##     LD0_LTN + LD1_LTN + LD2_LTN, data = cbind(awm, LD))
+## lm(formula = dmp ~ L1_dmp + ddy + LD0_YED + LD1_YED + LD2_YED + 
+##     LD0_STN + LD1_STN + LD2_STN + LD0_LTN + LD1_LTN + LD2_LTN, 
+##     data = cbind(awm, LD))
 ## 
 ## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -0.021360 -0.006772 -0.001146  0.005768  0.024458 
+##        Min         1Q     Median         3Q        Max 
+## -0.0139268 -0.0033644 -0.0005169  0.0031606  0.0287833 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  0.005526   0.002586   2.137 0.035517 *  
-## L1_dmp       0.347456   0.099563   3.490 0.000773 ***
-## ddy          0.222234   0.196361   1.132 0.260954    
-## LD0_STN     -0.818803   0.358442  -2.284 0.024874 *  
-## LD1_STN      0.732357   0.402077   1.821 0.072101 .  
-## LD2_STN      0.105485   0.393424   0.268 0.789264    
-## LD0_LTN     -0.188801   0.271217  -0.696 0.488272    
-## LD1_LTN      0.334666   0.303381   1.103 0.273124    
-## LD2_LTN      0.404098   0.252506   1.600 0.113276    
+## (Intercept)  0.002267   0.001769   1.282  0.20358    
+## L1_dmp       0.625006   0.083996   7.441 9.39e-11 ***
+## ddy          0.078849   0.140051   0.563  0.57499    
+## LD0_YED     -0.131912   0.217594  -0.606  0.54606    
+## LD1_YED      0.049565   0.238232   0.208  0.83571    
+## LD2_YED      0.101564   0.219890   0.462  0.64540    
+## LD0_STN      0.235471   0.376657   0.625  0.53362    
+## LD1_STN     -0.452479   0.356601  -1.269  0.20812    
+## LD2_STN      0.478643   0.344373   1.390  0.16837    
+## LD0_LTN     -1.273155   0.276552  -4.604 1.52e-05 ***
+## LD1_LTN      0.994704   0.307420   3.236  0.00176 ** 
+## LD2_LTN      0.087609   0.306684   0.286  0.77586    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.008809 on 84 degrees of freedom
-##   (83 observations deleted due to missingness)
-## Multiple R-squared:  0.2465,	Adjusted R-squared:  0.1747 
-## F-statistic: 3.435 on 8 and 84 DF,  p-value: 0.00182
+## Residual standard error: 0.006173 on 81 degrees of freedom
+##   (89 observations deleted due to missingness)
+## Multiple R-squared:  0.5167,	Adjusted R-squared:  0.451 
+## F-statistic: 7.871 on 11 and 81 DF,  p-value: 4.064e-09
 ## Call:
 ## lassovar(dat = var1, lags = 4)
 ## 
@@ -197,36 +213,63 @@ Let's try to estimate some variation of it. We do not include an ECM term for st
 ## Selection criterion: BIC
 ## Estimator: Lasso
 ## Deterministics: intercept.
-## Dimensions: T = 91  N = 4
+## Dimensions: T = 91  N = 5
 ## 
-## Total number of variables selected:20 (31.25% of candidates)
+## Total number of variables selected:24 (24% of candidates)
 ## 
 ##  Model summary statistics:
 ##                  Lambda non-zero    resid var
-## dmp        0.0004031671       10 4.880706e-05
-## LD0_HICPSA 0.0005798616        3 9.937317e-06
-## LD0_STN    0.0005322228        2 6.832299e-06
-## LD0_LTN    0.0003189406        5 1.125708e-05
+## dmp        0.0006152253        8 3.582759e-05
+## LD0_HICPSA 0.0003189406        5 1.125704e-05
+## LD0_STN    0.0003510535        5 3.303019e-06
+## LD0_LTN    0.0005579283        3 6.698120e-06
+## LD0_YED    0.0005798616        3 9.937294e-06
 ## 
 ## Deterministics not included in the non-zero count.
-##                       [,1]          [,2]        [,3]          [,4]
-##                0.002327635 -0.0007433861 0.003219391  5.438899e-05
-## 1L_dmp         0.055006039  0.0000000000 0.000000000  0.000000e+00
-## 1L_LD0_HICPSA -0.141505112  0.2452826138 0.000000000  2.714080e-01
-## 1L_LD0_STN     0.000000000  0.0000000000 0.240385061  2.510174e-01
-## 1L_LD0_LTN     0.444229932  0.0000000000 0.000000000  3.663671e-01
-## 2L_dmp         0.082117048  0.0000000000 0.000000000  0.000000e+00
-## 2L_LD0_HICPSA  0.000000000  0.0000000000 0.000000000  0.000000e+00
-## 2L_LD0_STN     0.000000000  0.0000000000 0.000000000 -1.811055e-01
-## 2L_LD0_LTN     0.181701749  0.0000000000 0.000000000  0.000000e+00
-## 3L_dmp         0.000000000  0.0000000000 0.000000000  0.000000e+00
-## 3L_LD0_HICPSA -0.295219256  0.0000000000 0.000000000  0.000000e+00
-## 3L_LD0_STN     0.000000000  0.0000000000 0.155102212  0.000000e+00
-## 3L_LD0_LTN     0.174285594  0.0000000000 0.000000000  0.000000e+00
-## 4L_dmp         0.450750917  0.0000000000 0.000000000  0.000000e+00
-## 4L_LD0_HICPSA  0.000000000 -0.0523451587 0.000000000  0.000000e+00
-## 4L_LD0_STN     0.250079448  0.0000000000 0.000000000 -1.632384e-01
-## 4L_LD0_LTN     0.308291408 -0.0803711365 0.000000000  0.000000e+00
+##                      [,1]          [,2]        [,3]        [,4]
+##               0.002393135  5.436049e-05 0.001316101 0.003241236
+## 1L_dmp        0.286298712  0.000000e+00 0.000000000 0.000000000
+## 1L_LD0_HICPSA 0.319321350  3.663569e-01 0.000000000 0.000000000
+## 1L_LD0_STN    0.000000000  0.000000e+00 0.169700299 0.157986792
+## 1L_LD0_LTN    0.000000000  2.510268e-01 0.024828531 0.167309399
+## 1L_LD0_YED    0.000000000  2.714280e-01 0.000000000 0.000000000
+## 2L_dmp        0.143163044  0.000000e+00 0.000000000 0.000000000
+## 2L_LD0_HICPSA 0.000000000  0.000000e+00 0.000000000 0.000000000
+## 2L_LD0_STN    0.205863360  0.000000e+00 0.330066519 0.000000000
+## 2L_LD0_LTN    0.056964304 -1.811029e-01 0.064911077 0.000000000
+## 2L_LD0_YED    0.000000000  0.000000e+00 0.000000000 0.000000000
+## 3L_dmp        0.149968856  0.000000e+00 0.000000000 0.000000000
+## 3L_LD0_HICPSA 0.147444355  0.000000e+00 0.000000000 0.000000000
+## 3L_LD0_STN    0.000000000  0.000000e+00 0.111954516 0.000000000
+## 3L_LD0_LTN    0.000000000  0.000000e+00 0.000000000 0.079333452
+## 3L_LD0_YED    0.000000000  0.000000e+00 0.000000000 0.000000000
+## 4L_dmp        0.000000000  0.000000e+00 0.000000000 0.000000000
+## 4L_LD0_HICPSA 0.073580614  0.000000e+00 0.000000000 0.000000000
+## 4L_LD0_STN    0.000000000  0.000000e+00 0.000000000 0.000000000
+## 4L_LD0_LTN    0.000000000 -1.632442e-01 0.000000000 0.000000000
+## 4L_LD0_YED    0.000000000  0.000000e+00 0.000000000 0.000000000
+##                        [,5]
+##               -0.0007433915
+## 1L_dmp         0.0000000000
+## 1L_LD0_HICPSA  0.0000000000
+## 1L_LD0_STN     0.0000000000
+## 1L_LD0_LTN     0.0000000000
+## 1L_LD0_YED     0.2452826133
+## 2L_dmp         0.0000000000
+## 2L_LD0_HICPSA  0.0000000000
+## 2L_LD0_STN     0.0000000000
+## 2L_LD0_LTN     0.0000000000
+## 2L_LD0_YED     0.0000000000
+## 3L_dmp         0.0000000000
+## 3L_LD0_HICPSA  0.0000000000
+## 3L_LD0_STN     0.0000000000
+## 3L_LD0_LTN     0.0000000000
+## 3L_LD0_YED     0.0000000000
+## 4L_dmp         0.0000000000
+## 4L_LD0_HICPSA -0.0803712461
+## 4L_LD0_STN     0.0000000000
+## 4L_LD0_LTN     0.0000000000
+## 4L_LD0_YED    -0.0523508099
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -284,6 +327,18 @@ Some models in levels:
 Totally different from the relation in JAE/Baardsen, but then again the modes are totally difference as well.
 
 \section{Inflation models}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\textwidth]{figure/hp_filter-1} 
+
+}
+
+
+
+\end{knitrout}
 
 
 
