@@ -7,7 +7,7 @@ library('stats')
 
 load("Agrege/Base/vardata.Rdata")
 
-sub1<- var[,c('date','M1','M3','STN','LTN','YED','YER','URX')]
+sub1<- var[,c('date','M1','M3','STN','LTN','YED','YER','URX','POILU','LHO', 'LFI')]
 
 # data from Q1 1990 to 2013 Q4 (81:176)
 sub<-sub1[81:176,]
@@ -109,10 +109,35 @@ edf(0.005)
 
 m1<-lm(dsub$YED[-1] ~ lag(dsub$YER)[-1] + lag(dsub$M3)[-1] +  lag(dsub$LTN)[-1] +  lag(dsub$STN)[-1] )
 summary(m1)
-
+AIC(m1)
 
 m2<-lm(dsub$YED[-(1:2)] ~ lag(dsub$YER)[-(1:2)] + lag(dsub$M3)[-(1:2)] +  lag(dsub$LTN)[-(1:2)] +  lag(dsub$STN)[-(1:2)] + lag(dsub$URX)[-(1:2)] + lag(dsub$URX,2)[-(1:2)] )
 summary(m2)
+AIC(m2)
+
+
+
+m3<-lm(dsub$YED[-(1:2)] ~ lag(dsub$YER)[-(1:2)] + lag(dsub$M3)[-(1:2)] +  lag(dsub$LTN)[-(1:2)] +  lag(dsub$STN)[-(1:2)] + lag(dsub$URX)[-(1:2)] + lag(dsub$URX,2)[-(1:2)]  
+        + lag(dsub$POILU)[-(1:2)] )
+summary(m3)
+AIC(m3)
+
+
+m4<-lm(dsub$YED[-(1:2)] ~ lag(dsub$YER)[-(1:2)]  +  lag(dsub$LTN)[-(1:2)] +  lag(dsub$STN)[-(1:2)] + lag(dsub$URX)[-(1:2)] + lag(dsub$URX,2)[-(1:2)]  
+       + lag(dsub$POILU)[-(1:2)] )
+summary(m4)
+AIC(m4)
+
+m5<-lm(dsub$YED[-(1:2)] ~ lag(dsub$YER)[-(1:2)]  +  lag(dsub$LTN)[-(1:2)] +  lag(dsub$STN)[-(1:2)] + lag(dsub$URX)[-(1:2)] + lag(dsub$URX,2)[-(1:2)]  
+       + lag(dsub$POILU)[-(1:2)] + lag(dsub$LFI)[-(1:2)]  +  lag(dsub$LHO, 2)[-(1:2)] )
+summary(m5)
+AIC(m5)
+
+
+
+
+
+
 
 
 
