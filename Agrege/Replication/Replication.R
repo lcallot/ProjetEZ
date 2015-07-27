@@ -7,7 +7,7 @@ library('stats')
 
 load("Agrege/Base/vardata.Rdata")
 
-sub1<- var[,c('date','M1','M3','STN','LTN','YED','YER')]
+sub1<- var[,c('date','M1','M3','STN','LTN','YED','YER','URX')]
 
 # data from Q1 1990 to 2013 Q4 (81:176)
 sub<-sub1[81:176,]
@@ -83,7 +83,7 @@ ddGDP <- ddsub$YER
 a<-(dRS[-(1:2)] + lag(dRS)[-(1:2)])/2
 b<-(dpi[-(1:2)]+lag(dpi)[-(1:2)])/2
 
-ecm<-lm(dRM3[-(1:2)] ~ ddGDP[-(1:2)] + a + b +dRL[-(1:2)] + lag(res,lag=2)[-(1:2)])
+ecm<-lm( dsub$YED[-(1:2)] ~  dRM3[-(1:2)] + ddGDP[-(1:2)] + a + b +dRL[-(1:2)] + lag(res,lag=2)[-(1:2)])
 summary(ecm)
 
 ecm$res
@@ -98,6 +98,21 @@ edf<-ecdf(ecm$res)
 plot.ecdf(edf)
 summary(edf)
 help(ecdf)
+
+
+edf(0.005)
+
+
+
+
+# Model simple 
+
+m1<-lm(dsub$YED[-1] ~ lag(dsub$YER)[-1] + lag(dsub$M3)[-1] +  lag(dsub$LTN)[-1] +  lag(dsub$STN)[-1] )
+summary(m1)
+
+
+m2<-lm(dsub$YED[-(1:2)] ~ lag(dsub$YER)[-(1:2)] + lag(dsub$M3)[-(1:2)] +  lag(dsub$LTN)[-(1:2)] +  lag(dsub$STN)[-(1:2)] + lag(dsub$URX)[-(1:2)] + lag(dsub$URX,2)[-(1:2)] )
+summary(m2)
 
 
 
