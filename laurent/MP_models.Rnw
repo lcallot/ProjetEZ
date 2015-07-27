@@ -39,22 +39,23 @@ opts_chunk$set(fig.align='center',
                warning=FALSE)
 
 
-@
-
-<<data,cache=TRUE>>=
 #  Loading required libraries. The dependencies should be installed as well. 
 require('reshape2')
 require('ggplot2')
 library('lassovar')
 library('dplyr')
+library('glmnet')
+
+source('lib.R')
+source('lasso.R')
+@
+
+<<data,cache=TRUE>>=
 
 load('..//Agrege/Base//vardata.Rdata')
-awm <- vardataframe # shorter name
-#adding the vector of quaters from the raw AWM data
-awm$dates <- seq(as.Date("1970/1/1"), by = "quarter", length.out = nrow(awm))
+awm <- var# shorter name
 
 colnames(awm)
-
 @
 
 
@@ -65,120 +66,45 @@ In this document we estimate models for money demand and inflation on aggregated
 
 
 <<plot_moneyir, dependson='data'>>=
-
-
 pnames <- c('M1','M3','STN','LTN')
+grp.lst <- list('Money'=c('M1','M3'),'Interest rates'=c('STN','LTN'))
 
-dp <- rbind(rep(NA,length(pnames)),diff(as.matrix(awm[,which(names(awm)%in%pnames)]),lag=1))
-dp <- cbind(awm$dates,data.frame(dp))
-names(dp)[1] <- 'dates'
+gpir <- varplots(awm,pnames,grp.lst)
 
-mdp <- melt(dp,id.vars = 'dates')
-mdp$diff <- 'first difference'
-
-mlp <- melt(awm[,which(names(awm)%in%c('dates',pnames))],id.vars = 'dates')
-
-mlp$diff <- 'level'
-
-mp <- rbind(mlp,mdp)
-
-#splitting in two groups
-mp$grp <- as.factor(mp$variable%in%pnames[1:2])
-levels(mp$grp) <- c('Money','Interest Rates')
-
-gm <- ggplot(mp,aes(x=dates,y=value,colour=variable,linetype=variable)) + geom_line() + theme_bw() + theme(legend.position="bottom") + facet_wrap(~ grp + diff,scales='free',ncol=2)
-
-print(gm)
+print(gpir)
 @
 
 Strong seasonal effect in M1, M3 seems better behaved. 
 
 
 <<plot_price, dependson='data'>>=
+pnames <- c('COMPR','PCOMU','POILU','NRJ','PROFOOD','SERVI','INDGOOD','UNFOOD','HICP_EZ','PPI','YED')
 
+grp.lst<- list('Commodities'=c('COMPR','PCOMU','POILU'),
+               'HICP Components'=c('NRJ','PROFOOD','SERVI','INDGOOD','UNFOOD'),
+               'Aggregates'=c('HICP_EZ','PPI','YED'))
 
-pnames <- c('COMPR','PCOMU','POILU','HEG','HEXSA','HICPSA','PPI')
-
-dp <- rbind(rep(NA,length(pnames)),diff(as.matrix(awm[,which(names(awm)%in%pnames)]),lag=1))
-dp <- cbind(awm$dates,data.frame(dp))
-names(dp)[1] <- 'dates'
-
-mdp <- melt(dp,id.vars = 'dates')
-mdp$diff <- 'first difference'
-
-mlp <- melt(awm[,which(names(awm)%in%c('dates',pnames))],id.vars = 'dates')
-
-mlp$diff <- 'level'
-
-mp <- rbind(mlp,mdp)
-
-#splitting in two groups
-mp$grp <- as.factor(mp$variable%in%pnames[1:3])
-levels(mp$grp) <- c('Commodities','Prices')
-gm <- ggplot(mp,aes(x=dates,y=value,colour=variable,linetype=variable)) + geom_line() + theme_bw() + theme(legend.position="bottom") + facet_wrap(~ grp + diff,scales='free',ncol=2)
-
-print(gm)
+gp <- varplots(awm,pnames,grp.lst)
+print(gp)
 @
 
 
 
 
 <<plot_cou_uem, dependson='data'>>=
-
-
-pnames <- c('CPE','URX')
-
-dp <- rbind(rep(NA,length(pnames)),diff(as.matrix(awm[,which(names(awm)%in%pnames)]),lag=1))
-dp <- cbind(awm$dates,data.frame(dp))
-names(dp)[1] <- 'dates'
-
-mdp <- melt(dp,id.vars = 'dates')
-mdp$diff <- 'first difference'
-
-mlp <- melt(awm[,which(names(awm)%in%c('dates',pnames))],id.vars = 'dates')
-
-mlp$diff <- 'level'
-
-mp <- rbind(mlp,mdp)
-
-#splitting in two groups
-grp1 <- mp$variable%in%pnames[1]
-#grp2 <- mp$variable%in%pnames[3:4]
-mp$grp <-as.factor(grp1) 
-levels(mp$grp) <- c('Compensations','Unemployment')
-gm <- ggplot(mp,aes(x=dates,y=value,colour=variable,linetype=variable)) + geom_line() + theme_bw() + theme(legend.position="bottom") + facet_wrap(~ grp + diff,scales='free',ncol=2)
-
-print(gm)
+pnames <- c('WRN','WIN','URX','ULC','LPROD','LNN','LFN','LEN')
+grp.lst <- list('Earnings'=c('WRN','WIN'),'Unemployment'=c('URX','LPROD','ULC'),'Labour Force'=c('LNN','LFN','LEN'))
+gu <- varplots(awm,pnames,grp.lst)
+print(gu)
 @
 
 
 
 <<plot_rest, dependson='data'>>=
-
-
 pnames <- c('LHO','LFI','MTR','XTR')
-
-dp <- rbind(rep(NA,length(pnames)),diff(as.matrix(awm[,which(names(awm)%in%pnames)]),lag=1))
-dp <- cbind(awm$dates,data.frame(dp))
-names(dp)[1] <- 'dates'
-
-mdp <- melt(dp,id.vars = 'dates')
-mdp$diff <- 'first difference'
-
-mlp <- melt(awm[,which(names(awm)%in%c('dates',pnames))],id.vars = 'dates')
-
-mlp$diff <- 'level'
-
-mp <- rbind(mlp,mdp)
-
-#splitting in two groups
-grp1 <- mp$variable%in%pnames[1:2]
-#grp2 <- mp$variable%in%pnames[3:4]
-mp$grp <-as.factor(grp1) 
-levels(mp$grp) <- c('Loans','Trade')
-gm <- ggplot(mp,aes(x=dates,y=value,colour=variable,linetype=variable)) + geom_line() + theme_bw() + theme(legend.position="bottom") + facet_wrap(~ grp + diff,scales='free',ncol=2)
-
-print(gm)
+grp.lst <- list('Loans'=c('LHO','LFI'),'Trade'=c('MTR','XTR'))
+gr <- varplots(awm,pnames,grp.lst)
+print(gr)
 @
 
 \clearpage
@@ -197,23 +123,23 @@ ecm_t &= (m-p)_t + \beta_1 y_t + \beta_2 \Delta pan_t + \beta_3 (RL-RS)_t.
 The \text{it} is a co-intergration relation taken form references in \cite[p. 152]{baardsen2005econometrics}. $RL$ and $RS$ are the short and long rates from the AWM, $y_t$ the log of real GDP, and $\Delta pan$ is the annualized change in the GDP deflator.  
 
 Let's try to estimate some variation of it. We do not include an ECM term for starters, and the GDP deflator isn't in the data yet. 
-<<model1>>=
+<<mp_diff,cache=TRUE>>=
 
 # real money
-awm$mp <- awm$M3-awm$HICPSA
+awm$mp <- awm$M3-awm$HICP_EZ
 # interest rate spread
 awm$irp <- awm$LTN - awm$STN
 
 
 # real money diff and lagged diff
-awm$dmp <- c(NA,diff(awm$M3-awm$HICPSA))
-awm[['L1_dmp']] <- c(NA,NA,head(diff(awm$M3-awm$HICPSA),-1))
+awm$dmp <- c(NA,diff(awm$M3-awm$HICP_EZ))
+awm[['L1_dmp']] <- c(NA,NA,head(diff(awm$M3-awm$HICP_EZ),-1))
 
 awm$ddy <- c(NA,NA,diff(diff(awm$YER)))
 
 # building lags 
 # there has to be a simpler way...
-lnames <- c('STN','LTN','HICPSA')
+lnames <- c('STN','LTN','HICP_EZ','YED')
 LD <- lnm <-  NULL
 for(l in 0:2){
   if(l>0)ltmp <- rbind(matrix(NA,nrow=l+1,ncol=length(lnames)),head(diff(as.matrix(awm[,which(names(awm)%in%lnames)]),1),-1*l)) 
@@ -225,29 +151,30 @@ LD <- data.frame(LD)
 names(LD) <- lnm
 
 
-mod1 <- lm(dmp ~ L1_dmp + ddy + LD0_STN + LD1_STN + LD2_STN + LD0_LTN + LD1_LTN + LD2_LTN ,data=cbind(awm,LD))
+mod1 <- lm(dmp ~ ddy + LD0_YED + LD1_YED + LD2_YED + LD0_STN + LD1_STN + LD2_STN + LD0_LTN + LD1_LTN + LD2_LTN ,data=cbind(awm,LD))
 summary(mod1)
 
-var1 <- subset(cbind(awm,LD),select=c('dmp','LD0_HICPSA','LD0_STN','LD0_LTN'))
-var1 <- var1[rowSums(is.na(var1))==0,]
-lv1 <- lassovar(var1,lags = 4)
-summary(lv1)
-coef(lv1)
+las1 <- lasso(dmp ~ ddy + LD0_YED + LD1_YED + LD2_YED + LD0_STN + LD1_STN + LD2_STN + LD0_LTN + LD1_LTN + LD2_LTN ,data=cbind(awm,LD))
+coef(las1)
 
+las2 <- lasso(dmp ~ ddy + LD0_YED + LD1_YED + LD2_YED + LD0_STN + LD1_STN + LD2_STN + LD0_LTN + LD1_LTN + LD2_LTN ,data=cbind(awm,LD),pweights = 1/abs(coef(mod1)[-1]))
+coef(las2)
 
 @
 
 
 Some models in levels:
-<<modlev>>=
+<<mp_lev,cache=TRUE>>=
 
-mod2 <- lm(mp ~ YER + STN + LTN,data=awm)
+mod2 <- lm(mp ~ YER + LD0_YED + STN + LTN,data=cbind(awm,LD))
 summary(mod2)
 
+las2 <- lasso(mp ~ YER + LD0_YED + STN + LTN,data=cbind(awm,LD),pweights = 1/abs(coef(mod2)[-1]))
+coef(las2)
 
-var2 <- subset(cbind(awm,LD),select=c('mp','STN','LTN','YER','LD0_HICPSA'))
+var2 <- subset(cbind(awm,LD),select=c('mp','STN','LTN','YER','LD0_HICP_EZ'))
 var2 <- var2[rowSums(is.na(var2))==0,]
-exo2 <- subset(var2,select=c('STN','LTN','YER','LD0_HICPSA'))
+exo2 <- subset(var2,select=c('STN','LTN','YER','LD0_HICP_EZ'))
 lv2 <- lassovar(var2$mp,exo = exo2,lags = 1)
 lv3 <- lassovar(var2,lags = 1)
 #summary(lv2) crash with exo variables!
@@ -262,6 +189,53 @@ Totally different from the relation in JAE/Baardsen, but then again the modes ar
 
 \section{Inflation models}
 
+<<inf_mod>>=
+# inflation
+awm$inf <- c(NA,diff(awm$HICP_EZ))
+# real money
+awm$mp <- awm$M3-awm$HICP_EZ
+# interest rate spread
+awm$irp <- awm$LTN - awm$STN
+
+
+awm$ddy <- c(NA,NA,diff(diff(awm$YER)))
+
+# building lags 
+# there has to be a simpler way...
+lnames <- c('STN','LTN','HICP_EZ','YED','M3')
+LD <- lnm <-  NULL
+for(l in 0:2){
+  if(l>0)ltmp <- rbind(matrix(NA,nrow=l+1,ncol=length(lnames)),head(diff(as.matrix(select_(awm,.dots=lnames))),-1*l)) 
+  if(l==0)ltmp <- rbind(matrix(NA,nrow=l+1,ncol=length(lnames)),diff(as.matrix(select_(awm,.dots=lnames)),1)) 
+  lnm <- c(lnm,paste0(paste0('LD',l,'_'),lnames))
+  LD <- cbind(LD,ltmp)
+}
+LD <- data.frame(LD)
+names(LD) <- lnm
+
+
+formu1 <- 'LD0_HICP_EZ ~ LD0_STN '
+formu1 <- paste0(formu1,paste0('+ LD',1:2,'_HICP_EZ',collapse = ' '), 
+                 paste0('+ LD',1:2,'_M3',collapse = ' '), 
+                 collapse = ' ')
+formu1
+
+lm(formu1,data=cbind(awm,LD))
+
+mod1 <- lm(inf ~ ddy + LD1_HICP_EZ + LD2_HICP_EZ + LD1_M3 + LD2_M3 + 
+            LD1_YED + LD2_YED + LD0_STN + LD1_STN + LD2_STN + LD0_LTN + LD1_LTN + LD2_LTN ,data=cbind(awm,LD))
+summary(mod1)
+
+las1 <- lasso(LD0_HICP_EZ  ~ ddy + LD1_HICP_EZ + LD2_HICP_EZ + LD1_M3 + LD2_M3 +
+                LD1_YED + LD2_YED + LD0_STN + LD1_STN + LD2_STN + LD0_LTN + LD1_LTN + LD2_LTN ,data=cbind(awm,LD),pweights = 1/abs(coef(mod1)[-1]))
+coef(las1)
+
+@
+
+
+
+
+
 
 <<hp_filter,dependson='data'>>=
 library('mFilter')
@@ -274,6 +248,46 @@ plot.ts(as.matrix(cbind(awm$M3[nona],HPM3$cycle)))
 
 
 
+<<funcs>>=
+
+# Lag diff:
+
+LD_df <- function(x,lags){
+  # building lags diffs 
+  ln <- names(x)
+  LD <- lnm <-  NULL
+  for(l in lags){
+    if(l>0)ltmp <- rbind(matrix(NA,nrow=l+1,ncol=length(ln)),head(diff(as.matrix(awm[,which(names(awm)%in%ln)]),1),-1*l)) 
+    if(l==0)ltmp <- rbind(matrix(NA,nrow=l+1,ncol=length(ln)),diff(as.matrix(awm[,which(names(awm)%in%ln)]),1)) 
+    lnm <- c(lnm,paste0(paste0('LD',l,'_'),ln))
+    LD <- cbind(LD,ltmp)
+  }
+  LD <- data.frame(LD)
+  names(LD) <- lnm
+  
+  return(LD)
+}
+
+
+L_df <- function(x,lags){
+  # building lags diffs 
+  ln <- names(x)
+  LD <- lnm <-  NULL
+  for(l in lags){
+    if(l>0)ltmp <- rbind(matrix(NA,nrow=l,ncol=length(ln)),head(as.matrix(select_(awm,.dots=ln)),-1*l)) 
+    if(l==0)ltmp <- rbind(matrix(NA,nrow=l,ncol=length(ln)),as.matrix(select_(awm,.dots=ln))) 
+    lnm <- c(lnm,paste0(paste0('LD',l,'_'),ln))
+    LD <- cbind(LD,ltmp)
+  }
+  LD <- data.frame(LD)
+  names(LD) <- lnm
+  
+  return(LD)
+}
+
+
+
+@
 
 
 \clearpage
