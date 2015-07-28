@@ -1,4 +1,4 @@
-
+df<-norm
 bootlassovar<-function(df,iter,lasso){
   estar=matrix(NA,length(df[,1]),iter)
   ystar=matrix(NA,length(df[,1]),iter)

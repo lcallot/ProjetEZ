@@ -8,6 +8,7 @@ library('urca')
 library('stats')
 
 source("Agrege/Replication/forecastfunction.R")
+source("Agrege/Replication/residualslassovar.R")
 
 sub1<- var[,c('date','M1','M3','STN','LTN','YED','YER','URX','POILU')]
 
@@ -27,8 +28,35 @@ ggplot(mvar1, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="fr
 
 
 
-lv<-lassovar(sub[,-1],lags=2)
 
-predict.lassovar(lv,sub[-1])
-??predict.lassovar
+
+
+bootlassovar<-function(df,iter,lasso){
+  estar=matrix(NA,length(df[,1]),iter)
+  ystar=matrix(NA,length(df[,1]),iter)
+  u=matrix(NA,dim(df)[2],iter)
+  
+  lv<-lassovar(sub[,-1],lags=2)
+  res<-residuals.lassovar(lv)
+  
+  residu<-NULL
+  for (l in 1:dim(res)[2]){
+    residu<-cbind(residu,res[,l]-mean(res[,l]))
+  }
+  
+  
+  for (i in 1:iter){
+    estar[,i]<-as.matrix(sample(residu,length(residu),replace = T))
+    ystar[,i]<-prediction+estar[,i]
+    z<-ystar[,i]
+    df2<-data.frame(z,df[,-1])
+    boot<-lasso(z ~ . , df2 )
+    bootcoef<-boot$coef
+    u[,i]<-as.matrix(bootcoef)
+  }
+  
+  return(u)
+}
+
+
 
