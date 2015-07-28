@@ -6,7 +6,7 @@ source("laurent/lasso.R")
 
 # Simulated data
 norm<-NULL
-p=50
+p=5
 n=100
 for (i in 1:p){
   norm<-cbind(norm,as.matrix(rnorm(n,0,1),n,p))
@@ -21,6 +21,9 @@ for (i in 1:p){
 rw<-data.frame(rw)
 
 
+
+
+# 
 fun<-function(df,iter,lasso){
   estar=matrix(NA,length(df[,1]),iter)
   ystar=matrix(NA,length(df[,1]),iter)
@@ -60,19 +63,18 @@ fun<-function(df,iter,lasso){
   return(u)
 }
 
-ols<-fun(norm,100,FALSE)
+ols<-fun(norm,5000,FALSE)
+
+lasso<-fun(norm,5000,TRUE)
+
+# True distribution
+X<-as.matrix(cbind(matrix(rep(1,n)),norm[,-1]))
+true<-mvrnorm(n = 5000, 0*rep(1,p), Sigma = solve(t(X)%*%X))
+
+
 plot(density(ols[1,]))
-plot(density(ols[2,]))
-plot(density(ols[3,]))
-
-lasso<-fun(norm,100,TRUE)
 plot(density(lasso[1,]))
-plot(density(lasso[2,]))
-plot(density(lasso[3,]))
+plot(density(true[1,]))
 
-
-resultrw<-fun(c,d,10000,FALSE)
-plot(density(resultrw[1,]))
-plot(density(resultrw[2,]))
 
 
