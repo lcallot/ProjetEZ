@@ -2,7 +2,8 @@ library('glmnet')
 library('MASS')
 
 source("laurent/lasso.R")
-
+source("Agrege/Replication/RW.R")
+source("Agrege/Replication/fun.R")
 
 # Simulated data
 norm<-NULL
@@ -24,45 +25,6 @@ rw<-data.frame(rw)
 
 
 # 
-fun<-function(df,iter,lasso){
-  estar=matrix(NA,length(df[,1]),iter)
-  ystar=matrix(NA,length(df[,1]),iter)
-  u=matrix(NA,dim(df)[2],iter)
-  a=NULL
-  if (lasso==TRUE){
-    a<-df[,1]
-    LASSO<-lasso(a ~ . , df)
-    prediction<-as.matrix(LASSO$y-LASSO$residuals)
-    elasso<-LASSO$res
-    residu<-elasso-mean(elasso)
-    for (i in 1:iter){
-      estar[,i]<-as.matrix(sample(residu,length(residu),replace = T))
-      ystar[,i]<-prediction+estar[,i]
-      z<-ystar[,i]
-      df2<-data.frame(z,df[,-1])
-      boot<-lasso(z ~ . , df2 )
-      bootcoef<-boot$coef
-      u[,i]<-as.matrix(bootcoef)
-    }
-    } else {
-    a<-df[,1]
-    OLS<-lm(a~. , df)
-    prediction<-as.matrix(OLS$fitted.value)
-    eols<-OLS$res
-    residu<-eols-mean(eols)
-    for (i in 1:iter){
-      estar[,i]<-as.matrix(sample(residu,length(residu),replace = T))
-      ystar[,i]<-prediction+estar[,i]
-      z<-ystar[,i]
-      df2<-data.frame(z,df[,-1])
-      boot<-lm(z ~ . , df2 )
-      bootcoef<-boot$coef
-      u[,i]<-as.matrix(bootcoef)
-    }
-  }
-  return(u)
-}
-
 ols<-fun(norm,5000,FALSE)
 
 lasso<-fun(norm,5000,TRUE)
@@ -72,9 +34,7 @@ X<-as.matrix(cbind(matrix(rep(1,n)),norm[,-1]))
 true<-mvrnorm(n = 5000, 0*rep(1,p), Sigma = solve(t(X)%*%X))
 
 
-plot(density(ols[1,]))
-plot(density(lasso[1,]))
-plot(density(true[1,]))
-
-
+plot(density(ols[2,]))
+plot(density(lasso[2,]))
+plot(density(true[2,]))
 
