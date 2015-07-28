@@ -3,10 +3,8 @@ fun<-function(df,iter,lasso){
   estar=matrix(NA,length(df[,1]),iter)
   ystar=matrix(NA,length(df[,1]),iter)
   u=matrix(NA,dim(df)[2],iter)
-  a=matrix(NA,dim(df)[1],1)
   if (lasso==TRUE){
-    a<-df[,1]
-    LASSO<-lasso(a ~ . , df)
+    LASSO<-lasso( X1 ~ . , df)
     prediction<-as.matrix(LASSO$y-LASSO$residuals)
     elasso<-LASSO$res
     residu<-elasso-mean(elasso)
@@ -20,8 +18,7 @@ fun<-function(df,iter,lasso){
       u[,i]<-as.matrix(bootcoef)
     }
   } else {
-    a<-df[,1]
-    OLS<-lm(a~. , df)
+    OLS<-lm( X1 ~ . , df)
     prediction<-as.matrix(OLS$fitted.value)
     eols<-OLS$res
     residu<-eols-mean(eols)
