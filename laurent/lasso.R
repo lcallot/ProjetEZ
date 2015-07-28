@@ -113,3 +113,7 @@ lasso <- function(formula, data, pweights=NULL, alpha=1, lambda=NULL, postest=TR
 	return(las)
 }
 
+
+
+
+

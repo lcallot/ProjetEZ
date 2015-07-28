@@ -10,6 +10,7 @@ load("data/difvardatam.RData")
 
 
 # I keep HICP variable only
+
 dataM1<-difvardatam[,c("HICP_AUS","HICP_BEL", "HICP_GER","HICP_DEN",
                        "HICP_FRA","HICP_UKI", "HICP_SPA","HICP_GRE",
                        "HICP_FIN","HICP_IRL","HICP_ITA","HICP_LUX",
@@ -74,7 +75,7 @@ fun<-function(data,lag,preforecast,horizon,adap,trend){
   rownames(fore)<-names(data)
   return(t(fore))
 }
-forecast<-fun(dataM1,5,12,36,"none",FALSE)
+forecast<-fun(dataM1,5,12,36,"lasso",FALSE)
 forecast<-data.frame(forecast)
 var1<-forecast[,1:5]
 var2<-forecast[,6:10]
