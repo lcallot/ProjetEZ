@@ -1,61 +1,55 @@
 library('glmnet')
+library('MASS')
+
+rw<-function(t,x,mean,var){
+  y<-matrix(0,1,t)
+  y[,1]<-x
+    for(i in 2:t){
+      y[,i] <- y[,i-1] + mvrnorm(n = 1, mu= mean , Sigma= var)
+    }
+  return(t(y))
+}
+
 # Simulated data
 
-a<-rnorm(50,2,1)
-b<-rnorm(50,3,1)
+a<-rnorm(100,0,1)
+b<-rnorm(100,0,1)
+c<-rw(100,0,0,1)
+d<-rw(100,0,0,1)
 
-
-
-
-OLS<-lm(a~b)
-predols<-as.matrix(OLS$fitted.value)
-coefols<-OLS$coef
-eols<-OLS$res
-etildols<-eols-mean(eols)
-
-iter<-10000
-t=matrix(NA,2,iter)
-estar=matrix(NA,length(etildols),iter)
-ystar=matrix(NA,length(etildols),iter)
-u=matrix(NA,2,iter)
-
-
-fun<-function(residu,prediction,coefficient,y,x,iter){
-  OLS<-lm(a~b)
-  predols<-as.matrix(OLS$fitted.value)
-  coefols<-OLS$coef
-  eols<-OLS$res
-  etildols<-eols-mean(eols)
-  
-  
-  LASSO<-lasso(a~b)
-  predols<-as.matrix(OLS$fitted.value)
-  coefols<-OLS$coef
-  eols<-OLS$res
-  etildols<-eols-mean(eols)
-  
-  
-  t=matrix(NA,2,iter)
-  estar=matrix(NA,length(etildols),iter)
-  ystar=matrix(NA,length(etildols),iter)
+fun<-function(y,x,iter,lasso){
+  estar=matrix(NA,length(y),iter)
+  ystar=matrix(NA,length(y),iter)
   u=matrix(NA,2,iter)
-  
-  for (i in 1:iter){
+  if (lasso==TRUE){
     
-    estar[,i]<-as.matrix(sample(residu,length(residu),replace = T))
-    ystar[,i]<-prediction+estar[,i]
-    
-    boot<-lm(ystar[,i]~x)
-    bootcoef<-boot$coef
-    t[,i]<-as.matrix(bootcoeflasso)
-    u[,i]<-as.matrix(bootcoefols)
+  } else {
+    OLS<-lm(a~b)
+    prediction<-as.matrix(OLS$fitted.value)
+    coef<-OLS$coef
+    eols<-OLS$res
+    residu<-eols-mean(eols)
+    for (i in 1:iter){
+      estar[,i]<-as.matrix(sample(residu,length(residu),replace = T))
+      ystar[,i]<-prediction+estar[,i]
+      boot<-lm(ystar[,i]~x)
+      bootcoef<-boot$coef
+      u[,i]<-as.matrix(bootcoef)
+    }
   }
   return(u)
 }
-result<-fun(etildols,predols,coefols,a,b,1000)
+
+result<-fun(a,b,10000,FALSE)
 
 plot(density(result[1,]))
 plot(density(result[2,]))
+
+
+resultrw<-fun(c,d,1000,FALSE)
+plot(density(resultrw[1,]))
+plot(density(resultrw[2,]))
+
 
 
 
