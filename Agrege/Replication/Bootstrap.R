@@ -37,9 +37,23 @@ plot(density(ols[2,]))
 plot(density(las[2,]))
 plot(density(true[2,]))
 
+ciols=NULL
+cilasso=NULL
+test=NULL
+for (j in 1:p){
+  ciols=c(quantile(ols[p,], 0.025),quantile(ols[p,], 0.975))
+  cilasso=c(quantile(ols[p,], 0.025),quantile(ols[p,], 0.975))
+  test[j]<-
+}
 
+ciols=c(quantile(ols[2,], 0.025),quantile(ols[2,], 0.975))
+cilasso=c(quantile(las[2,], 0.025),quantile(las[2,], 0.975))
 
+is.element(cilasso, ciols) 
 
+is.element(as.vector(0.0), set=seq(-1, 1, by = .001)) 
 
-
+( 0.001 %in% seq(-1, 1, by = .001))
+c=seq(-1, 1, by = .001)
+sum(c==.100)
 
