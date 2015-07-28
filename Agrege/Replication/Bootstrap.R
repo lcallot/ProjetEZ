@@ -1,34 +1,61 @@
+library('glmnet')
+# Simulated data
 
-load("Agrege/Base/vardata.Rdata")
-# data from Q1 1990 to 2013 Q4 (81:176)
-sub<-var[81:176,]
-sub<- sub[,c('date','M1','M3','STN','LTN','YED','YER','URX','POILU','LHO', 'LFI')]
+a<-rnorm(50,2,1)
+b<-rnorm(50,3,1)
 
 
-lm<-lm(sub$YED ~ sub$M3 + sub$YER)
-pred<-as.matrix(lm$fitted.value)
-coef<-lm$coef
-e<-lm$res
-etild<-e-mean(e)
+
+
+OLS<-lm(a~b)
+predols<-as.matrix(OLS$fitted.value)
+coefols<-OLS$coef
+eols<-OLS$res
+etildols<-eols-mean(eols)
 
 iter<-10000
-t=matrix(NA,3,iter)
-estar=matrix(NA,length(etild),iter)
-ystar=matrix(NA,length(etild),iter)
+t=matrix(NA,2,iter)
+estar=matrix(NA,length(etildols),iter)
+ystar=matrix(NA,length(etildols),iter)
+u=matrix(NA,2,iter)
 
-for (i in 1:iter){
+
+fun<-function(residu,prediction,coefficient,y,x,iter){
+  OLS<-lm(a~b)
+  predols<-as.matrix(OLS$fitted.value)
+  coefols<-OLS$coef
+  eols<-OLS$res
+  etildols<-eols-mean(eols)
   
-  estar[,i]<-as.matrix(sample(etild,length(etild),replace = T))
-  ystar[,i]<-pred+estar[,i]
   
-  boot<-lm(ystar[,i]~sub$M3 + sub$YER)
-  bootcoef<-boot$coef
-  t[,i]<-as.matrix(sqrt(length(ystar[,1]))*(bootcoef-coef))
-  r[,i]<-
+  LASSO<-lasso(a~b)
+  predols<-as.matrix(OLS$fitted.value)
+  coefols<-OLS$coef
+  eols<-OLS$res
+  etildols<-eols-mean(eols)
+  
+  
+  t=matrix(NA,2,iter)
+  estar=matrix(NA,length(etildols),iter)
+  ystar=matrix(NA,length(etildols),iter)
+  u=matrix(NA,2,iter)
+  
+  for (i in 1:iter){
+    
+    estar[,i]<-as.matrix(sample(residu,length(residu),replace = T))
+    ystar[,i]<-prediction+estar[,i]
+    
+    boot<-lm(ystar[,i]~x)
+    bootcoef<-boot$coef
+    t[,i]<-as.matrix(bootcoeflasso)
+    u[,i]<-as.matrix(bootcoefols)
+  }
+  return(u)
 }
+result<-fun(etildols,predols,coefols,a,b,1000)
 
-plot(density(t[1,]))
-
+plot(density(result[1,]))
+plot(density(result[2,]))
 
 
 
