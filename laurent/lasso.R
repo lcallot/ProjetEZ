@@ -52,7 +52,9 @@ lasso <- function(formula, data, pweights=NULL, alpha=1, lambda=NULL, postest=TR
 	x <- matrix(x,nrow=nT,ncol=r)
 	
   vn <- all.vars(formula)[-1]
+  if(length(vn)!=ncol(x)) vn <- paste(vn,1:ncol(x),sep='_')  
 	colnames(x) <- vn
+  print(vn)
 
 	# Checking the pweights for the adaptive Lasso
 	if (!is.null(pweights) && !is.numeric(pweights)) 
