@@ -25,8 +25,8 @@ rw<-data.frame(rw)
 
 
 # 
-ols<-fun(rw,5000,FALSE)
-las<-fun(rw,5000,TRUE)
+ols<-fun(norm,1000,FALSE)
+las<-fun(norm,1000,TRUE)
 
 # True distribution
 X<-as.matrix(cbind(matrix(rep(1,n)),rw[,-1]))
@@ -40,20 +40,21 @@ plot(density(true[2,]))
 ciols=NULL
 cilasso=NULL
 test=NULL
+testlas=NULL
+testols=NULL
 for (j in 1:p){
-  ciols=c(quantile(ols[p,], 0.025),quantile(ols[p,], 0.975))
-  cilasso=c(quantile(ols[p,], 0.025),quantile(ols[p,], 0.975))
-  test[j]<-
+  ciols=c(quantile(ols[j,], 0.025),quantile(ols[j,], 0.975))
+  cilasso=c(quantile(las[j,], 0.025),quantile(las[j,], 0.975))
+  test[j]<-((cilasso[1]>ciols[1])&(cilasso[2]<ciols[2])) 
+  testlas[j]<-((cilasso[1]<=0)&(cilasso[2]>=0)) 
+  testols[j]<-((0>=ciols[1])&(0<=ciols[2])) 
 }
+test
+testlas
+testols
 
-ciols=c(quantile(ols[2,], 0.025),quantile(ols[2,], 0.975))
-cilasso=c(quantile(las[2,], 0.025),quantile(las[2,], 0.975))
 
-is.element(cilasso, ciols) 
 
-is.element(as.vector(0.0), set=seq(-1, 1, by = .001)) 
 
-( 0.001 %in% seq(-1, 1, by = .001))
-c=seq(-1, 1, by = .001)
-sum(c==.100)
+
 
