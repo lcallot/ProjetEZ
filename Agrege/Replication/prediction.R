@@ -8,9 +8,9 @@ library('urca')
 library('stats')
 
 source("Agrege/Replication/forecastfunction.R")
-source("Agrege/Replication/residualslassovar.R")
 
-sub1<- var[,c('date','M1','M3','STN','LTN','YED','YER','URX','POILU')]
+
+sub1<- var[,c('date','M3','STN','LTN','YED')]
 
 # data from Q1 1990 to 2013 Q4 (81:176)
 sub<-sub1[81:176,]
@@ -26,18 +26,20 @@ ggplot(mvar1, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="fr
 
 
 
-
-
+df<-sub[,-1]
+iter=50
 
 
 
 bootlassovar<-function(df,iter,lasso){
-  estar=matrix(NA,length(df[,1]),iter)
-  ystar=matrix(NA,length(df[,1]),iter)
+  estar=matrix(NA,dim(df)[1],dim(df)[2])
+  ystar=matrix(NA,dim(df)[1],dim(df)[2])
+  
   u=matrix(NA,dim(df)[2],iter)
   
   lv<-lassovar(sub[,-1],lags=2)
-  res<-residuals.lassovar(lv)
+  res<-residuals(lv)
+  pred<-lv$y-res
   
   residu<-NULL
   for (l in 1:dim(res)[2]){
@@ -45,8 +47,32 @@ bootlassovar<-function(df,iter,lasso){
   }
   
   
+  
   for (i in 1:iter){
-    estar[,i]<-as.matrix(sample(residu,length(residu),replace = T))
+    
+    for (j in 1:dim(residu)[1]){
+      estar[j,]<-residu[sample(seq(from=1,to=dim(residu)[1],by=1),1,replace = T),]
+      
+      M<-NULL
+      for (l in 1:dim(residu)[2]){
+        ystar[j,l]<-
+      }
+      
+    }
+    
+    
+    for (i in (preforecast+1):(horizon+preforecast)){
+      
+      for (l in 1:lag){
+        M<-c(fore[,(i-l)],M)
+      }
+      fore[,i]<-t(M%*%coef)+intercept+trend*(i+dim(data)[1]-(preforecast))
+    }
+    
+    
+    
+    help(sample)
+    
     ystar[,i]<-prediction+estar[,i]
     z<-ystar[,i]
     df2<-data.frame(z,df[,-1])
@@ -57,6 +83,10 @@ bootlassovar<-function(df,iter,lasso){
   
   return(u)
 }
+
+
+
+help(lassovar)
 
 
 
