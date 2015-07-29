@@ -7,36 +7,59 @@ source("Agrege/Replication/fun.R")
 
 # Simulated data
 norm<-NULL
-p=5
+p=10
 n=100
 for (i in 1:p){
   norm<-cbind(norm,as.matrix(rnorm(n,0,1),n,p))
 }
 beta<-matrix(c(1,-1,rep(0,p-2)))
 
-y<-norm%*%beta+
 
-#rw=NULL
-#for (i in 1:p){
- # rw<-cbind(rw,RW(n,0,0,1))
-#}
-#rw<-data.frame(rw)
-
+# iid variable
+y<-norm%*%beta+matrix(rnorm(n,0,1),n,1)
 df<-data.frame(y,norm)
+
+# dependant variable 
+dep<-function(a){
+  z<-rep(0,n)
+  z[1]<-rnorm(1,0,1)
+  for (i in 2:n){
+    z[i]<-a*z[i-1]+rnorm(1,0,1)
+  }
+  return(z)
+}
+
+# alpha = 0.5 
+z<-dep(0.5)
+df2<-data.frame(z,norm)
+
+# alpha = 0.8 
+z<-dep(0.8)
+df3<-data.frame(z,norm)
+
+# alpha = 1 
+z<-dep(1)
+df4<-data.frame(z,norm)
+
+plot(z)
 
 
 # 
-ols<-fun(df,500,FALSE)
-las<-fun(df,500,TRUE)
+ols<-funboot(df4,500,"ols")
+las<-funboot(df4,500,"lasso")
 
-# True distribution
-X<-as.matrix(cbind(matrix(rep(1,n)),rw[,-1]))
-true<-mvrnorm(n = 1000000, 0*rep(1,p), Sigma = diag(1,p) )
-solve(t(X)%*%X)
 
-plot(density(ols[3,]))
-plot(density(las[3,]))
-plot(density(true[2,]))
+plot(density(ols[2,]))
+plot(density(las[2,]))
+
+
+
+
+
+
+
+
+
 
 ciols=NULL
 cilasso=NULL

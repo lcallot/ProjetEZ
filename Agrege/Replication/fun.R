@@ -1,10 +1,10 @@
 
-fun<-function(df,iter,las){
+funboot<-function(df,iter,las){
   estar=matrix(NA,length(df[,1]),iter)
   ystar=matrix(NA,length(df[,1]),iter)
   u=matrix(NA,dim(df)[2],iter)
-  if (las==TRUE){
-    LASSO<-lasso( y ~ . , df)
+  if (las=="lasso"){
+    LASSO<-lasso( y ~ . , data=df )
     prediction<-as.matrix(LASSO$y-LASSO$residuals)
     residu<-LASSO$res-mean(LASSO$res)
     for (i in 1:iter){
@@ -30,4 +30,13 @@ fun<-function(df,iter,las){
   }
   return(u)
 }
+
+
+
+
+
+
+
+
+
 
