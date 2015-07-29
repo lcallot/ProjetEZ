@@ -41,7 +41,7 @@ df3<-data.frame(z,norm)
 z<-dep(1)
 df4<-data.frame(z,norm)
 
-plot(z)
+
 
 
 # 
@@ -55,6 +55,13 @@ plot(density(las[2,]))
 
 
 
+
+edf<-ecdf(ols[2,])
+plot.ecdf(edf)
+summary(edf)
+help(ecdf)
+
+edf(1)
 
 
 
