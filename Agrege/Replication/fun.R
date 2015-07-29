@@ -1,9 +1,9 @@
 
-fun<-function(df,iter,lasso){
+fun<-function(df,iter,las){
   estar=matrix(NA,length(df[,1]),iter)
   ystar=matrix(NA,length(df[,1]),iter)
   u=matrix(NA,dim(df)[2],iter)
-  if (lasso==TRUE){
+  if (las==TRUE){
     LASSO<-lasso( X1 ~ . , df)
     prediction<-as.matrix(LASSO$y-LASSO$residuals)
     elasso<-LASSO$res

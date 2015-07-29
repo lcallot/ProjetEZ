@@ -29,47 +29,46 @@ ggplot(mvar1, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="fr
 df<-sub[,-1]
 iter=50
 
-
+lag=2
 
 bootlassovar<-function(df,iter,lasso){
-  estar=matrix(NA,dim(df)[1],dim(df)[2])
-  ystar=matrix(NA,dim(df)[1],dim(df)[2])
-  
+  estar=matrix(NA,dim(df)[1]-lag,dim(df)[2])
+  ystar=matrix(0,dim(df)[1],dim(df)[2])
+  ystar[(1:lag),]<-as.matrix(df[(1:lag),])
   u=matrix(NA,dim(df)[2],iter)
   
   lv<-lassovar(sub[,-1],lags=2)
   res<-residuals(lv)
   pred<-lv$y-res
-  
+  coef<-as.matrix(lv$coefficients[2:(lag*dim(df)[2]+1),],lag*dim(df)[2],dim(df)[2])
+  intercept<-matrix(lv$coefficients[1,],1, dim(df)[2])
   residu<-NULL
   for (l in 1:dim(res)[2]){
     residu<-cbind(residu,res[,l]-mean(res[,l]))
   }
   
-  
-  
+
   for (i in 1:iter){
+    
     
     for (j in 1:dim(residu)[1]){
       estar[j,]<-residu[sample(seq(from=1,to=dim(residu)[1],by=1),1,replace = T),]
-      
-      M<-NULL
-      for (l in 1:dim(residu)[2]){
-        ystar[j,l]<-
-      }
-      
     }
     
-    
-    for (i in (preforecast+1):(horizon+preforecast)){
+    for (t in (lag+1):dim(df)[1]){
       
       for (l in 1:lag){
-        M<-c(fore[,(i-l)],M)
-      }
-      fore[,i]<-t(M%*%coef)+intercept+trend*(i+dim(data)[1]-(preforecast))
+        ystar[t,]<-ystar[t,] + ystar[t-l,]%*%coef[(1+(l-1)*dim(df)[2]):(dim(df)[2]*l),]
+      } 
+      ystar[t,]<-intercept + ystar[t,]
+      ystar[t,]<- ystar[t,] + estar[t-lag,]
     }
     
-    
+    lassovar(ystar,lags=lag)
+  }
+  
+  
+  
     
     help(sample)
     
