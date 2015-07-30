@@ -1,6 +1,7 @@
 
 lahiri<-function(data,alpha){
   w<-(1/abs(lasso(y~.,data)$coef))[-1]
+  if(sum(w!=Inf)==0) w<-NULL
   res<-lasso(y~.,data,pweights=w)$res
   qnorm1<-qnorm(alpha/2,mean=0,sd=1)
   qnorm2<-qnorm(1-alpha/2,mean=0,sd=1)
