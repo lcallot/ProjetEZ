@@ -12,8 +12,7 @@ funboot<-function(df,iter,las){
       ystar[,i]<-prediction+estar[,i]
       z<-ystar[,i]
       df2<-data.frame(z,df[,-1])
-      boot<-lasso(z ~ . , df2 )
-      u[,i]<-as.matrix(boot$coef)
+      u[,i]<-as.matrix(lasso(z ~ . , df2 )$coef)
     }
   } else {
     OLS<-lm( y ~ . , df)
@@ -24,8 +23,7 @@ funboot<-function(df,iter,las){
       ystar[,i]<-prediction+estar[,i]
       z<-ystar[,i]
       df2<-data.frame(z,df[,-1])
-      boot<-lm(z ~ . , df2 )
-      u[,i]<-as.matrix(boot$coef)
+      u[,i]<-as.matrix(lm(z ~ . , df2 )$coef)
     }
   }
   return(u)

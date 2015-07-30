@@ -27,7 +27,7 @@ lahiri(df,0.05)
 
 # Replicate iter fois 
 CI<-function(p,n,iter){
-  beta<-matrix(c(1,-1,rep(0,p-2)))
+  beta<-matrix(c(1,-1,1,-1,1,-1,rep(0,p-6)))
   size<-rep(0,iter)
   cov<-rep(0,iter)
   for (j in 1:iter){
@@ -40,12 +40,17 @@ CI<-function(p,n,iter){
     size[j]<-lahiri(df,0.05)[1]
     cov[j]<-lahiri(df,0.05)[2]
   }
-  return(c(mean(size),mean(cov)))
+  v1<-mean(size)
+  v2<-mean(cov)
+  return(c(v1,v2))
 }
-CI(180,50,500)
+CI(120,60,10)
 
 
-help(mean)
+
+
+
+
 
 
 
