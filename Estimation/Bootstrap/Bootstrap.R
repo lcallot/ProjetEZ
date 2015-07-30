@@ -9,7 +9,7 @@ source("Functions/lahiri.R")
 
 # Simulated data
 norm<-NULL
-p=120
+p=20
 n=100
 for (i in 1:p){
   norm<-cbind(norm,as.matrix(rnorm(n,0,1),n,p))
@@ -42,7 +42,7 @@ CI<-function(p,n,iter){
   v2<-mean(cov)
   return(c(v1,v2))
 }
-CI(120,100,10)
+CI(300,10,100)
 
 
 
@@ -65,7 +65,7 @@ df<-data.frame(y,norm)
 
 # Lahiri Bootstrap
 ols<-funboot(df,500,"ols")
-
+ols[2]
 
 las<-funboot(df,500,"alasso")
 
@@ -75,33 +75,38 @@ plot(density(las[3,]))
 
 
 
+lahiriboot(df,100,0.05,2)
+data=df
+iter=100
+alpha=0.05
+nonzero=2
 
-
-lahiriboot<-function(data,iter,alpha,nonzero,beta){
-  las<-funboot(data,iter,"alasso")
+lahiriboot<-function(data,iter,alpha,nonzero){
+  lass<-funboot(data,iter,"alasso")
+  las<-matrix(unlist(lass[1]),dim(data)[2]-1,iter)
   qnorm1<-qnorm(alpha/2,mean=0,sd=1)
   qnorm2<-qnorm(1-alpha/2,mean=0,sd=1)
-  q1<-rep(0,dim(data)[2])
-  q2<-rep(0,dim(data)[2])
-  dist<-rep(0,dim(data)[2])
-  cover<-rep(0,dim(data)[2])
-
+  q1<-rep(0,dim(data)[2]-1)
+  q2<-rep(0,dim(data)[2]-1)
+  dist<-rep(0,dim(data)[2]-1)
+  cover<-rep(0,dim(data)[2]-1)
+  coef<-matrix(unlist(lass[2]))
   
-  for (j in 1:dim(data)[2]){
+  for (j in 1:(dim(data)[2]-1)){
     q1[j]<-quantile(las[j,], alpha/2)
     q2[j]<-quantile(las[j,], 1-alpha/2)
     dist[j]<-quantile(las[j,], 1-alpha/2)-quantile(las[j,], alpha/2)
     
-    if ((q1[j]>qnorm1+beta[j]) & (q2<qnorm2+beta[j])){
+    if ((q1[j]>qnorm1+coef[j]) & (q2[j]<qnorm2+coef[j])){
       cover[j]<-(q2-q1)/(qnorm2-qnorm1)
     } else {
-      if ((q1<qnorm1) & (q2<qnorm2)){
-        cover<-(q2-qnorm1)/(qnorm2-qnorm1)
+      if ((q1<qnorm1+coef[j]) & (q2[j]<qnorm2+coef[j])){
+        cover[j]<-(q2[j]-(qnorm1+coef[j]))/(qnorm2-qnorm1)
       } else {
-        if ((q1>qnorm1) & (q2>qnorm2)){
-          cover<-(qnorm2-q1)/(qnorm2-qnorm1)
+        if ((q1[j]>qnorm1) & (q2[j]>qnorm2)){
+          cover[j]<-(qnorm2+coef[j]-q1[j])/(qnorm2-qnorm1)
         } else {
-          cover<-1
+          cover[j]<-1
         }
       }
     }
@@ -109,10 +114,10 @@ lahiriboot<-function(data,iter,alpha,nonzero,beta){
   }
   
   distnonzero<-mean(dist[1:nonzero])
-  distzero<-mean(dist[1+nonzero:dim(data)[2]])
-  
-  
-  return(c(dist,cover))
+  distzero<-mean(dist[(1+nonzero):dim(data)[2]])
+  covernonzero<-mean(cover[1:nonzero])
+  coverzero<-mean(cover[(1+nonzero):dim(data)[2]])
+  return(list(distnonzero,covernonzero,distzero,coverzero))
 }
 
 

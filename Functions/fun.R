@@ -6,6 +6,7 @@ funboot<-function(data,iter,las){
   if (las=="alasso"){
     w<-(1/abs(lasso(y~.,data)$coef))[-1]
     LASSO<-lasso( y ~ . , data=data, weights=w )
+    coef<-(LASSO$coef)[-1]
     prediction<-as.matrix(LASSO$y-LASSO$residuals)
     residu<-LASSO$res-mean(LASSO$res)
     for (i in 1:iter){
@@ -17,6 +18,7 @@ funboot<-function(data,iter,las){
     }
   } else {
     OLS<-lm( y ~ . , data)
+    coef<-(OLS$coef)[-1]
     prediction<-as.matrix(OLS$fitted.value)
     residu<-OLS$res-mean(OLS$res)
     for (i in 1:iter){
@@ -27,7 +29,7 @@ funboot<-function(data,iter,las){
       u[,i]<-as.matrix(lm(z ~ . , data2 )$coef)
     }
   }
-  return(u)
+  return(list(u[-1,],coef))
 }
 
 
