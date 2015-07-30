@@ -7,8 +7,8 @@ library('dplyr')
 library('urca')
 library('stats')
 
-source("Agrege/Replication/forecastfunction.R")
-source("Agrege/Replication/bootlassovar.R")
+source("Functions/forecastfunction.R")
+source("Functions/bootlassovar.R")
 
 sub1<- var[,c('date','M3','STN','LTN','YED')]
 
