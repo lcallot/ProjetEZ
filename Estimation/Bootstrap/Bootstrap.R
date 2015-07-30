@@ -2,12 +2,14 @@ library('glmnet')
 library('MASS')
 
 source("laurent/lasso.R")
-source("Agrege/Replication/RW.R")
-source("Agrege/Replication/fun.R")
+source("Functions/RW.R")
+source("Functions/fun.R")
+source("Functions/lahiri.R")
+
 
 # Simulated data
 norm<-NULL
-p=10
+p=120
 n=100
 for (i in 1:p){
   norm<-cbind(norm,as.matrix(rnorm(n,0,1),n,p))
@@ -18,6 +20,34 @@ beta<-matrix(c(1,-1,rep(0,p-2)))
 # iid variable
 y<-norm%*%beta+matrix(rnorm(n,0,1),n,1)
 df<-data.frame(y,norm)
+
+# lahiri article
+lahiri(df,0.05)
+
+
+# Replicate iter fois 
+CI<-function(p,n,iter){
+  beta<-matrix(c(1,-1,rep(0,p-2)))
+  size<-rep(0,iter)
+  cov<-rep(0,iter)
+  for (j in 1:iter){
+    norm<-NULL
+    for (i in 1:p){
+      norm<-cbind(norm,as.matrix(rnorm(n,0,1),n,p))
+    }
+    y<-norm%*%beta+matrix(rnorm(n,0,1),n,1)
+    df<-data.frame(y,norm)
+    size[j]<-lahiri(df,0.05)[1]
+    cov[j]<-lahiri(df,0.05)[2]
+  }
+  return(c(mean(size),mean(cov)))
+}
+CI(180,50,500)
+
+
+help(mean)
+
+
 
 # dependant variable 
 dep<-function(a){
@@ -48,7 +78,6 @@ df4<-data.frame(z,norm)
 ols<-funboot(df4,500,"ols")
 las<-funboot(df4,500,"lasso")
 
-
 plot(density(ols[2,]))
 plot(density(las[2,]))
 
@@ -56,17 +85,12 @@ plot(density(las[2,]))
 
 
 
-edf<-ecdf(ols[2,])
+
+
+edf<-ecdf(las$res)
 plot.ecdf(edf)
-summary(edf)
-help(ecdf)
 
-edf(1)
-
-
-
-
-
+help(rnorm)
 
 ciols=NULL
 cilasso=NULL
