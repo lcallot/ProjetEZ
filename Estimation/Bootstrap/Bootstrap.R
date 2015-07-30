@@ -75,13 +75,28 @@ plot(density(las[3,]))
 
 
 
-lahiriboot(df,100,0.05,2)
+
+
+
+norm<-NULL
+for (i in 1:p){
+  norm<-cbind(norm,as.matrix(rnorm(n,0,1),n,p))
+}
+beta<-matrix(c(1,1,1,-1,-1,-1,rep(0,p-nonzero)))
+
+# iid variable
+y<-norm%*%beta+matrix(rnorm(n,0,1),n,1)
+df<-data.frame(y,norm)
+
+
+lahiriboot(20,100,100,0.05,6)
 data=df
 iter=100
 alpha=0.05
-nonzero=2
+nonzero=6
 
 lahiriboot<-function(data,iter,alpha,nonzero){
+  
   lass<-funboot(data,iter,"alasso")
   las<-matrix(unlist(lass[1]),dim(data)[2]-1,iter)
   qnorm1<-qnorm(alpha/2,mean=0,sd=1)
@@ -98,7 +113,7 @@ lahiriboot<-function(data,iter,alpha,nonzero){
     dist[j]<-quantile(las[j,], 1-alpha/2)-quantile(las[j,], alpha/2)
     
     if ((q1[j]>qnorm1+coef[j]) & (q2[j]<qnorm2+coef[j])){
-      cover[j]<-(q2-q1)/(qnorm2-qnorm1)
+      cover[j]<-(q2[j]-q1[j])/(qnorm2-qnorm1)
     } else {
       if ((q1<qnorm1+coef[j]) & (q2[j]<qnorm2+coef[j])){
         cover[j]<-(q2[j]-(qnorm1+coef[j]))/(qnorm2-qnorm1)
