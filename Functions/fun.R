@@ -7,7 +7,7 @@ funboot<-function(data,iter,las){
     w<-(1/abs(lasso(y~.,data)$coef))[-1]
     LASSO<-lasso( y ~ . , data=data, weights=w )
     coef<-(LASSO$coef)[-1]
-    prediction<-as.matrix(LASSO$y-LASSO$residuals)
+    prediction<-as.matrix(LASSO$y-LASSO$post$res)
     residu<-(LASSO$res-mean(LASSO$res))
     for (i in 1:iter){
       estar[,i]<-as.matrix(sample(residu,length(residu),replace = T))
