@@ -1,4 +1,4 @@
-lahiriboot<-function(data,iter,alpha,nonzero){
+lahiriboot<-function(data,iter,alpha,nonzero,beta){
   
   lass<-funboot(data,iter,"alasso")
   las<-matrix(unlist(lass[1]),dim(data)[2]-1,iter)
@@ -11,23 +11,23 @@ lahiriboot<-function(data,iter,alpha,nonzero){
   cover<-rep(0,nonzero)
   
   for (j in 1:nonzero){
-    q1[j]<-quantile(las[j,], alpha/2)
-    q2[j]<-quantile(las[j,], 1-alpha/2)
+    q1[j]<-quantile(las[j,]-mean(las[j,])+coef[j], alpha/2)
+    q2[j]<-quantile(las[j,]-mean(las[j,])+coef[j], 1-alpha/2)
     dist[j]<-q2[j]-q1[j]
     
-    if ((q1[j]>(qnorm1+coef[j])) & (q2[j]<(qnorm2+coef[j]))){
+    if ((q1[j]>(qnorm1+beta[j])) & (q2[j]<(qnorm2+beta[j]))){
       cover[j]<-(q2[j]-q1[j])/(qnorm2-qnorm1)
     } else {
-      if ((q1[j]<(qnorm1+coef[j])) & (q2[j]<(qnorm2+coef[j]))){
-        cover[j]<-(q2[j]-(qnorm1+coef[j]))/(qnorm2-qnorm1)
+      if ((q1[j]<(qnorm1+beta[j])) & (q2[j]<(qnorm2+beta[j]))){
+        cover[j]<-(q2[j]-(qnorm1+beta[j]))/(qnorm2-qnorm1)
       } else {
-        if ((q1[j]>(qnorm1+coef[j])) & (q2[j]>(qnorm2+coef[j]))){
-          cover[j]<-(qnorm2+coef[j]-q1[j])/(qnorm2-qnorm1)
+        if ((q1[j]>(qnorm1+beta[j])) & (q2[j]>(qnorm2+beta[j]))){
+          cover[j]<-(qnorm2+beta[j]-q1[j])/(qnorm2-qnorm1)
         } else {
-          if ((q1[j]>(qnorm2+coef[j]))){
+          if ((q1[j]>(qnorm2+beta[j]))){
             cover[j]<-0
           } else {
-            if ((q2[j]<(qnorm1+coef[j]))){
+            if ((q2[j]<(qnorm1+beta[j]))){
               cover[j]<-0
             } else {
                 cover[j]<-1
