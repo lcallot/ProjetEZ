@@ -14,7 +14,8 @@ funboot<-function(data,iter,las){
       ystar[,i]<-prediction+estar[,i]
       z<-ystar[,i]
       data2<-data.frame(z,data[,-1])
-      u[,i]<-as.matrix(lasso(z ~ . , data2 )$coef)
+      v<-(1/abs(lasso(z~ . , data2)$coef))[-1]
+      u[,i]<-as.matrix(lasso(z ~ . , data2 , weights=v)$coef)
     }
   } else {
     OLS<-lm( y ~ . , data)

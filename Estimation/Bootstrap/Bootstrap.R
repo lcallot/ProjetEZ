@@ -22,6 +22,13 @@ beta<-matrix(c(2,3,4,6,rep(0,p-nonzero)))
 y<-norm%*%beta+matrix(rnorm(n,0,1),n,1)
 df<-data.frame(y,norm)
 
+a<-funboot(df,500,"alasso")
+plot(density(matrix(unlist(a[1]),p,n)[4,]))
+unlist(a[2])[4]
+
+t(norm[,1:nonzero])%*%norm[,1:nonzero]
+
+
 # lahiri bootstrap
 lahiriboot(df,1000,0.05,nonzero)
 
