@@ -9,28 +9,28 @@ source("Functions/lahiriboot.R")
 
 # Simulated data
 norm<-NULL
-p=40
+p=200
 n=100
 nonzero=4
 
 for (i in 1:p){
   norm<-cbind(norm,as.matrix(rnorm(n,0,1),n,1))
 }
-beta<-matrix(c(1,1,-1,-1,rep(0,p-nonzero)))
+beta<-matrix(c(3,3,-1,-1,rep(0,p-nonzero)))
 
 # iid variable
 y<-norm%*%beta+matrix(rnorm(n,0,1),n,1)
 df<-data.frame(y,norm)
 
-a<-funboot(df,1000,"alasso")
-plot(density(matrix(unlist(a[1]),p,n)[2,]))
-unlist(a[2])[2]
+a<-funboot(df,100,"alasso")
+plot(density(matrix(unlist(a[1]),p,n)[1,]))
+unlist(a[2])[1]
 
-#t(norm[,1:nonzero])%*%norm[,1:nonzero]
+
 
 
 # lahiri bootstrap
-lahiriboot(df,100,0.05,nonzero,beta)
+lahiriboot(df,100,0.05,nonzero)
 
 
 # lahiri empirical edf
