@@ -9,7 +9,7 @@ source("Functions/lahiriboot.R")
 
 # Simulated data
 norm<-NULL
-p=400
+p=10
 n=100
 nonzero=4
 
@@ -23,7 +23,7 @@ y<-norm%*%beta+matrix(rnorm(n,0,1),n,1)
 df<-data.frame(y,norm)
 
 # lahiri bootstrap
-lahiriboot(df,100,0.05,nonzero)
+lahiriboot(df,1000,0.05,nonzero)
 
 
 # lahiri empirical edf
