@@ -30,7 +30,7 @@ df<-data.frame(y,norm)
 
 
 # lahiri bootstrap
-lahiriboot(df,100,0.05,nonzero)
+lahiriboot(df,100,0.05,nonzero)[1]
 
 
 # lahiri empirical edf
@@ -54,6 +54,10 @@ CI<-function(p,n,iter){
   return(c(v1,v2))
 }
 CI(180,100,1000)
+
+
+
+
 
 
 
