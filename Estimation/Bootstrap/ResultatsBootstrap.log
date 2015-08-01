@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  1 AUG 2015 12:58
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  1 AUG 2015 13:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -756,78 +756,114 @@ Overfull \hbox (56.64594pt too wide) in paragraph at lines 137--137
 Package xcolor Warning: Incompatible color definition on input line 142.
 
 
-Package xcolor Warning: Incompatible color definition on input line 147.
+Overfull \hbox (9.83524pt too wide) in paragraph at lines 142--143
+[]\OT1/cmtt/m/n/10.95 ## Warning in readLines(if (is.character(input2)) \OMS/cm
+sy/m/n/10.95 f\OT1/cmtt/m/n/10.95 : impossible d'ouvrir le
+ []
 
 
-Package xcolor Warning: Incompatible color definition on input line 152.
+Package xcolor Warning: Incompatible color definition on input line 144.
 
 
-Package xcolor Warning: Incompatible color definition on input line 157.
+Overfull \hbox (56.64594pt too wide) in paragraph at lines 144--144
+[]\OT1/cmtt/m/n/10.95 ## Error in readLines(if (is.character(input2)) \OMS/cmsy
+/b/n/10.95 f\OT1/cmtt/m/n/10.95 : impossible d'ouvrir la connexion[] 
+ []
 
 
-Package xcolor Warning: Incompatible color definition on input line 162.
+Package xcolor Warning: Incompatible color definition on input line 149.
 
 
-Package xcolor Warning: Incompatible color definition on input line 170.
+Overfull \hbox (9.83524pt too wide) in paragraph at lines 149--150
+[]\OT1/cmtt/m/n/10.95 ## Warning in readLines(if (is.character(input2)) \OMS/cm
+sy/m/n/10.95 f\OT1/cmtt/m/n/10.95 : impossible d'ouvrir le
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 151.
+
+
+Overfull \hbox (56.64594pt too wide) in paragraph at lines 151--151
+[]\OT1/cmtt/m/n/10.95 ## Error in readLines(if (is.character(input2)) \OMS/cmsy
+/b/n/10.95 f\OT1/cmtt/m/n/10.95 : impossible d'ouvrir la connexion[] 
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 156.
+
+
+Package xcolor Warning: Incompatible color definition on input line 161.
+
+
+Package xcolor Warning: Incompatible color definition on input line 166.
+
+
+Package xcolor Warning: Incompatible color definition on input line 171.
 
 
 Package xcolor Warning: Incompatible color definition on input line 176.
 
-Missing character: There is no Ã in font cmtt10!
-Missing character: There is no § in font cmtt10!
 
 Package xcolor Warning: Incompatible color definition on input line 184.
-
-Missing character: There is no Ã in font cmtt10!
-Missing character: There is no © in font cmtt10!
-Missing character: There is no Ã in font cmtt10!
-Missing character: There is no © in font cmtt10!
-Missing character: There is no Ã in font cmtt10!
-Missing character: There is no © in font cmtt10!
-Missing character: There is no Ã in font cmtt10!
-Missing character: There is no © in font cmtt10!
-Missing character: There is no Ã in font cmtt10!
-Missing character: There is no © in font cmtt10!
-Missing character: There is no Ã in font cmtt10!
-Missing character: There is no © in font cmtt10!
-
-Overfull \hbox (33.10367pt too wide) in paragraph at lines 184--184
-[]\OT1/cmtt/m/n/10.95 ## Error in as.matrix(t(df2[, 1] - df2[, i]) %*% (df2[, 1
-] - df2[, i])): erreur
- []
-
-
-Overfull \hbox (27.35498pt too wide) in paragraph at lines 184--184
-\OT1/cmtt/m/n/10.95 d'valuation de l'argument 'x' lors de la slection d'une mth
-ode pour la fonction
- []
-
-
-Overfull \hbox (21.6063pt too wide) in paragraph at lines 184--184
-\OT1/cmtt/m/n/10.95 ##  erreur d'valuation de l'argument 'x' lors de la slectio
-n d'une mthode pour
- []
 
 
 Package xcolor Warning: Incompatible color definition on input line 190.
 
 Missing character: There is no Ã in font cmtt10!
 Missing character: There is no § in font cmtt10!
-[1{/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-
-Package xcolor Warning: Incompatible color definition on input line 195.
-
 
 Package xcolor Warning: Incompatible color definition on input line 198.
 
+Missing character: There is no Ã in font cmtt10!
+Missing character: There is no © in font cmtt10!
+Missing character: There is no Ã in font cmtt10!
+Missing character: There is no © in font cmtt10!
+Missing character: There is no Ã in font cmtt10!
+Missing character: There is no © in font cmtt10!
+Missing character: There is no Ã in font cmtt10!
+Missing character: There is no © in font cmtt10!
+Missing character: There is no Ã in font cmtt10!
+Missing character: There is no © in font cmtt10!
+Missing character: There is no Ã in font cmtt10!
+Missing character: There is no © in font cmtt10!
 
-Overfull \hbox (4.36023pt too wide) in paragraph at lines 198--199
+Overfull \hbox (33.10367pt too wide) in paragraph at lines 198--198
+[]\OT1/cmtt/m/n/10.95 ## Error in as.matrix(t(df2[, 1] - df2[, i]) %*% (df2[, 1
+] - df2[, i])): erreur
+ []
+
+
+Overfull \hbox (27.35498pt too wide) in paragraph at lines 198--198
+\OT1/cmtt/m/n/10.95 d'valuation de l'argument 'x' lors de la slection d'une mth
+ode pour la fonction
+ []
+
+
+Overfull \hbox (21.6063pt too wide) in paragraph at lines 198--198
+\OT1/cmtt/m/n/10.95 ##  erreur d'valuation de l'argument 'x' lors de la slectio
+n d'une mthode pour
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 204.
+
+Missing character: There is no Ã in font cmtt10!
+Missing character: There is no § in font cmtt10!
+[1{/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+Package xcolor Warning: Incompatible color definition on input line 209.
+
+
+Package xcolor Warning: Incompatible color definition on input line 212.
+
+
+Overfull \hbox (4.36023pt too wide) in paragraph at lines 212--213
 []\OT1/cmtt/m/n/10.95 ## Error in data.frame(Model = 1:9, lag = c("1", "2", "3"
 , "1", "2", "3", :
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 200.
+Package xcolor Warning: Incompatible color definition on input line 214.
 
 Missing character: There is no Ã in font cmtt10!
 Missing character: There is no © in font cmtt10!
@@ -836,28 +872,28 @@ Missing character: There is no © in font cmtt10!
 Missing character: There is no Ã in font cmtt10!
 Missing character: There is no © in font cmtt10!
 
-Overfull \hbox (4.36023pt too wide) in paragraph at lines 200--200
+Overfull \hbox (4.36023pt too wide) in paragraph at lines 214--214
 []\OT1/cmtt/m/n/10.95 ## Error in print(xtable(dataframe, digits = 6, caption =
  "blabla", label =
  []
 
 
-Overfull \hbox (31.49403pt too wide) in paragraph at lines 200--200
+Overfull \hbox (31.49403pt too wide) in paragraph at lines 214--214
 \OT1/cmtt/m/n/10.95 "Test[]table"), : erreur d'valuation de l'argument 'x' lors
  de la slection d'une
  []
 
 
-Overfull \hbox (10.10892pt too wide) in paragraph at lines 200--200
+Overfull \hbox (10.10892pt too wide) in paragraph at lines 214--214
 \OT1/cmtt/m/n/10.95 mthode pour la fonction 'print' : Erreur dans xtable(datafr
 ame, digits = 6,
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 200.
+Package xcolor Warning: Incompatible color definition on input line 214.
 
 
-Package xcolor Warning: Incompatible color definition on input line 200.
+Package xcolor Warning: Incompatible color definition on input line 214.
 
 [2] (./ResultatsBootstrap.aux) )
 (\end occurred inside a group at level 1)
@@ -867,7 +903,7 @@ Package xcolor Warning: Incompatible color definition on input line 200.
 Here is how much of TeX's memory you used:
  13795 strings out of 493488
  247890 string characters out of 3141326
- 307218 words of memory out of 3000000
+ 308218 words of memory out of 3000000
  16629 multiletter control sequences out of 15000+200000
  9620 words of font info for 37 fonts, out of 3000000 for 9000
  1118 hyphenation exceptions out of 8191
@@ -882,7 +918,7 @@ r9.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
 0.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.
 pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.p
 fb>
-Output written on ResultatsBootstrap.pdf (2 pages, 95575 bytes).
+Output written on ResultatsBootstrap.pdf (2 pages, 95761 bytes).
 PDF statistics:
  50 PDF objects out of 1000 (max. 8388607)
  36 compressed objects within 1 object stream

@@ -74,7 +74,9 @@ require(ggplot2)
 @
 
 <<>>=
-knit("~/ProjetEZ/Functions/lasso.R")
+knit('~/ProjetEZ/Functions/lasso.R')
+knit("lasso.R")
+knit('lasso.R')
 library("lasso.R")
 source(RW.R)
 source(Functions/fun.R)
