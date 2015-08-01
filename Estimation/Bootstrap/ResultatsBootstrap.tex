@@ -1,0 +1,205 @@
+\documentclass[11pt,oneside, a4paper]{amsart}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{natbib}
+
+\usepackage{amsbsy,amsmath}
+\usepackage{amssymb,amsfonts}
+\usepackage{bbm}%give 1 with dbl vertical bar 
+\usepackage{booktabs,url,enumerate}
+\usepackage{color,xcolor,colortbl}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{rotating,graphicx,lscape}
+\usepackage{commath}
+\usetikzlibrary{arrows,positioning} 
+\usepackage[hypcap]{caption}
+\newcommand{\sgn}{\mathrm{sign}}
+\usepackage{setspace}
+
+% bold rows
+\usepackage{array}
+\newcolumntype{$}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+  #1\ignorespaces
+}
+
+% Invisible table columns!
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}% Properly placed sideways table with asmart class. 
+
+\setlength\rotFPtop{0pt plus 1fil} 
+
+
+\usepackage[top=1.5cm, bottom=1.5cm, left=3.0cm, right=3.0cm]{geometry}
+
+\DeclareMathOperator{\Med}{\mathbb{M}ed}
+\DeclareMathOperator{\Mean}{\mathbb{M}ean}
+\DeclareMathOperator{\Cov}{\mathbb{C}ov}
+\DeclareMathOperator{\Var}{\mathbb{V}ar}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\nid}{NID}
+\DeclareMathOperator{\N}{\mathcal{N}}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\diag}{diag}
+\onehalfspace
+
+
+\definecolor{LightRed}{rgb}{1,.88,.88}
+\definecolor{LightBlue}{rgb}{.88,.88,1}
+\definecolor{LightGreen}{rgb}{.88,1,.88}
+
+\newtheorem{theorem}{Theorem}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+  
+\title{Bootstrap Results}   
+\author{Clément Carrier}
+\date{\today}
+\maketitle
+
+
+\section*{Bootstrap}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(knitr)}
+\hlkwd{library}\hlstd{(glmnet)}
+\hlkwd{library}\hlstd{(MASS)}
+\hlkwd{library}\hlstd{(xtable)}
+\hlkwd{require}\hlstd{(ggplot2)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{knit}\hlstd{(}\hlstr{"~/ProjetEZ/Functions/lasso.R"}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in readLines(if (is.character(input2)) \{: impossible d'ouvrir le fichier '/Users/carrierclement/ProjetEZ/Functions/lasso.R' : No such file or directory}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in readLines(if (is.character(input2)) \{: impossible d'ouvrir la connexion}}\begin{alltt}
+\hlkwd{library}\hlstd{(}\hlstr{"lasso.R"}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in library("{}lasso.R"{}): there is no package called 'lasso.R'}}\begin{alltt}
+\hlkwd{source}\hlstd{(RW.R)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in source(RW.R): objet 'RW.R' introuvable}}\begin{alltt}
+\hlkwd{source}\hlstd{(Functions}\hlopt{/}\hlstd{fun.R)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in source(Functions/fun.R): objet 'Functions' introuvable}}\begin{alltt}
+\hlkwd{source}\hlstd{(Functions}\hlopt{/}\hlstd{lahiri.R)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in source(Functions/lahiri.R): objet 'Functions' introuvable}}\begin{alltt}
+\hlkwd{source}\hlstd{(Functions}\hlopt{/}\hlstd{lahiriboot.R)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in source(Functions/lahiriboot.R): objet 'Functions' introuvable}}\end{kframe}
+\end{knitrout}
+
+
+
+I compute the RMSE : 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{df2}\hlkwb{<-}\hlstd{df[}\hlnum{17}\hlopt{:}\hlnum{32}\hlstd{,]}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in df[17:32, ]: objet de type 'closure' non indiçable}}\begin{alltt}
+\hlstd{RMSE}\hlkwb{<-}\hlkwa{NULL}
+\hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{2}\hlopt{:}\hlstd{(}\hlkwd{length}\hlstd{(df)}\hlopt{-}\hlnum{1}\hlstd{))\{}
+  \hlstd{RMSE[i]}\hlkwb{<-}\hlkwd{as.matrix}\hlstd{(}\hlkwd{t}\hlstd{(df2[,}\hlnum{1}\hlstd{]}\hlopt{-}\hlstd{df2[,i])}\hlopt{%*%}\hlstd{(df2[,}\hlnum{1}\hlstd{]}\hlopt{-}\hlstd{df2[,i]))}\hlopt{/}\hlnum{16}
+\hlstd{\}}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in as.matrix(t(df2[, 1] - df2[, i]) \%*\% (df2[, 1] - df2[, i])): erreur d'évaluation de l'argument 'x' lors de la sélection d'une méthode pour la fonction 'as.matrix' : Erreur dans t(df2[, 1] - df2[, i]) : \\\#\#\ \  erreur d'évaluation de l'argument 'x' lors de la sélection d'une méthode pour la fonction 't' : Erreur : objet 'df2' introuvable}}\begin{alltt}
+\hlstd{RMSEmodel}\hlkwb{<-}\hlstd{RMSE[}\hlopt{-}\hlnum{1}\hlstd{]}
+\hlkwd{names}\hlstd{(RMSEmodel)}\hlkwb{<-}\hlkwd{names}\hlstd{(df[}\hlnum{2}\hlopt{:}\hlnum{10}\hlstd{])}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in df[2:10]: objet de type 'closure' non indiçable}}\end{kframe}
+\end{knitrout}
+
+
+
+\begin{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in data.frame(Model = 1:9, lag = c("{}1"{}, "{}2"{}, "{}3"{}, "{}1"{}, "{}2"{}, "{}3"{}, : arguments imply differing number of rows: 9, 0}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in print(xtable(dataframe, digits = 6, caption = "{}blabla"{}, label = "{}Test\_table"{}), : erreur d'évaluation de l'argument 'x' lors de la sélection d'une méthode pour la fonction 'print' : Erreur dans xtable(dataframe, digits = 6, caption = "{}blabla"{}, label = "{}Test\_table"{}) : \\\#\#\ \  objet 'dataframe' introuvable}}\end{kframe}
+
+
+
+
+\end{document}

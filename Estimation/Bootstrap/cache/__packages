@@ -1,0 +1,8 @@
+base
+knitr
+Matrix
+foreach
+glmnet
+MASS
+xtable
+ggplot2

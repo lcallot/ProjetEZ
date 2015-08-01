@@ -9,7 +9,7 @@ source("Functions/lahiriboot.R")
 
 # Simulated data
 norm<-NULL
-p=200
+p=10
 n=100
 nonzero=4
 
@@ -22,9 +22,9 @@ beta<-matrix(c(3,3,-1,-1,rep(0,p-nonzero)))
 y<-norm%*%beta+matrix(rnorm(n,0,1),n,1)
 df<-data.frame(y,norm)
 
-a<-funboot(df,100,"alasso")
-plot(density(matrix(unlist(a[1]),p,n)[1,]))
-unlist(a[2])[1]
+#a<-funboot(df,100,"alasso")
+#plot(density(matrix(unlist(a[1]),p,n)[1,]))
+#unlist(a[2])[1]
 
 
 
@@ -53,7 +53,7 @@ CI<-function(p,n,iter){
   v2<-mean(cov)
   return(c(v1,v2))
 }
-CI(300,10,100)
+CI(180,100,1000)
 
 
 
