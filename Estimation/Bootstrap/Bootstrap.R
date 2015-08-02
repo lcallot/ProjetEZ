@@ -62,14 +62,25 @@ CI(180,100,1000)
 
 
 # dependant variable 
-dep<-function(a){
-  z<-rep(0,n)
+dep<-function(alpha,t,p,nonzero){
+  beta=matrix(c(alpha,rep(0,p-nonzero)))
+  z<-NULL
   z[1]<-rnorm(1,0,1)
-  for (i in 2:n){
-    z[i]<-a*z[i-1]+rnorm(1,0,1)
+  for (i in 2:(t+p)){
+    z[i]<-beta[1]*z[i-1]+rnorm(1,0,1)
   }
-  return(z)
+  
+  for (k in 1:(p+1)){
+    Z<-matrix(0,t,p+1)
+    Z[k,]<-z[(p+1-(k-1)):(t+p+1-k)]
+  }
+  
+  return(Z)
 }
+Z<-dep(0.1,100,10,1)
+
+
+
 
 # alpha = 0.5 
 z<-dep(0.5)
