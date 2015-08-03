@@ -1,9 +1,9 @@
 depAR1<-function(p,nonzero,gamma,t){
-  beta=matrix(c(gamma,rep(0,p-nonzero)))
+  gamma
   z<-NULL
   z[1]<-rnorm(1,0,1)
   for (i in 2:(t+p)){
-    z[i]<-beta[1]*z[i-1]+rnorm(1,0,1)
+    z[i]<-gamma*z[i-1]+rnorm(1,0,1)
   }
   
   Z<-matrix(0,t,p+1)

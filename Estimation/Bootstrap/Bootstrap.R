@@ -7,6 +7,20 @@ source("Functions/fun.R")
 source("Functions/lahiri.R")
 source("Functions/lahiriboot.R")
 source("Functions/AR1.R")
+source("Functions/edfAR4.R")
+source("Functions/edfAR1.R")
+source("Functions/edfiid4.R")
+source("Functions/edfiid1.R")
+source("Functions/AR4.R")
+
+
+## lahiri  edf 
+depAR1(10,1,0.9,100)
+
+
+
+
+
 
 # Simulated data
 
@@ -45,21 +59,8 @@ lahiriboot(df,1000,0.05,nonzero)
 # lahiri empirical edf
 lahiri(df,0.05)
 
-        # Replicate iter fois 
-CI<-function(p,n,iter){
-  beta<-matrix(c(1,1,1,-1,-1,-1,rep(0,p-6)))
-  size<-rep(0,iter)
-  cov<-rep(0,iter)
-  for (j in 1:iter){
-    norm<- matrix(rnorm(n*p,0,1),n,p)
-    y<-norm%*%beta+matrix(rnorm(n,0,1),n,1)
-    df<-data.frame(y,norm)
-    size[j]<-lahiri(df,0.05)[1]
-    cov[j]<-lahiri(df,0.05)[2]
-  }
-  v1<-mean(size)
-  v2<-mean(cov)
-  return(c(v1,v2))
-}
-CI(180,100,1000)
+
+
+
+
 
