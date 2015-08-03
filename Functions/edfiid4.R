@@ -1,5 +1,5 @@
-edfiid4<-function(p,nonzero,beta1,beta2,beta3,beta4,n,iter,alpha){
-  beta<-matrix(c(beta1,beta2,beta3,beta4,rep(0,p-nonzero)))
+edfiid5<-function(p,beta1,beta2,beta3,beta4,beta5,n,iter,alpha){
+  beta<-matrix(c(beta1,beta2,beta3,beta4,beta5,rep(0,p-5)))
   size<-rep(0,iter)
   cov<-rep(0,iter)
   for (j in 1:iter){

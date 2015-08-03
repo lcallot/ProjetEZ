@@ -7,49 +7,27 @@ source("Functions/fun.R")
 source("Functions/lahiri.R")
 source("Functions/lahiriboot.R")
 source("Functions/AR1.R")
-source("Functions/edfAR4.R")
 source("Functions/edfAR1.R")
 source("Functions/edfiid4.R")
 source("Functions/edfiid1.R")
-source("Functions/AR4.R")
-
+source("Functions/iid1.R")
+source("Functions/iid5.R")
 
 ## lahiri  edf 
-depAR1(10,1,0.9,100)
 
+edfAR1(10,1,0.9,100,500,0.05)
 
+edfiid1(10,1,4,100,500,0.05)
 
+edfiid4(10,4,4,2,-5,1,100,500,0.05)
 
 
 
 # Simulated data
 
 # iid variable
-norm<-NULL
-p=10
-n=100
-nonzero=1
-for (i in 1:p){
-  norm<-cbind(norm,as.matrix(rnorm(n,0,1),n,1))
-}
-beta<-matrix(c(0.4,rep(0,p-nonzero)))
-y<-norm%*%beta+matrix(rnorm(n,0,1),n,1)
-df<-data.frame(y,norm)
-
-
-# dependant variable 
-depAR1<-function(alpha,t,p,nonzero){
-  beta=matrix(c(alpha,rep(0,p-nonzero)))
-  z<-NULL
-  z[1]<-rnorm(1,0,1)
-  for (i in 2:(t+p)){z[i]<-beta[1]*z[i-1]+rnorm(1,0,1)}
-  Z<-matrix(0,t,p+1)
-  for (k in 1:(p+1)){Z[,k]<-matrix(z[(p+1-(k-1)):(t+p+1-k)])}
-  return(Z)
-}
-Z<-dep(0.4,100,10,1)
-y<-Z[,1]
-df2<-data.frame(cbind(y,Z[,-1]))
+iid1()
+iid5(10,2,4,5,-3,-1,100)
 
 
 # lahiri bootstrap
