@@ -1,5 +1,4 @@
-depAR1<-function(p,nonzero,gamma,t){
-  gamma
+depAR1<-function(p,gamma,t){
   z<-NULL
   z[1]<-rnorm(1,0,1)
   for (i in 2:(t+p)){

@@ -15,27 +15,25 @@ source("Functions/iid5.R")
 
 ## lahiri  edf 
 
-edfAR1(10,1,0.9,100,500,0.05)
+edfAR1(150,0.9,100,10,0.05)
 
-edfiid1(10,1,4,100,500,0.05)
+edfiid1(150,1,4,100,1000,0.05)
 
-edfiid4(10,4,4,2,-5,1,100,500,0.05)
+edfiid5(150,4,4,2,-5,1,100,1000,0.05)
 
 
 
 # Simulated data
 
 # iid variable
-iid1()
-iid5(10,2,4,5,-3,-1,100)
+df1<-iid1(10,0.9,100)
+df2<-iid5(10,2,4,5,-3,-1,100)
+df3<-depAR1(10,0.9,100)
 
+funboot(df3,10,"post")
 
 # lahiri bootstrap
-lahiriboot(df,1000,0.05,nonzero)
-
-
-# lahiri empirical edf
-lahiri(df,0.05)
+lahiriboot(df1,1000,0.05,1)
 
 
 
