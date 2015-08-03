@@ -90,7 +90,7 @@ source('../../Functions/iid5.R')
 
 We simulate the data by choosing, the sparsity of the true parameters (number of non zero coefficient), the number of covariates, the number of observations and the nature of the noise (here we choose iid N(0,1)). 
 
-<<echo=FALSE>>=
+<<echo=FALSE,cache=TRUE>>=
 nonzero=1
 iter=500
 
@@ -139,7 +139,7 @@ print(table,
 
 
 
-<<echo=FALSE>>=
+<<echo=FALSE,cache=TRUE>>=
 nonzero=5
 iter=500
 
