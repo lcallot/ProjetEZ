@@ -24,7 +24,7 @@ df<-data.frame(y,norm)
 
 
 # dependant variable 
-dep<-function(alpha,t,p,nonzero){
+depAR1<-function(alpha,t,p,nonzero){
   beta=matrix(c(alpha,rep(0,p-nonzero)))
   z<-NULL
   z[1]<-rnorm(1,0,1)
@@ -40,8 +40,6 @@ df2<-data.frame(cbind(y,Z[,-1]))
 
 # lahiri bootstrap
 lahiriboot(df,1000,0.05,nonzero)
-
-
 
 
 # lahiri empirical edf
@@ -64,46 +62,4 @@ CI<-function(p,n,iter){
   return(c(v1,v2))
 }
 CI(180,100,1000)
-
-
-
-
-
-
-
-
-
-lahiri(df,0.05)
-
-
-# dep : AR 
-# alpha : CI
-# gamma : parametre de l'AR(1)
-CI<-function(p,n,iter,AR,gamma,alpha,nonzero){
-  size<-rep(0,iter)
-  cov<-rep(0,iter)
-  if (TRUE==AR){
-    for (j in 1:iter){
-    Z<-dep(gamma,n,p,nonzero)
-    y<-Z[,1]
-    df<-data.frame(cbind(y,Z[,-1]))
-    size[j]<-lahiri(df,alpha)[1]
-    cov[j]<-lahiri(df,alpha)[2]
-    }
-  } else {
-    beta<-matrix(c(1,rep(0,p-nonzero)))
-    for (j in 1:iter){
-      norm<- matrix(rnorm(n*p,0,1),n,p)
-      y<-norm%*%beta+matrix(rnorm(n,0,1),n,1)
-      df<-data.frame(y,norm)
-      size[j]<-lahiri(df,alpha)[1]
-      cov[j]<-lahiri(df,alpha)[2]
-    }
-  }
-  v1<-mean(size)
-  v2<-mean(cov)
-  return(c(v1,v2))
-}
-CI(10,100,100,TRUE,0.1,0.05,1)
-
 
