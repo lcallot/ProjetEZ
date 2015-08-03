@@ -14,12 +14,14 @@ lahiriboot2<-function(data,iter,alpha,nonzero,post,betatrue){
   qnorm1<-qnorm(alpha/2,mean=0,sd=1)/sqrt(dim(data)[1])
   qnorm2<-qnorm(1-alpha/2,mean=0,sd=1)/sqrt(dim(data)[1])
   dist<-rep(0,nonzero)
+  betastar<-rep(0,nonzero)
   cover<-rep(0,nonzero)
   covertrue<-rep(0,nonzero)
   fn<-rep(0,nonzero)
   
   for (j in 1:nonzero){
     dist[j]<-quantile(las[j,], 1-alpha/2)-quantile(las[j,], alpha/2)
+    betastar[j]<-mean(las[j,])
     g<-NULL
     gtrue<-NULL
     fauxnegatif<-NULL
@@ -31,11 +33,12 @@ lahiriboot2<-function(data,iter,alpha,nonzero,post,betatrue){
     cover[j]<-sum(g)/iter 
     covertrue[j]<-sum(gtrue)/iter 
     fn[j]<-sum(fauxnegatif)
-    
   }  
   distnonzero<-mean(dist)
   covernonzero<-mean(cover)
   covernonzerotrue<-mean(covertrue)
   sumfn<-sum(fn)
-  return(list(distnonzero,covernonzero,covernonzerotrue,sumfn))
+  bias1<-mean(abs(betatrue)-abs(beta[1:nonzero]))
+  bias2<-mean(abs(beta[1:nonzero])-abs(betastar))
+  return(list(distnonzero,covernonzero,covernonzerotrue,sumfn,bias1,bias2))
 }

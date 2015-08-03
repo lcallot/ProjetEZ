@@ -28,16 +28,13 @@ edfiid5(150,4,4,2,-5,1,100,1000,0.05)
 
 # iid variable
 df1<-iid1(10,0.3,100)
-df2<-iid5(10,0.6,4,5,-3,-1,100)
+df2<-iid5(10,0.2,4,5,-3,-1,100)
 df3<-depAR1(10,0.9,100)
 
 funboot(df3,10,"post")
 
 # lahiri bootstrap
 lahiriboot2(df2,100,0.05,5,"post",c(0.6,4,5,-3,-1))
-
-
-
 
 
 
