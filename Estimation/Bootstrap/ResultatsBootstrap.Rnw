@@ -99,7 +99,6 @@ a2<-lahiriboot(iid1(50,0.9,100),iter,0.05,nonzero,"post")
 a3<-lahiriboot(iid1(120,0.9,100),iter,0.05,nonzero,"post")
 a4<-lahiriboot(iid1(200,0.9,100),iter,0.05,nonzero,"post")
 
-
 b1<-lahiriboot(depAR1(10,0.9,100),iter,0.05,nonzero,"post")
 b2<-lahiriboot(depAR1(50,0.9,100),iter,0.05,nonzero,"post")
 b3<-lahiriboot(depAR1(120,0.9,100),iter,0.05,nonzero,"post")
