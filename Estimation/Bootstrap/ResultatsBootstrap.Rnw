@@ -94,18 +94,18 @@ We simulate the data by choosing, the sparsity of the true parameters (number of
 
 <<echo=FALSE>>=
 nonzero=1
-iter=10
+iter=500
 betatrue=0.9
 
 a1<-lahiriboot2(iid1(10,betatrue,100),iter,0.05,nonzero,"post",betatrue)
 a2<-lahiriboot2(iid1(50,betatrue,100),iter,0.05,nonzero,"post",betatrue)
 a3<-lahiriboot2(iid1(120,betatrue,100),iter,0.05,nonzero,"post",betatrue)
-a4<-lahiriboot2(iid1(200,betatrue,100),iter,0.05,nonzero,"post",betatrue)
+a4<-lahiriboot2(iid1(150,betatrue,100),iter,0.05,nonzero,"post",betatrue)
 
 b1<-lahiriboot2(depAR1(10,betatrue,100),iter,0.05,nonzero,"post",betatrue)
 b2<-lahiriboot2(depAR1(50,betatrue,100),iter,0.05,nonzero,"post",betatrue)
 b3<-lahiriboot2(depAR1(120,betatrue,100),iter,0.05,nonzero,"post",betatrue)
-b4<-lahiriboot2(depAR1(200,betatrue,100),iter,0.05,nonzero,"post",betatrue)
+b4<-lahiriboot2(depAR1(150,betatrue,100),iter,0.05,nonzero,"post",betatrue)
 
 sizeiid<-matrix(c(a1[1],a2[1],a3[1],a4[1]))
 coviid1<-matrix(c(a1[2],a2[2],a3[2],a4[2]))
@@ -131,20 +131,20 @@ biaisar2<-matrix(c(b1[8],b2[8],b3[8],b4[8]))
 
 << results='asis', echo=FALSE>>=
 dataframe <- data.frame(Model =1:4,
-                  "(p,n)"  = c("(10,100)", "(50,100)", "(120,100)", "(200,100)"),
+                  "(p,n)"  = c("(10,100)", "(50,100)", "(120,100)", "(150,100)"),
                   lenght = sizeiid ,
                   cov1  = coviid1 ,
-                  cov1  = coviid2 ,
-                  cov1  = coviid3 ,
-                  cov1  = coviid4 ,
+                  cov2  = coviid2 ,
+                  cov3  = coviid3 ,
+                  cov4  = coviid4 ,
                   fn = fauxnuliid ,
                   biais1 = biaisiid1 ,
                   biais2 = biaisiid2 ,
                   lenght2 = sizear ,
-                  cov2 = covar1 ,
+                  cov1 = covar1 ,
                   cov2  = covar2 ,
-                  cov2  = covar3 ,
-                  cov2  = covar4 ,
+                  cov3  = covar3 ,
+                  cov4  = covar4 ,
                   fn2 = fauxnular ,
                   biais1 = biaisar1 ,
                   biais2 = biaisar2 )
@@ -172,20 +172,21 @@ In the following one, we increase the number of nonzero parameter.
 <<echo=FALSE>>=
 nonzero1=5
 nonzero2=10
-iter=10
+iter=500
 beta=1
-betatrue1=c(beta,beta,-beta,-beta,beta)
-betatrue2=c(beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-beta)
+betabig=10
+betatrue1=c(beta,beta,-beta,-beta,betabig)
+betatrue2=c(beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-betabig)
 
-a1<-lahiriboot2(iid5(10,beta,beta,-beta,-beta,beta,100),iter,0.05,nonzero1,"post",betatrue1)
-a2<-lahiriboot2(iid5(50,beta,beta,-beta,-beta,beta,100),iter,0.05,nonzero1,"post",betatrue1)
-a3<-lahiriboot2(iid5(120,beta,beta,-beta,-beta,beta,100),iter,0.05,nonzero1,"post",betatrue1)
-a4<-lahiriboot2(iid5(150,beta,beta,-beta,-beta,beta,100),iter,0.05,nonzero1,"post",betatrue1)
+a1<-lahiriboot2(iid5(10,beta,beta,-beta,-beta,betabig,100),iter,0.05,nonzero1,"post",betatrue1)
+a2<-lahiriboot2(iid5(50,beta,beta,-beta,-beta,betabig,100),iter,0.05,nonzero1,"post",betatrue1)
+a3<-lahiriboot2(iid5(120,beta,beta,-beta,-beta,betabig,100),iter,0.05,nonzero1,"post",betatrue1)
+a4<-lahiriboot2(iid5(150,beta,beta,-beta,-beta,betabig,100),iter,0.05,nonzero1,"post",betatrue1)
 
-b1<-lahiriboot2(iid10(10,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-beta,100),iter,0.05,nonzero2,"post",betatrue2)
-b2<-lahiriboot2(iid10(50,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-beta,100),iter,0.05,nonzero2,"post",betatrue2)
-b3<-lahiriboot2(iid10(120,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-beta,100),iter,0.05,nonzero2,"post",betatrue2)
-b4<-lahiriboot2(iid10(150,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-beta,100),iter,0.05,nonzero2,"post",betatrue2)
+b1<-lahiriboot2(iid10(10,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-betabig,100),iter,0.05,nonzero2,"post",betatrue2)
+b2<-lahiriboot2(iid10(50,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-betabig,100),iter,0.05,nonzero2,"post",betatrue2)
+b3<-lahiriboot2(iid10(120,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-betabig,100),iter,0.05,nonzero2,"post",betatrue2)
+b4<-lahiriboot2(iid10(150,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-betabig,100),iter,0.05,nonzero2,"post",betatrue2)
 
 sizeiid<-matrix(c(a1[1],a2[1],a3[1],a4[1]))
 coviid1<-matrix(c(a1[2],a2[2],a3[2],a4[2]))
@@ -211,20 +212,20 @@ biaisar2<-matrix(c(b1[8],b2[8],b3[8],b4[8]))
 
 << results='asis', echo=FALSE>>=
 dataframe <- data.frame(Model =1:4,
-                  "(p,n)"  = c("(10,100)", "(50,100)", "(120,100)", "(200,100)"),
+                  "(p,n)"  = c("(10,100)", "(50,100)", "(120,100)", "(150,100)"),
                   lenght = sizeiid ,
                   cov1  = coviid1 ,
-                  cov1  = coviid2 ,
-                  cov1  = coviid3 ,
-                  cov1  = coviid4 ,
+                  cov2  = coviid2 ,
+                  cov3  = coviid3 ,
+                  cov4  = coviid4 ,
                   fn = fauxnuliid ,
                   biais1 = biaisiid1 ,
                   biais2 = biaisiid2 ,
                   lenght2 = sizear ,
-                  cov2 = covar1 ,
+                  cov1 = covar1 ,
                   cov2  = covar2 ,
-                  cov2  = covar3 ,
-                  cov2  = covar4 ,
+                  cov3  = covar3 ,
+                  cov4  = covar4 ,
                   fn2 = fauxnular ,
                   biais1 = biaisar1 ,
                   biais2 = biaisar2 )
