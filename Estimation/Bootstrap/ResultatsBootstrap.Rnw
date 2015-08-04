@@ -1,0 +1,310 @@
+\documentclass[11pt,oneside, a4paper]{amsart}
+\usepackage{natbib}
+
+\usepackage{amsbsy,amsmath}
+\usepackage{amssymb,amsfonts}
+\usepackage{bbm}%give 1 with dbl vertical bar 
+\usepackage{booktabs,url,enumerate}
+\usepackage{color,xcolor,colortbl}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{rotating,graphicx,lscape}
+\usepackage{commath}
+\usetikzlibrary{arrows,positioning} 
+\usepackage[hypcap]{caption}
+\newcommand{\sgn}{\mathrm{sign}}
+\usepackage{setspace}
+
+% bold rows
+\usepackage{array}
+\newcolumntype{$}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+  #1\ignorespaces
+}
+
+% Invisible table columns!
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}% Properly placed sideways table with asmart class. 
+
+\setlength\rotFPtop{0pt plus 1fil} 
+
+
+\usepackage[top=1.5cm, bottom=1.5cm, left=3.0cm, right=3.0cm]{geometry}
+
+\DeclareMathOperator{\Med}{\mathbb{M}ed}
+\DeclareMathOperator{\Mean}{\mathbb{M}ean}
+\DeclareMathOperator{\Cov}{\mathbb{C}ov}
+\DeclareMathOperator{\Var}{\mathbb{V}ar}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\nid}{NID}
+\DeclareMathOperator{\N}{\mathcal{N}}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\diag}{diag}
+\onehalfspace
+
+
+\definecolor{LightRed}{rgb}{1,.88,.88}
+\definecolor{LightBlue}{rgb}{.88,.88,1}
+\definecolor{LightGreen}{rgb}{.88,1,.88}
+
+\newtheorem{theorem}{Theorem}
+\begin{document}
+
+  
+\title{Bootstrap Results}   
+\author{Clément Carrier}
+\date{\today}
+\maketitle
+
+
+\section*{Bootstrap}
+
+
+<<message=FALSE>>=
+library(knitr)
+library(glmnet) 
+library(MASS)
+library(xtable) 
+require(ggplot2)
+@
+
+
+<<my-chunk-label>>=
+
+@
+
+<<>>=
+source('../../laurent/lasso.R')
+source('../../Functions/RW.R')
+source('../../Functions/fun.R')
+source('../../Functions/lahiri.R')
+source('../../Functions/lahiriboot.R')
+source('../../Functions/lahiriboot2.R')
+source('../../Functions/AR1.R')
+source('../../Functions/edfAR1.R')
+source('../../Functions/edfiid4.R')
+source('../../Functions/edfiid1.R')
+source('../../Functions/iid1.R')
+source('../../Functions/iid5.R')
+source('../../Functions/iid10.R')
+@
+
+
+We simulate the data by choosing, the sparsity of the true parameters (number of non zero coefficient), the number of covariates, the number of observations and the nature of the noise (here we choose iid N(0,1)). 
+
+<<echo=FALSE>>=
+nonzero=1
+iter=500
+betatrue=0.9
+
+a1<-lahiriboot2(iid1(10,betatrue,100),iter,0.05,nonzero,"post",betatrue)
+a2<-lahiriboot2(iid1(50,betatrue,100),iter,0.05,nonzero,"post",betatrue)
+a3<-lahiriboot2(iid1(120,betatrue,100),iter,0.05,nonzero,"post",betatrue)
+a4<-lahiriboot2(iid1(150,betatrue,100),iter,0.05,nonzero,"post",betatrue)
+
+b1<-lahiriboot2(depAR1(10,betatrue,100),iter,0.05,nonzero,"post",betatrue)
+b2<-lahiriboot2(depAR1(50,betatrue,100),iter,0.05,nonzero,"post",betatrue)
+b3<-lahiriboot2(depAR1(120,betatrue,100),iter,0.05,nonzero,"post",betatrue)
+b4<-lahiriboot2(depAR1(150,betatrue,100),iter,0.05,nonzero,"post",betatrue)
+
+sizeiid<-matrix(c(a1[1],a2[1],a3[1],a4[1]))
+coviid1<-matrix(c(a1[2],a2[2],a3[2],a4[2]))
+coviid2<-matrix(c(a1[3],a2[3],a3[3],a4[3]))
+coviid3<-matrix(c(a1[4],a2[4],a3[4],a4[4]))
+coviid4<-matrix(c(a1[5],a2[5],a3[5],a4[5]))
+fauxnuliid<-matrix(c(a1[6],a2[6],a3[6],a4[6]))
+biaisiid1<-matrix(c(a1[7],a2[7],a3[7],a4[7]))
+biaisiid2<-matrix(c(a1[8],a2[8],a3[8],a4[8]))
+
+sizear<-matrix(c(b1[1],b2[1],b3[1],b4[1]))
+covar1<-matrix(c(b1[2],b2[2],b3[2],b4[2]))
+covar2<-matrix(c(b1[3],b2[3],b3[3],b4[3]))
+covar3<-matrix(c(b1[4],b2[4],b3[4],b4[4]))
+covar4<-matrix(c(b1[5],b2[5],b3[5],b4[5]))
+fauxnular<-matrix(c(b1[6],b2[6],b3[6],b4[6]))
+biaisar1<-matrix(c(b1[7],b2[7],b3[7],b4[7]))
+biaisar2<-matrix(c(b1[8],b2[8],b3[8],b4[8]))
+
+@
+
+
+
+<< results='asis', echo=FALSE>>=
+dataframe <- data.frame(Model =1:4,
+                  "(p,n)"  = c("(10,100)", "(50,100)", "(120,100)", "(150,100)"),
+                  lenght = sizeiid ,
+                  cov1  = coviid1 ,
+                  cov2  = coviid2 ,
+                  cov3  = coviid3 ,
+                  cov4  = coviid4 ,
+                  fn = fauxnuliid ,
+                  biais1 = biaisiid1 ,
+                  biais2 = biaisiid2 ,
+                  lenght2 = sizear ,
+                  cov1 = covar1 ,
+                  cov2  = covar2 ,
+                  cov3  = covar3 ,
+                  cov4  = covar4 ,
+                  fn2 = fauxnular ,
+                  biais1 = biaisar1 ,
+                  biais2 = biaisar2 )
+                 
+table<-xtable(dataframe, digits=3, caption="Simulation Result", label="Test_table")
+align(table) <- "|r|r|r|rrrrrrrr|rrrrrrrr|"
+print(table, 
+      size="footnotesize", #Change size; useful for bigger tables
+      include.rownames=FALSE, #Don't print rownames
+      include.colnames=TRUE, #We create them ourselves
+      caption.placement="top", 
+      hline.after=NULL, #We don't need hline; we use booktabs
+      add.to.row = list(pos = list(-1,nrow(dataframe)),
+                        command = c(paste("\\toprule \n",
+                         "     &  & & & & & iid & & &  & & & & AR & & & & \\\\\n", 
+                          "\\midrule \n"),"\\bottomrule \n")
+                        ), 
+      scalebox=0.7
+      )
+@
+
+
+In the following one, we increase the number of nonzero parameter. 
+
+<<echo=FALSE>>=
+nonzero1=5
+nonzero2=10
+iter=500
+beta=1
+betabig=10
+betatrue1=c(beta,beta,-beta,-beta,betabig)
+betatrue2=c(beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-betabig)
+
+a1<-lahiriboot2(iid5(10,beta,beta,-beta,-beta,betabig,100),iter,0.05,nonzero1,"post",betatrue1)
+a2<-lahiriboot2(iid5(50,beta,beta,-beta,-beta,betabig,100),iter,0.05,nonzero1,"post",betatrue1)
+a3<-lahiriboot2(iid5(120,beta,beta,-beta,-beta,betabig,100),iter,0.05,nonzero1,"post",betatrue1)
+a4<-lahiriboot2(iid5(150,beta,beta,-beta,-beta,betabig,100),iter,0.05,nonzero1,"post",betatrue1)
+
+b1<-lahiriboot2(iid10(10,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-betabig,100),iter,0.05,nonzero2,"post",betatrue2)
+b2<-lahiriboot2(iid10(50,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-betabig,100),iter,0.05,nonzero2,"post",betatrue2)
+b3<-lahiriboot2(iid10(120,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-betabig,100),iter,0.05,nonzero2,"post",betatrue2)
+b4<-lahiriboot2(iid10(150,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-betabig,100),iter,0.05,nonzero2,"post",betatrue2)
+
+sizeiid<-matrix(c(a1[1],a2[1],a3[1],a4[1]))
+coviid1<-matrix(c(a1[2],a2[2],a3[2],a4[2]))
+coviid2<-matrix(c(a1[3],a2[3],a3[3],a4[3]))
+coviid3<-matrix(c(a1[4],a2[4],a3[4],a4[4]))
+coviid4<-matrix(c(a1[5],a2[5],a3[5],a4[5]))
+fauxnuliid<-matrix(c(a1[6],a2[6],a3[6],a4[6]))
+biaisiid1<-matrix(c(a1[7],a2[7],a3[7],a4[7]))
+biaisiid2<-matrix(c(a1[8],a2[8],a3[8],a4[8]))
+
+sizear<-matrix(c(b1[1],b2[1],b3[1],b4[1]))
+covar1<-matrix(c(b1[2],b2[2],b3[2],b4[2]))
+covar2<-matrix(c(b1[3],b2[3],b3[3],b4[3]))
+covar3<-matrix(c(b1[4],b2[4],b3[4],b4[4]))
+covar4<-matrix(c(b1[5],b2[5],b3[5],b4[5]))
+fauxnular<-matrix(c(b1[6],b2[6],b3[6],b4[6]))
+biaisar1<-matrix(c(b1[7],b2[7],b3[7],b4[7]))
+biaisar2<-matrix(c(b1[8],b2[8],b3[8],b4[8]))
+
+@
+
+
+
+<< results='asis', echo=FALSE>>=
+dataframe <- data.frame(Model =1:4,
+                  "(p,n)"  = c("(10,100)", "(50,100)", "(120,100)", "(150,100)"),
+                  lenght = sizeiid ,
+                  cov1  = coviid1 ,
+                  cov2  = coviid2 ,
+                  cov3  = coviid3 ,
+                  cov4  = coviid4 ,
+                  fn = fauxnuliid ,
+                  biais1 = biaisiid1 ,
+                  biais2 = biaisiid2 ,
+                  lenght2 = sizear ,
+                  cov1 = covar1 ,
+                  cov2  = covar2 ,
+                  cov3  = covar3 ,
+                  cov4  = covar4 ,
+                  fn2 = fauxnular ,
+                  biais1 = biaisar1 ,
+                  biais2 = biaisar2 )
+                 
+table<-xtable(dataframe, digits=3, caption="Simulation Result", label="Test_table")
+align(table) <- "|r|r|r|rrrrrrrr|rrrrrrrr|"
+print(table, 
+      size="footnotesize", #Change size; useful for bigger tables
+      include.rownames=FALSE, #Don't print rownames
+      include.colnames=TRUE, #We create them ourselves
+      caption.placement="top", 
+      hline.after=NULL, #We don't need hline; we use booktabs
+      add.to.row = list(pos = list(-1,nrow(dataframe)),
+                        command = c(paste("\\toprule \n",
+                         "     &  & & & & & iid 5 & & &  & & & & iid 10 & & & & \\\\\n", 
+                          "\\midrule \n"),"\\bottomrule \n")
+                        ), 
+      scalebox=0.7
+      )
+@
+
+
+
+
+Then we compute the method used by lahiri (On the residual empirical process based on the ALASSO in high dimensions and its functional oracle property). In this paper, Lahiri uses the ALASSO estimator and shows that the empirical distribution of estimated residual behaves approximately as a gaussian noise. He then deduces a confidence band of prediction of the variable of interest (y) based on the empirical distribution of the residual.
+
+<<echo=FALSE>>=
+nonzero=1
+iter=10
+
+a1<-edfiid1(10,nonzero,0.9,100,iter,0.05)
+a2<-edfiid1(50,nonzero,0.9,100,iter,0.05)
+a3<-edfiid1(120,nonzero,0.9,100,iter,0.05)
+a4<-edfiid1(200,nonzero,0.9,100,iter,0.05)
+
+b1<-edfiid5(10,4,4,2,-5,1,100,iter,0.05)
+b2<-edfiid5(50,4,4,2,-5,1,100,iter,0.05)
+b3<-edfiid5(120,4,4,2,-5,1,100,iter,0.05)
+b4<-edfiid5(200,4,4,2,-5,1,100,iter,0.05)
+
+c1<-edfAR1(10,0.9,100,iter,0.05)
+c2<-edfAR1(50,0.9,100,iter,0.05)
+c3<-edfAR1(120,0.9,100,iter,0.05)
+c4<-edfAR1(200,0.9,100,iter,0.05)
+
+cov1<-matrix(c(a1[2],a2[2],a3[2],a4[2]))
+size1<-matrix(c(a1[1],a2[1],a3[1],a4[1]))
+cov2<-matrix(c(b1[2],b2[2],b3[2],b4[2]))
+size2<-matrix(c(b1[1],b2[1],b3[1],b4[1]))
+cov3<-matrix(c(c1[2],c2[2],c3[2],c4[2]))
+size3<-matrix(c(c1[1],c2[1],c3[1],c4[1]))
+@
+
+
+<< results='asis', echo=FALSE>>=
+dataframe <- data.frame(Model =1:4,
+                  "(pn)"  = c("(10,100)", "(50,100)", "(120,100)", "(200,100)"),
+                  coverage = cov1 ,
+                  lenght  = size1 ,
+                  coverage = cov2 ,
+                  lenght = size2 ,
+                  coverage = cov3 ,
+                  lenght = size3 )
+                 
+table<-xtable(dataframe, digits=3, caption="Simulation Result", label="Test_table")
+align(table) <- "|r|r|r|rr|rr|rr|"
+print(table, 
+      size="footnotesize", #Change size; useful for bigger tables
+      include.rownames=FALSE, #Don't print rownames
+      include.colnames=TRUE, #We create them ourselves
+      caption.placement="top", 
+      hline.after=NULL, #We don't need hline; we use booktabs
+      add.to.row = list(pos = list(-1,nrow(dataframe)),
+                        command = c(paste("\\toprule \n",
+                         "   &  & iid1 &  & iid5 & & AR & \\\\\n", 
+                          "\\midrule \n"),"\\bottomrule \n")
+                        )
+      )
+@
+
+
+\end{document}

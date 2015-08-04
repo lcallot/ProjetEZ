@@ -54,7 +54,7 @@ lasso <- function(formula, data, pweights=NULL, alpha=1, lambda=NULL, postest=TR
   vn <- all.vars(formula)[-1]
   if(length(vn)!=ncol(x)) vn <- paste(vn,1:ncol(x),sep='_')  
 	colnames(x) <- vn
-  print(vn)
+  # print(vn)
 
 	# Checking the pweights for the adaptive Lasso
 	if (!is.null(pweights) && !is.numeric(pweights)) 
@@ -87,7 +87,7 @@ lasso <- function(formula, data, pweights=NULL, alpha=1, lambda=NULL, postest=TR
 	
 	# Computing BIC
 	RSS	<-colSums(res^2)
-	if(alpha>0)bic <- log(RSS/nT) + log(nT) / nT * fb$df# * log(log(ncol(x)))
+	if(alpha>0)bic <- log(RSS/nT) + log(nT) / nT * fb$df * log(ncol(x))
 	# BIC with ridge df
 	if(alpha==0){rdf <- .ridge.df(x,fb$lambda); bic <- log(RSS/nT) + log(nT)*rdf/nT}
 	

@@ -49,10 +49,6 @@ lagchoice<-function(data,lagmax){
 lagchoice(dataM1,lagmax=10)
 
 
-
-
-# Forecast
-
 fun<-function(data,lag,preforecast,horizon,adap,trend){
   fore<-matrix(0,nrow=dim(data)[2],ncol=horizon+preforecast)
   fore[,1:(preforecast)]<-t(data[(dim(data)[1]-preforecast+1):dim(data)[1],])
@@ -75,6 +71,10 @@ fun<-function(data,lag,preforecast,horizon,adap,trend){
   rownames(fore)<-names(data)
   return(t(fore))
 }
+
+
+# Forecast
+
 forecast<-fun(dataM1,5,12,36,"lasso",FALSE)
 forecast<-data.frame(forecast)
 var1<-forecast[,1:5]
