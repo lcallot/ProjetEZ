@@ -1,5 +1,5 @@
-lahiriboot<-function(data,iter,alpha,nonzero,post){
-  lass<-funboot(data,iter,post)
+lahiriboot<-function(data,iter,alpha,nonzero){
+  lass<-funboot(data,iter)
   las<-matrix(unlist(lass[1]),dim(data)[2]-1,iter)
   beta<-matrix(unlist(lass[2]))
   qnorm1<-qnorm(alpha/2,mean=0,sd=1)/sqrt(dim(data)[1])

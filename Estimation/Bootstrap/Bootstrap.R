@@ -33,25 +33,47 @@ df1<-iid1(10,0.3,100)
 df2<-iid5(10,0.2,4,5,-3,-1,100)
 df3<-depAR1(10,0.9,100)
 
-df4<-depAR5(10,3,-3.55,2.07,-0.5944,0.0672,100)
-lahiriboot2(df4,100,0.05,5,"post",c(3,-3.55,2.07,-0.5944,0.0672))
 
-b3<-lahiriboot2(iid10(120,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-beta,100),iter,0.05,nonzero2,"post",betatrue2)
+beta
+df2<-iid5(p,beta,beta,beta,-beta,-beta,n)
+betatrue=c(beta,beta,beta,-beta,-beta,rep(0,p-5))
+prediction<-function(data,iter,betatrue){
+  
+  fun<-funboot(data,iter,"post")
+  coef<-matrix(unlist(fun[1]),dim(df2)[2]-1,iter)
+  x<-rnorm(p,0,1)
+  y=rep(NA,iter)
+  for (i in 1:iter){
+    y[i]<-t(x)%*%coef[,i]
+  }
+  
+}
 
-funboot(df3,10,"post")
+iter=1000
+p=50
+beta=2
+n=100
 
-# lahiri bootstrap
 
-df2<-iid5(10,1,1,-1,1,-1,1000)
-lahiriboot2(df2,1000,0.05,5,"post",c(1,1,-1,1,-1))
-#sortie : 
-# 1) size of confidence interval
-# 2) coverage based on first ALASSO estimation (mean over non zero beta of proportion of beta* in iter)
-# 3) coverage based on true parameter (mean over non zero beta of proportion of beta* in iter)
-# 4) coverage : beta alasso in beta*  ? proportion of non zero beta
-# 5) coverage : true beta in beta*  ? proportion of non zero beta
-# 6) nb de faux nul 
-# 7) mean 1st bias 
-# 8) mean 2sd bias 
+
+plot(density(y))
+t(x)%*%c(beta,beta,beta,-beta,-beta,rep(0,p-5))
+
+
+mcfunction<-function(p,nonzero,beta,n,beta,alpha){
+  allzero<-TRUE
+  while(allzero=TRUE){ 
+  #1 : generate the data
+  df<-iid5(p,beta,beta,beta,-beta,-beta,n)
+  
+  # estimate ALASSO
+  allzero<-(sum(lasso(y~.,data)$coef!=0)=0)
+    
+  lahiriboot2(df,iter,alpha,nonzero,c(beta,beta,beta,-beta,-beta))
+  }
+  
+}
+
+
 
 
