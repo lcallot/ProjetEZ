@@ -16,6 +16,7 @@ n=100
 beta=1
 p=50
 nonzero=5
-Q<-MC(iter,p,5,beta,n,boot,0.1,"iid5")
-print(rowMeans(Q))
+mc<-MC(iter,p,5,beta,n,boot,0.1,"iid5")
+save(mc,file = "Estimation/Bootstrap/mc.R")
+
 
