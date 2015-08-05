@@ -49,31 +49,24 @@ prediction<-function(data,iter,betatrue){
   
 }
 
-iter=1000
-p=50
-beta=2
-n=100
 
 
 
-plot(density(y))
-t(x)%*%c(beta,beta,beta,-beta,-beta,rep(0,p-5))
 
-
-mcfunction<-function(p,nonzero,beta,n,beta,alpha){
+mcfunction<-function(p,nonzero,beta,n,boot,alpha){
   allzero<-TRUE
-  while(allzero=TRUE){ 
+  while(allzero==TRUE){ 
   #1 : generate the data
   df<-iid5(p,beta,beta,beta,-beta,-beta,n)
   
   # estimate ALASSO
-  allzero<-(sum(lasso(y~.,data)$coef!=0)=0)
-    
-  lahiriboot2(df,iter,alpha,nonzero,c(beta,beta,beta,-beta,-beta))
-  }
+  allzero<-(sum((lasso(y~.,df)$coef[-1])!=0)==0)
   
+  result<-lahiriboot2(df,boot,alpha,nonzero,c(beta,beta,beta,-beta,-beta))
+  }
+  return(result)
 }
+mcfunction(50,5,3,1000,100,0.1)
 
-
-
+MC<-lapply(mcfunction(50,5,3,1000,100,0.1),)
 

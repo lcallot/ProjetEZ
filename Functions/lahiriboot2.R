@@ -28,7 +28,7 @@ lahiriboot2<-function(data,iter,alpha,nonzero,betatrue){
       fauxnegatif[i]<-sum((las[j,i]==0))
     }
     
-    cove1[j]<-sum((betatrue[j]<=quantile(las[j,]-mean(las[j,])+beta[j], 1-alpha/2))&(betatrue[j]>=quantile(las[j,]-mean(las[j,])+beta[j], 1-alpha/2)))
+    cove1[j]<-sum((betatrue[j]<=quantile(las[j,]-mean(las[j,])+beta[j], 1-alpha/2))&(betatrue[j]>=quantile(las[j,]-mean(las[j,])+beta[j], alpha/2)))
     fn[j]<-sum(fauxnegatif)
   }  
   
