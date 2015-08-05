@@ -16,13 +16,48 @@ source("Functions/iid5.R")
 source("Functions/iid10.R")
 source("Functions/lahiriboot2.R")
 
-## lahiri  edf 
 
-edfAR1(50,0.9,100,100,0.05)
 
-edfiid1(150,1,4,100,1000,0.05)
+################
 
-edfiid5(150,4,4,2,-5,1,100,1000,0.05)
+
+mcfunction<-function(p,nonzero,beta,n,boot,alpha){
+  allzero<-TRUE
+  while(allzero==TRUE){ 
+    #1 : generate the data
+    df<-iid5(p,beta,beta,beta,-beta,-beta,n)
+    
+    # estimate ALASSO
+    allzero<-(sum((lasso(y~.,df)$coef[-1])!=0)==0)
+    
+    result<-lahiriboot2(df,boot,alpha,nonzero,c(beta,beta,beta,-beta,-beta))
+  }
+  return(result)
+}
+
+
+MC<-function(iter,p,nonzero,beta,n,boot,alpha){
+  a<-replicate(iter, mcfunction(p,nonzero,beta,n,boot,alpha))
+  res<-list()
+  for (i in 1:5){
+    res[[i]]<-unlist(a[i,]) 
+  }
+  return(res)
+}
+
+iter=100
+boot=100
+n=100
+beta=1
+p=50
+lapply(MC(iter,p,5,beta,n,boot,0.1), FUN = "mean" )
+
+
+
+
+
+
+###################
 
 
 
@@ -53,20 +88,13 @@ prediction<-function(data,iter,betatrue){
 
 
 
-mcfunction<-function(p,nonzero,beta,n,boot,alpha){
-  allzero<-TRUE
-  while(allzero==TRUE){ 
-  #1 : generate the data
-  df<-iid5(p,beta,beta,beta,-beta,-beta,n)
-  
-  # estimate ALASSO
-  allzero<-(sum((lasso(y~.,df)$coef[-1])!=0)==0)
-  
-  result<-lahiriboot2(df,boot,alpha,nonzero,c(beta,beta,beta,-beta,-beta))
-  }
-  return(result)
-}
-mcfunction(50,5,3,1000,100,0.1)
 
-MC<-lapply(mcfunction(50,5,3,1000,100,0.1),)
+
+
+
+
+
+
+
+
 
