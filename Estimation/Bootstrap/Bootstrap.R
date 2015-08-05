@@ -1,6 +1,6 @@
 library('glmnet')
 library('MASS')
-
+library('parallel')
 source("laurent/lasso.R")
 source("Functions/RW.R")
 source("Functions/fun.R")
@@ -21,12 +21,13 @@ source("Functions/montecarlo.R")
 
 
 
-iter=10
+iter=50
 boot=10
 n=100
 beta=1
 p=50
-lapply(MC(iter,p,5,beta,n,boot,0.1,"AR1"), FUN = "mean" )
+Q<-MC(iter,p,5,beta,n,boot,0.1,"AR1")
+rowMeans(Q)
 
 
 

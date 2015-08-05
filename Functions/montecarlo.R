@@ -3,7 +3,7 @@
 
 # Generate the statistics
 
-mcfunction<-function(p,nonzero,beta,n,boot,alpha,type){
+mcfunction<-function(x,p,nonzero,beta,n,boot,alpha,type){
   allzero<-TRUE
   while(allzero==TRUE){ 
     #1 : generate the data
@@ -27,20 +27,26 @@ mcfunction<-function(p,nonzero,beta,n,boot,alpha,type){
     
     # estimate ALASSO
     allzero<-(sum((lasso(y~.,df)$coef[-1])!=0)==0)
-    
+  }
     # Calculate the statistics
     result<-lahiriboot2(df,boot,alpha,nonzero,c(beta,beta,beta,-beta,-beta))
-  }
+  
   return(result)
 }
 
 
 # Replicate and mean of the statistics
 MC<-function(iter,p,nonzero,beta,n,boot,alpha,type){
-  a<-replicate(iter, mcfunction(p,nonzero,beta,n,boot,alpha,type))
-  res<-list()
-  for (i in 1:5){
-    res[[i]]<-unlist(a[i,]) 
-  }
+  #a<-replicate(iter, mcfunction(p,nonzero,beta,n,boot,alpha,type))
+  #res<-list()
+  #for (i in 1:5){
+  #  res[[i]]<-unlist(a[i,]) 
+  #}
+  
+  #b<-lapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type)
+  b<-mclapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type,mc.cores = 2)
+  res <- matrix(unlist(b),nrow=5)
+
+  
   return(res)
 }
