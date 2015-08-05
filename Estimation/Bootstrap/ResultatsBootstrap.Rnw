@@ -92,9 +92,9 @@ source('../../Functions/iid10.R')
 
 We simulate the data by choosing, the sparsity of the true parameters (number of non zero coefficient), the number of covariates, the number of observations and the nature of the noise (here we choose iid N(0,1)). 
 
-<<echo=FALSE>>=
+<<echo=FALSE,cache=TRUE>>=
 nonzero=1
-iter=500
+iter=1000
 betatrue=0.9
 
 a1<-lahiriboot2(iid1(10,betatrue,100),iter,0.05,nonzero,"post",betatrue)
@@ -124,7 +124,6 @@ covar4<-matrix(c(b1[5],b2[5],b3[5],b4[5]))
 fauxnular<-matrix(c(b1[6],b2[6],b3[6],b4[6]))
 biaisar1<-matrix(c(b1[7],b2[7],b3[7],b4[7]))
 biaisar2<-matrix(c(b1[8],b2[8],b3[8],b4[8]))
-
 @
 
 
@@ -169,10 +168,10 @@ print(table,
 
 In the following one, we increase the number of nonzero parameter. 
 
-<<echo=FALSE>>=
+<<echo=FALSE, cache=TRUE>>=
 nonzero1=5
 nonzero2=10
-iter=500
+iter=1000
 beta=1
 betabig=10
 betatrue1=c(beta,beta,-beta,-beta,betabig)
