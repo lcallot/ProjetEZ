@@ -44,7 +44,7 @@ MC<-function(iter,p,nonzero,beta,n,boot,alpha,type){
   #}
   
   #b<-lapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type)
-  b<-mclapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type,mc.cores = 2)
+  b<-mclapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type,mc.cores = 8)
   res <- matrix(unlist(b),nrow=5)
 
   
