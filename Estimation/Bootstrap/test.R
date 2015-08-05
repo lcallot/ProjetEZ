@@ -17,5 +17,5 @@ beta=1
 p=50
 nonzero=5
 Q<-MC(iter,p,5,beta,n,boot,0.1,"iid5")
-rowMeans(Q)
+print(rowMeans(Q))
 
