@@ -58,7 +58,7 @@ depAR1<-function(p,gamma,t){
   return(df)
 }
 
-# AR4
+# AR3
 
 depAR3<-function(p,gamma,t){
   gamma1<-2.65*gamma

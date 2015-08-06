@@ -10,8 +10,8 @@ source("Functions/lahiri.R")
 source("Functions/montecarlo.R")
 
 
-iter=1000
-boot=100
+iter=10
+boot=10
 n=100
 beta=0.9
 p=50
@@ -42,7 +42,5 @@ save(mc5,file = "Estimation/Bootstrap/mc5.Rdata")
 p=200
 mc6<-MC(iter,p,nonzero,beta,n,boot,0.1,"AR3")
 save(mc6,file = "Estimation/Bootstrap/mc6.Rdata")
-
-
 
 

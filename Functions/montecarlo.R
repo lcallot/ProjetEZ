@@ -33,8 +33,30 @@ mcfunction<-function(x,p,nonzero,beta,n,boot,alpha,type){
     allzero<-(sum((lasso(y~.,df)$coef[-1])!=0)==0)
   }
     # Calculate the statistics
-    result<-lahiriboot2(df,boot,alpha,nonzero,c(beta,beta,beta,-beta,-beta))
+    
   
+    if (type=="iid1"){
+      result<-lahiriboot2(df,boot,alpha,nonzero,beta)
+    } else {
+      if (type=="iid5"){
+        result<-lahiriboot2(df,boot,alpha,nonzero,c(beta,beta,beta,-beta,-beta))
+      } else {
+        if (type=="iid10"){
+          result<-lahiriboot2(df,boot,alpha,nonzero,c(beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-beta))
+        } else {
+          if (type=="AR1"){
+            result<-lahiriboot2(df,boot,alpha,nonzero,beta)
+          } else {
+            if (type=="AR3"){
+              result<-lahiriboot2(df,boot,alpha,nonzero,c(2.65*beta,-2.355*beta,0.684*beta))
+            } else {
+              df<-NULL
+            }
+          } 
+        }
+      }
+    }
+    
   return(result)
 }
 
@@ -48,9 +70,8 @@ MC<-function(iter,p,nonzero,beta,n,boot,alpha,type){
   #}
   
   #b<-lapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type)
-  b<-mclapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type,mc.cores = 8)
+  b<-mclapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type,mc.cores = 2)
   res <- matrix(unlist(b),nrow=5)
-
   
   return(res)
 }
