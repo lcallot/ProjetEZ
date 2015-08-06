@@ -13,7 +13,7 @@ source("Functions/montecarlo.R")
 iter=1000
 boot=100
 n=100
-beta=1
+beta=5
 p=50
 nonzero=5
 mc1<-MC(iter,p,nonzero,beta,n,boot,0.1,"iid5")
@@ -29,6 +29,8 @@ mc3<-MC(iter,p,nonzero,beta,n,boot,0.1,"iid5")
 save(mc3,file = "Estimation/Bootstrap/mc3.Rdata")
 
 
+n=200
+beta=5
 p=50
 nonzero=10
 mc4<-MC(iter,p,nonzero,beta,n,boot,0.1,"iid10")
