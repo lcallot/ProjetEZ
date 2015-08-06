@@ -52,7 +52,7 @@
 
   
 \title{Bootstrap Results}   
-\author{Clément Carrier}
+\author{Clement Carrier}
 \date{\today}
 \maketitle
 
@@ -60,7 +60,7 @@
 \section*{Bootstrap}
 
 
-<<message=FALSE>>=
+<<message=FALSE, , echo=FALSE>>=
 library(knitr)
 library(glmnet) 
 library(MASS)
@@ -69,16 +69,12 @@ require(ggplot2)
 @
 
 
-<<my-chunk-label>>=
 
-@
 
-<<>>=
+<<, echo=FALSE>>=
 source('../../laurent/lasso.R')
-
 source('../../Functions/fun.R')
 source('../../Functions/lahiri.R')
-
 source('../../Functions/lahiriboot2.R')
 source('../../Functions/datagen.R')
 source('../../Functions/edf.R')
@@ -88,40 +84,45 @@ source('../../Functions/montecarlo.R')
 
 We simulate the data by choosing, the sparsity of the true parameters (number of non zero coefficient), the number of covariates, the number of observations and the nature of the noise (here we choose iid N(0,1)). 
 
+
+
+
 <<echo=FALSE >>=
-nonzero=1
-iter=1000
-betatrue=0.9
 
-a1<-lahiriboot2(iid1(10,betatrue,100),iter,0.05,nonzero,"post",betatrue)
-a2<-lahiriboot2(iid1(50,betatrue,100),iter,0.05,nonzero,"post",betatrue)
-a3<-lahiriboot2(iid1(120,betatrue,100),iter,0.05,nonzero,"post",betatrue)
-a4<-lahiriboot2(iid1(150,betatrue,100),iter,0.05,nonzero,"post",betatrue)
+load('data/1/mc1.Rdata')
+load('data/1/mc2.Rdata')
+load('data/1/mc3.Rdata')
+load('data/1/mc4.Rdata')
+load('data/1/mc5.Rdata')
+load('data/1/mc6.Rdata')
 
-b1<-lahiriboot2(depAR1(10,betatrue,100),iter,0.05,nonzero,"post",betatrue)
-b2<-lahiriboot2(depAR1(50,betatrue,100),iter,0.05,nonzero,"post",betatrue)
-b3<-lahiriboot2(depAR1(120,betatrue,100),iter,0.05,nonzero,"post",betatrue)
-b4<-lahiriboot2(depAR1(150,betatrue,100),iter,0.05,nonzero,"post",betatrue)
+a1<-rowMeans(mc1)
+a2<-rowMeans(mc2)
+a3<-rowMeans(mc3)
 
-sizeiid<-matrix(c(a1[1],a2[1],a3[1],a4[1]))
-coviid<-matrix(c(a1[2],a2[2],a3[2],a4[2]))
-fauxnuliid<-matrix(c(a1[3],a2[3],a3[3],a4[3]))
-biaisiid1<-matrix(c(a1[4],a2[4],a3[4],a4[4]))
-biaisiid2<-matrix(c(a1[5],a2[5],a3[5],a4[5]))
+b1<-rowMeans(mc4)
+b2<-rowMeans(mc5)
+b3<-rowMeans(mc6)
 
-sizear<-matrix(c(b1[1],b2[1],b3[1],b4[1]))
-covar<-matrix(c(b1[2],b2[2],b3[2],b4[2]))
-fauxnular<-matrix(c(b1[3],b2[3],b3[3],b4[3]))
-biaisar1<-matrix(c(b1[4],b2[4],b3[4],b4[4]))
-biaisar2<-matrix(c(b1[5],b2[5],b3[5],b4[5]))
+
+sizeiid<-matrix(c(a1[1],a2[1],a3[1]))
+coviid<-matrix(c(a1[2],a2[2],a3[2]))
+fauxnuliid<-matrix(c(a1[3],a2[3],a3[3]))
+biaisiid1<-matrix(c(a1[4],a2[4],a3[4]))
+biaisiid2<-matrix(c(a1[5],a2[5],a3[5]))
+
+sizear<-matrix(c(b1[1],b2[1],b3[1]))
+covar<-matrix(c(b1[2],b2[2],b3[2]))
+fauxnular<-matrix(c(b1[3],b2[3],b3[3]))
+biaisar1<-matrix(c(b1[4],b2[4],b3[4]))
+biaisar2<-matrix(c(b1[5],b2[5],b3[5]))
 
 @
 
 
-
 << results='asis', echo=FALSE>>=
-dataframe <- data.frame(Model =1:4,
-                  "(p,n)"  = c("(10,100)", "(50,100)", "(120,100)", "(150,100)"),
+dataframe <- data.frame(Model =1:3,
+                  "(p,n)"  = c("(50,100)", "(100,100)", "(200,100)"),
                   lenght = sizeiid ,
                   cov1  = coviid ,
                   fn = fauxnuliid ,
@@ -143,7 +144,7 @@ print(table,
       hline.after=NULL, #We don't need hline; we use booktabs
       add.to.row = list(pos = list(-1,nrow(dataframe)),
                         command = c(paste("\\toprule \n",
-                         "     &  & & &  iid & &  & &  AR & & & \\\\\n", 
+                         "     &  & & &  iid5 & &  & &  iid10 & & & \\\\\n", 
                           "\\midrule \n"),"\\bottomrule \n")
                         ), 
       scalebox=0.7
@@ -159,9 +160,10 @@ In the following one, we increase the number of nonzero parameter.
 
 Then we compute the method used by lahiri (On the residual empirical process based on the ALASSO in high dimensions and its functional oracle property). In this paper, Lahiri uses the ALASSO estimator and shows that the empirical distribution of estimated residual behaves approximately as a gaussian noise. He then deduces a confidence band of prediction of the variable of interest (y) based on the empirical distribution of the residual.
 
+
 <<echo=FALSE>>=
 nonzero=1
-iter=10
+iter=1
 
 a1<-edfiid1(10,nonzero,0.9,100,iter,0.05)
 a2<-edfiid1(50,nonzero,0.9,100,iter,0.05)
@@ -212,6 +214,5 @@ print(table,
                         )
       )
 @
-
 
 \end{document}
