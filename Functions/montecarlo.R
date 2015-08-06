@@ -19,7 +19,7 @@ mcfunction<-function(x,p,nonzero,beta,n,boot,alpha,type){
           if (type=="AR1"){
             df<-depAR1(p,beta,n)
           } else {
-            if (type=="AR4"){
+            if (type=="AR3"){
               df<-depAR3(p,beta,n)
             } else {
                 df<-NULL
@@ -70,7 +70,7 @@ MC<-function(iter,p,nonzero,beta,n,boot,alpha,type){
   #}
   
   #b<-lapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type)
-  b<-mclapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type,mc.cores = 2)
+  b<-mclapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type,mc.cores = 8)
   res <- matrix(unlist(b),nrow=5)
   
   return(res)
