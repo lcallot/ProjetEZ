@@ -127,13 +127,13 @@ We simulate the data by choosing, the sparsity of the true parameters (number of
 
 
 % latex table generated in R 3.2.1 by xtable 1.7-4 package
-% Thu Aug  6 12:59:17 2015
+% Thu Aug  6 15:15:33 2015
 \begin{table}[ht]
 \centering
 \caption{Simulation Result} 
 \label{Test_table}
 {\footnotesize
-\scalebox{0.7}{
+\scalebox{1}{
 \begin{tabular}{|r|r|rrrrr|rrrrr|}
   \toprule 
       &  & & &  iid5 & &  & &  iid10 & & & \\
@@ -155,6 +155,31 @@ In the following one, we increase the number of nonzero parameter.
 
 
 
+% latex table generated in R 3.2.1 by xtable 1.7-4 package
+% Thu Aug  6 15:15:33 2015
+\begin{table}[ht]
+\centering
+\caption{Simulation Result 2} 
+\label{Test_table}
+{\footnotesize
+\scalebox{1}{
+\begin{tabular}{|r|r|rrrrr|rrrrr|}
+  \toprule 
+      &  & & &  iid5 & beta =5 &  & &  iid10 & beta =5 & n=200 & \\
+ \midrule 
+Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 & biais1.1 & biais2.1 \\ 
+    1 & (50,100) & 0.427 & 0.302 & 0.000 & 0.280 & 0.316 & 0.279 &  & 0.000 & 0.173 & 0.191 \\ 
+     2 & (100,100) & 0.465 & 0.199 & 0.000 & 0.340 & 0.404 & 0.300 &  & 0.000 & 0.214 & 0.248 \\ 
+     3 & (200,100) & 0.497 & 0.161 & 0.000 & 0.377 & 0.479 & 0.322 &  & 0.000 & 0.248 & 0.307 \\ 
+   \bottomrule 
+\end{tabular}
+}
+}
+\end{table}
+
+
+
+
 
 Then we compute the method used by lahiri (On the residual empirical process based on the ALASSO in high dimensions and its functional oracle property). In this paper, Lahiri uses the ALASSO estimator and shows that the empirical distribution of estimated residual behaves approximately as a gaussian noise. He then deduces a confidence band of prediction of the variable of interest (y) based on the empirical distribution of the residual.
 
@@ -163,7 +188,7 @@ Then we compute the method used by lahiri (On the residual empirical process bas
 
 
 % latex table generated in R 3.2.1 by xtable 1.7-4 package
-% Thu Aug  6 12:59:18 2015
+% Thu Aug  6 15:15:34 2015
 \begin{table}[ht]
 \centering
 \caption{Simulation Result} 
@@ -174,10 +199,10 @@ Then we compute the method used by lahiri (On the residual empirical process bas
     &  & iid1 &  & iid5 & & AR & \\
  \midrule 
 Model & X.pn. & coverage & lenght & coverage.1 & lenght.1 & coverage.2 & lenght.2 \\ 
-    1 & (10,100) & 0.839 & 3.289 & 1.000 & 4.369 & 0.906 & 3.550 \\ 
-     2 & (50,100) & 0.912 & 3.576 & 1.000 & 4.153 & 0.835 & 3.273 \\ 
-     3 & (120,100) & 0.971 & 3.933 & 1.000 & 4.747 & 0.939 & 3.724 \\ 
-     4 & (200,100) & 0.859 & 3.366 & 1.000 & 4.353 & 0.950 & 3.827 \\ 
+    1 & (10,100) & 0.948 & 3.715 & 0.999 & 4.347 & 0.869 & 3.408 \\ 
+     2 & (50,100) & 0.863 & 3.383 & 0.895 & 3.508 & 0.758 & 2.971 \\ 
+     3 & (120,100) & 0.996 & 3.954 & 0.943 & 3.907 & 0.964 & 4.341 \\ 
+     4 & (200,100) & 0.889 & 3.485 & 0.949 & 3.718 & 1.000 & 4.604 \\ 
    \bottomrule 
 \end{tabular}
 }
