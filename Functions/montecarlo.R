@@ -19,7 +19,11 @@ mcfunction<-function(x,p,nonzero,beta,n,boot,alpha,type){
           if (type=="AR1"){
             df<-depAR1(p,beta,n)
           } else {
-            df<-NULL
+            if (type=="AR4"){
+              df<-depAR3(p,beta,n)
+            } else {
+                df<-NULL
+            }
           } 
         }
       }

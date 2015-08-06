@@ -58,17 +58,19 @@ depAR1<-function(p,gamma,t){
   return(df)
 }
 
-# AR5
+# AR4
 
-depAR5<-function(p,gamma1,gamma2,gamma3,gamma4,gamma5,t){
+depAR3<-function(p,gamma,t){
+  gamma1<-2.65*gamma
+  gamma2<-(-2.355*gamma)
+  gamma3<-0.684*gamma
+
   z<-NULL
   z[1]<-rnorm(1,0,1)
   z[2]<-rnorm(1,0,1)
   z[3]<-rnorm(1,0,1)
-  z[4]<-rnorm(1,0,1)
-  z[5]<-rnorm(1,0,1)
-  for (i in 6:(t+p)){
-    z[i]<-gamma1*z[i-1]+gamma2*z[i-2]+gamma3*z[i-3]+gamma4*z[i-4]+gamma5*z[i-5]+rnorm(1,0,1)
+  for (i in 4:(t+p)){
+    z[i]<-gamma1*z[i-1]+gamma2*z[i-2]+gamma3*z[i-3]+rnorm(1,0,1)
   }
   
   Z<-matrix(0,t,p+1)
