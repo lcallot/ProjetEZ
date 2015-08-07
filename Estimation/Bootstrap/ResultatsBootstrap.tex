@@ -127,7 +127,7 @@ We simulate the data by choosing, the sparsity of the true parameters (number of
 
 
 % latex table generated in R 3.2.1 by xtable 1.7-4 package
-% Thu Aug  6 15:27:22 2015
+% Fri Aug  7 10:01:30 2015
 \begin{table}[ht]
 \centering
 \caption{Simulation Result} 
@@ -139,9 +139,9 @@ We simulate the data by choosing, the sparsity of the true parameters (number of
       &  & & &  iid5 & &  & &  iid10 & & & \\
  \midrule 
 Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 & biais1.1 & biais2.1 \\ 
-    1 & (50,100) & 0.446 & 0.553 & 266.458 & 0.276 & 0.475 & 0.232 &  & 901.437 & 0.233 & 0.703 \\ 
-     2 & (100,100) & 0.265 & 0.381 & 417.053 & 0.306 & 0.606 & 0.031 &  & 989.848 & 0.315 & 0.678 \\ 
-     3 & (200,100) & 0.108 & 0.173 & 475.595 & 0.326 & 0.648 & 0.003 &  & 999.048 & 0.832 & 0.167 \\ 
+    1 & (50,100) & 0.427 & 0.345 & 33.386 & 0.273 & 0.330 & 0.259 & 0.138 & 3.399 & 0.216 & 0.162 \\ 
+     2 & (100,100) & 0.394 & 0.386 & 49.198 & 0.294 & 0.383 & 0.273 & 0.079 & 10.163 & 0.263 & 0.195 \\ 
+     3 & (200,100) & 0.360 & 0.432 & 63.837 & 0.312 & 0.429 & 0.271 & 0.047 & 20.786 & 0.299 & 0.227 \\ 
    \bottomrule 
 \end{tabular}
 }
@@ -156,7 +156,7 @@ In the following one, we increase the number of nonzero parameter.
 
 
 % latex table generated in R 3.2.1 by xtable 1.7-4 package
-% Thu Aug  6 15:27:22 2015
+% Fri Aug  7 10:01:31 2015
 \begin{table}[ht]
 \centering
 \caption{Simulation Result 2} 
@@ -168,9 +168,9 @@ In the following one, we increase the number of nonzero parameter.
       &  & & &  iid5 & beta =5 &  & &  iid10 & beta =5 & n=200 & \\
  \midrule 
 Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 & biais1.1 & biais2.1 \\ 
-    1 & (50,100) & 0.427 & 0.302 & 0.000 & 0.280 & 0.316 & 0.279 &  & 0.000 & 0.173 & 0.191 \\ 
-     2 & (100,100) & 0.465 & 0.199 & 0.000 & 0.340 & 0.404 & 0.300 &  & 0.000 & 0.214 & 0.248 \\ 
-     3 & (200,100) & 0.497 & 0.161 & 0.000 & 0.377 & 0.479 & 0.322 &  & 0.000 & 0.248 & 0.307 \\ 
+    1 & (50,100) & 0.452 & 0.564 & 263.582 & 0.272 & 0.476 & 0.223 & 0.300 & 905.668 & 0.230 & 0.709 \\ 
+     2 & (100,100) & 0.133 &  & 920.095 & 0.655 & 0.303 & 0.027 & 0.038 & 990.599 & 0.328 & 0.666 \\ 
+     3 & (200,100) & 0.058 &  & 973.129 & 0.661 & 0.325 & 0.003 & 0.002 & 999.000 & 0.849 & 0.150 \\ 
    \bottomrule 
 \end{tabular}
 }
@@ -180,20 +180,11 @@ Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 &
 
 Here are the results with AR1 and AR3 as generated data. 
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in base::rowMeans(x, na.rm = na.rm, dims = dims, ...): 'x' doit être numérique}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in base::rowMeans(x, na.rm = na.rm, dims = dims, ...): 'x' doit être numérique}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in base::rowMeans(x, na.rm = na.rm, dims = dims, ...): 'x' doit être numérique}}\end{kframe}
-\end{knitrout}
 
 
 % latex table generated in R 3.2.1 by xtable 1.7-4 package
-% Thu Aug  6 15:27:23 2015
+% Fri Aug  7 10:01:31 2015
 \begin{table}[ht]
 \centering
 \caption{Simulation Result 2} 
@@ -205,15 +196,43 @@ Here are the results with AR1 and AR3 as generated data.
       &  & & &  iid5 & beta =5 &  & &  iid10 & beta =5 & n=200 & \\
  \midrule 
 Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 & biais1.1 & biais2.1 \\ 
-    1 & (50,100) & 0.261 & 0.140 & 2.398 & 0.215 & 0.159 & 0.279 &  & 0.000 & 0.173 & 0.191 \\ 
-     2 & (100,100) & 0.268 & 0.087 & 11.545 & 0.262 & 0.197 & 0.300 &  & 0.000 & 0.214 & 0.248 \\ 
-     3 & (200,100) & 0.266 & 0.046 & 23.203 & 0.312 & 0.231 & 0.322 &  & 0.000 & 0.248 & 0.307 \\ 
+    1 & (50,100) & 0.423 & 0.287 & 0.000 & 0.279 & 0.313 & 0.474 & 0.421 & 0.000 & 0.263 & 0.320 \\ 
+     2 & (100,100) & 0.230 &  & 497.704 & 2.664 & 0.197 & 0.708 & 0.356 & 10.837 & 0.356 & 0.533 \\ 
+     3 & (200,100) & 0.252 &  & 498.875 & 2.691 & 0.243 & 1.887 & 0.586 & 241.878 & 0.450 & 1.536 \\ 
    \bottomrule 
 \end{tabular}
 }
 }
 \end{table}
 
+
+
+
+
+
+
+
+% latex table generated in R 3.2.1 by xtable 1.7-4 package
+% Fri Aug  7 10:01:31 2015
+\begin{table}[ht]
+\centering
+\caption{Simulation Result} 
+\label{Test_table}
+{\footnotesize
+\scalebox{1}{
+\begin{tabular}{|r|r|rrrrr|rrrrr|}
+  \toprule 
+      &  & & &  iid5 & &  & &  iid10 & & & \\
+ \midrule 
+Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 & biais1.1 & biais2.1 \\ 
+    1 & (50,100) & 0.179 & 0.260 & 0.000 & 0.125 & 0.132 & 0.005 & 0.000 & 200.000 & 1.615 & 0.002 \\ 
+     2 & (100,100) & 0.182 & 0.166 & 0.000 & 0.145 & 0.151 & 0.004 & 0.000 & 200.000 & 1.614 & 0.001 \\ 
+     3 & (200,100) & 0.183 & 0.111 & 0.000 & 0.161 & 0.170 & 0.004 & 0.000 & 200.000 & 1.614 & 0.001 \\ 
+   \bottomrule 
+\end{tabular}
+}
+}
+\end{table}
 
 
 
@@ -225,7 +244,7 @@ Then we compute the method used by lahiri (On the residual empirical process bas
 
 
 % latex table generated in R 3.2.1 by xtable 1.7-4 package
-% Thu Aug  6 15:27:24 2015
+% Fri Aug  7 10:01:32 2015
 \begin{table}[ht]
 \centering
 \caption{Simulation Result} 
@@ -236,10 +255,10 @@ Then we compute the method used by lahiri (On the residual empirical process bas
     &  & iid1 &  & iid5 & & AR & \\
  \midrule 
 Model & X.pn. & coverage & lenght & coverage.1 & lenght.1 & coverage.2 & lenght.2 \\ 
-    1 & (10,100) & 0.939 & 4.105 & 0.994 & 4.026 & 0.945 & 3.743 \\ 
-     2 & (50,100) & 0.911 & 3.570 & 1.000 & 4.257 & 0.873 & 3.668 \\ 
-     3 & (120,100) & 1.000 & 4.094 & 0.923 & 3.617 & 0.917 & 3.595 \\ 
-     4 & (200,100) & 0.885 & 3.470 & 1.000 & 4.635 & 0.971 & 3.901 \\ 
+    1 & (10,100) & 0.956 & 3.749 & 0.934 & 3.661 & 0.939 & 3.680 \\ 
+     2 & (50,100) & 0.899 & 3.594 & 0.943 & 3.697 & 0.921 & 3.609 \\ 
+     3 & (120,100) & 0.905 & 3.547 & 1.000 & 4.182 & 0.875 & 3.430 \\ 
+     4 & (200,100) & 0.952 & 3.731 & 0.987 & 3.979 & 0.977 & 3.935 \\ 
    \bottomrule 
 \end{tabular}
 }
