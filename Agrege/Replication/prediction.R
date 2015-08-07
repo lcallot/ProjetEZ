@@ -9,12 +9,28 @@ library('lassovar')
 
 source("Functions/forecastfunction.R")
 source("Functions/bootlassovar.R")
+source("Functions/bootlassovarprediction.R")
 
-sub1<- var[,c('date','M3','STN','LTN','YED')]
+df<- var[,c('date','M3','STN','HICP_EZ','URX','POILU','EEN','EXR','LFI','LHO')]
+df<- df[112:176,]
 
-# data from Q1 1990 to 2013 Q4 (81:176)
-sub<-sub1[81:176,]
-plot(sub$M3)
+# data from Q4 1989 to 2013 Q4 (80:176)
+#df<-sub1[80:176,]
+#df$date<-NULL
+
+
+
+Ddf <- tail(df[,-1],-1) - head(df[,-1],-1)
+Ddf$HICP_EZ<-4*Ddf$HICP_EZ
+
+
+plot(Ddf$HICP_EZ,type="l")
+plot(Ddf,type="l")
+
+
+DF<-data.frame(Ddf$M3,df$STN[-1],Ddf$HICP_EZ,Ddf$URX,Ddf$POILU,df$EEN[-1],df$EXR[-1],Ddf$LFI,Ddf$LHO)
+colnames(DF)<-names(df[,-1])
+
 
 #foreca<-forecast(sub[,-1],1,12,16,"none",FALSE)
 #foreca<-data.frame(foreca)
@@ -25,48 +41,39 @@ plot(sub$M3)
 #ggplot(mvar1, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="free")
 
 # postestimation ? 
-lv<-lassovar(sub[,-1], lags=4, adaptive="lasso", post = TRUE, ncores =1)$post
+#lv<-lassovar(sub[,-1], lags=4, adaptive="lasso", post = TRUE, ncores =1)$post
 
 
 # bootlassovar
-iter=100
-bootcoef<-bootlassovar(sub[,-1],4,iter,"lasso")
+iter=20
+adap="none"
+lag=4
+
+bootcoef<-bootlassovar(DF,lag,iter,adap)
 
 
-tryfunction<-function(data,bootcoefficient,lag,preforecast,horizon){
 
-  pre<-list()
-  for (j in 1:length(bootcoef)){
-    intercept<-as.matrix(bootcoef[[j]][1,])
-    coef<-as.matrix(bootcoef[[j]][2:(lag*dim(bootcoef[[j]])[2]+1),],
-                    lag*dim(bootcoef[[j]])[2],dim(bootcoef[[j]])[2])
-  
-    fore<-matrix(0,nrow=dim(data)[2],ncol=horizon+preforecast)
-    fore[,1:(preforecast)]<-t(data[(dim(data)[1]-preforecast+1):dim(data)[1],])
-    
-    for (i in (preforecast+1):(horizon+preforecast)){
-      M<-NULL
-      for (l in 1:lag){
-        M<-c(fore[,(i-l)],M)
-      }
-      fore[,i]<-t(M%*%coef)+intercept
-    }
-    rownames(fore)<-names(data)
-    pre[[j]]<-t(fore)
-    
+# bootlassovar.prediction
+preforecast=16
+horizon=16
+
+Q<-bootlassovar.prediction(DF,bootcoef,lag,preforecast,horizon)
+
+
+tryfun<-function(data,name,lenght,iter){
+  e<-matrix(NA,32,iter)
+  for (i in 1:iter){
+    e[,i]<-Q[[i]][,name]
   }
-  return(pre)
+  df<-data.frame(e)
+  time<-seq(as.Date("2010/1/1"), as.Date("2017/12/1"), by = "quarter")
+  df$time<-time
+  D=melt(df, id='time')
+  a<-ggplot(D,aes(time,value, group=variable, color=variable))+geom_line()
+  return(a)
 }
+tryfun(Q,"HICP_EZ",32,iter)
 
-Q<-tryfunction(sub[,-1],bootcoef,4,16,16)
 
 
-M3pred<-matrix(NA,32,iter)
-for (i in 1:iter){
-  M3pred[,i]<-Q[[i]][,1]
-}
-df<-data.frame(M3pred)
-time<-seq(as.Date("2010/1/1"), as.Date("2017/12/1"), by = "quarter")
-df$time<-time
-D=melt(df, id='time')
-ggplot(D,aes(time,value, group=variable, color=variable))+geom_line()
+
