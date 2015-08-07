@@ -127,7 +127,7 @@ We simulate the data by choosing, the sparsity of the true parameters (number of
 
 
 % latex table generated in R 3.2.1 by xtable 1.7-4 package
-% Fri Aug  7 10:01:30 2015
+% Fri Aug  7 11:00:59 2015
 \begin{table}[ht]
 \centering
 \caption{Simulation Result} 
@@ -136,7 +136,7 @@ We simulate the data by choosing, the sparsity of the true parameters (number of
 \scalebox{1}{
 \begin{tabular}{|r|r|rrrrr|rrrrr|}
   \toprule 
-      &  & & &  iid5 & &  & &  iid10 & & & \\
+   beta=0.9   &  & & &  iid1 & &  & &  AR(1) & & & \\
  \midrule 
 Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 & biais1.1 & biais2.1 \\ 
     1 & (50,100) & 0.427 & 0.345 & 33.386 & 0.273 & 0.330 & 0.259 & 0.138 & 3.399 & 0.216 & 0.162 \\ 
@@ -150,13 +150,26 @@ Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 &
 
 
 
-In the following one, we increase the number of nonzero parameter. 
 
 
+In the following one, we increase the number of nonzero parameter (5 and 10). 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in readChar(con, 5L, useBytes = TRUE): impossible d'ouvrir le fichier compressé 'data/2/mc2.Rdata', cause probable : 'No such file or directory'}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in readChar(con, 5L, useBytes = TRUE): impossible d'ouvrir la connexion}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in readChar(con, 5L, useBytes = TRUE): impossible d'ouvrir le fichier compressé 'data/2/mc3.Rdata', cause probable : 'No such file or directory'}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in readChar(con, 5L, useBytes = TRUE): impossible d'ouvrir la connexion}}\end{kframe}
+\end{knitrout}
 
 
 % latex table generated in R 3.2.1 by xtable 1.7-4 package
-% Fri Aug  7 10:01:31 2015
+% Fri Aug  7 11:00:59 2015
 \begin{table}[ht]
 \centering
 \caption{Simulation Result 2} 
@@ -165,12 +178,12 @@ In the following one, we increase the number of nonzero parameter.
 \scalebox{1}{
 \begin{tabular}{|r|r|rrrrr|rrrrr|}
   \toprule 
-      &  & & &  iid5 & beta =5 &  & &  iid10 & beta =5 & n=200 & \\
+      &  & & &  iid5 & beta =1 &  & &  iid10 & beta =1 & n=200 & \\
  \midrule 
 Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 & biais1.1 & biais2.1 \\ 
     1 & (50,100) & 0.452 & 0.564 & 263.582 & 0.272 & 0.476 & 0.223 & 0.300 & 905.668 & 0.230 & 0.709 \\ 
-     2 & (100,100) & 0.133 &  & 920.095 & 0.655 & 0.303 & 0.027 & 0.038 & 990.599 & 0.328 & 0.666 \\ 
-     3 & (200,100) & 0.058 &  & 973.129 & 0.661 & 0.325 & 0.003 & 0.002 & 999.000 & 0.849 & 0.150 \\ 
+     2 & (100,100) & 0.394 & 0.386 & 49.198 & 0.294 & 0.383 & 0.027 & 0.038 & 990.599 & 0.328 & 0.666 \\ 
+     3 & (200,100) & 0.360 & 0.432 & 63.837 & 0.312 & 0.429 & 0.003 & 0.002 & 999.000 & 0.849 & 0.150 \\ 
    \bottomrule 
 \end{tabular}
 }
@@ -178,13 +191,13 @@ Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 &
 \end{table}
 
 
-Here are the results with AR1 and AR3 as generated data. 
+I chose a bigger beta in order to overcome the bias issue. 
 
 
 
 
 % latex table generated in R 3.2.1 by xtable 1.7-4 package
-% Fri Aug  7 10:01:31 2015
+% Fri Aug  7 11:00:59 2015
 \begin{table}[ht]
 \centering
 \caption{Simulation Result 2} 
@@ -193,12 +206,12 @@ Here are the results with AR1 and AR3 as generated data.
 \scalebox{1}{
 \begin{tabular}{|r|r|rrrrr|rrrrr|}
   \toprule 
-      &  & & &  iid5 & beta =5 &  & &  iid10 & beta =5 & n=200 & \\
+      &  & & &  iid5 & beta =5 &  & &  iid10 & beta =5 &  & \\
  \midrule 
 Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 & biais1.1 & biais2.1 \\ 
     1 & (50,100) & 0.423 & 0.287 & 0.000 & 0.279 & 0.313 & 0.474 & 0.421 & 0.000 & 0.263 & 0.320 \\ 
-     2 & (100,100) & 0.230 &  & 497.704 & 2.664 & 0.197 & 0.708 & 0.356 & 10.837 & 0.356 & 0.533 \\ 
-     3 & (200,100) & 0.252 &  & 498.875 & 2.691 & 0.243 & 1.887 & 0.586 & 241.878 & 0.450 & 1.536 \\ 
+     2 & (100,100) & 0.460 & 0.212 & 0.000 & 0.331 & 0.396 & 0.708 & 0.356 & 10.837 & 0.356 & 0.533 \\ 
+     3 & (200,100) & 0.499 & 0.162 & 0.285 & 0.376 & 0.481 & 1.887 & 0.586 & 241.878 & 0.450 & 1.536 \\ 
    \bottomrule 
 \end{tabular}
 }
@@ -212,8 +225,9 @@ Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 &
 
 
 
+
 % latex table generated in R 3.2.1 by xtable 1.7-4 package
-% Fri Aug  7 10:01:31 2015
+% Fri Aug  7 11:00:59 2015
 \begin{table}[ht]
 \centering
 \caption{Simulation Result} 
@@ -222,7 +236,7 @@ Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 &
 \scalebox{1}{
 \begin{tabular}{|r|r|rrrrr|rrrrr|}
   \toprule 
-      &  & & &  iid5 & &  & &  iid10 & & & \\
+      &  & & beta=5 &  iid5 & n=400  &  & &  AR(3) &  & & \\
  \midrule 
 Model & X.p.n. & lenght & cov1 & fn & biais1 & biais2 & lenght2 & cov1.1 & fn2 & biais1.1 & biais2.1 \\ 
     1 & (50,100) & 0.179 & 0.260 & 0.000 & 0.125 & 0.132 & 0.005 & 0.000 & 200.000 & 1.615 & 0.002 \\ 
@@ -244,7 +258,7 @@ Then we compute the method used by lahiri (On the residual empirical process bas
 
 
 % latex table generated in R 3.2.1 by xtable 1.7-4 package
-% Fri Aug  7 10:01:32 2015
+% Fri Aug  7 11:01:00 2015
 \begin{table}[ht]
 \centering
 \caption{Simulation Result} 
@@ -255,10 +269,10 @@ Then we compute the method used by lahiri (On the residual empirical process bas
     &  & iid1 &  & iid5 & & AR & \\
  \midrule 
 Model & X.pn. & coverage & lenght & coverage.1 & lenght.1 & coverage.2 & lenght.2 \\ 
-    1 & (10,100) & 0.956 & 3.749 & 0.934 & 3.661 & 0.939 & 3.680 \\ 
-     2 & (50,100) & 0.899 & 3.594 & 0.943 & 3.697 & 0.921 & 3.609 \\ 
-     3 & (120,100) & 0.905 & 3.547 & 1.000 & 4.182 & 0.875 & 3.430 \\ 
-     4 & (200,100) & 0.952 & 3.731 & 0.987 & 3.979 & 0.977 & 3.935 \\ 
+    1 & (10,100) & 0.881 & 3.454 & 0.938 & 3.675 & 0.923 & 3.712 \\ 
+     2 & (50,100) & 0.978 & 3.868 & 0.988 & 4.213 & 0.773 & 3.029 \\ 
+     3 & (120,100) & 1.000 & 4.320 & 0.904 & 3.799 & 0.879 & 3.447 \\ 
+     4 & (200,100) & 0.907 & 3.557 & 0.907 & 3.555 & 0.977 & 4.111 \\ 
    \bottomrule 
 \end{tabular}
 }
