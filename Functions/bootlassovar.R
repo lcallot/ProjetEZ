@@ -11,6 +11,7 @@ bootlassovar<-function(data,lag,iter,adap){
     residu<-cbind(residu,res[,l]-mean(res[,l]))
   }
   
+  bootcoef<-list()
   for (i in 1:iter){
     estar=matrix(0,dim(data)[1],dim(data)[2])
     ystar=matrix(0,dim(data)[1],dim(data)[2])
@@ -32,7 +33,7 @@ bootlassovar<-function(data,lag,iter,adap){
     }
     
     lvboot<-lassovar(ystar,lags=lag,adaptive=adap)
-    print(lvboot$coef)
+    bootcoef[[i]]<-lvboot$coef
   }
-  
+  return(bootcoef)
 }  
