@@ -4,33 +4,50 @@ require('reshape2')
 require('ggplot2')
 library('lassovar')
 #library('dplyr')
-#library('urca')
+library('urca')
 #library('stats')
 
 source("Functions/forecastfunction.R")
 source("Functions/bootlassovar.R")
 source("Functions/bootlassovarprediction.R")
 
-df<- var[,c('date','M3','STN','HICP_EZ','URX','POILU','EEN','EXR','LFI','LHO')]
-df<- df[112:176,]
+df<- var[,c('date','M3','STN','HICP_EZ','URX','ULC','WIN','YWR','YER','PPI','POILU','EEN','EXR')]
+df<- df[81:176,]
 
 # data from Q4 1989 to 2013 Q4 (80:176)
 #df<-sub1[80:176,]
-#df$date<-NULL
+df$date<-NULL
+
+erstest<-function(data,trend,type,lagmax){
+  result<-NULL
+  for (i in seq(1,dim(data)[2],1)){
+    ers<-ur.ers(data[,i], type = type, model=trend, lag.max = lagmax)
+    stat<-ers@teststat
+    value5pc<-ers@cval[2]
+    result[i]<-stat>value5pc
+  }
+  return(rbind(names(data),result))
+}
+erstest(df[,-1],"trend","P-test",10)
 
 
 
 Ddf <- tail(df[,-1],-1) - head(df[,-1],-1)
-Ddf$HICP_EZ<-4*Ddf$HICP_EZ
+
+data<-Ddf
+data$STN<-df$STN[-1]
+data$EEN<-df$EEN[-1]
+data$EXR<-df$EXR[-1]
 
 
-plot(Ddf$HICP_EZ,type="l")
-plot(Ddf,type="l")
+plot(df$HICP_EZ)
+x<-df$HICP_EZ
+z<-NULL
+for (i in 5:length(x)){
+  z[i]<-x[i]-x[i-4]
+}
 
-
-DF<-data.frame(Ddf$M3,df$STN[-1],Ddf$HICP_EZ,Ddf$URX,Ddf$POILU,df$EEN[-1],df$EXR[-1],Ddf$LFI,Ddf$LHO)
-colnames(DF)<-names(df[,-1])
-
+plot(110*z[-(1:4)])
 
 #foreca<-forecast(sub[,-1],1,12,16,"none",FALSE)
 #foreca<-data.frame(foreca)
@@ -45,34 +62,48 @@ colnames(DF)<-names(df[,-1])
 
 
 # bootlassovar
-iter=20
-adap="none"
-lag=4
+iter=10
+adap="lasso"
+lag=8
 
-bootcoef<-bootlassovar(DF,lag,iter,adap)
-
-
+bootcoef<-bootlassovar(df,lag,iter,adap)
 
 # bootlassovar.prediction
-preforecast=16
+preforecast=28
 horizon=16
 
-Q<-bootlassovar.prediction(DF,bootcoef,lag,preforecast,horizon)
+Q<-bootlassovar.prediction(df,bootcoef,lag,preforecast,horizon)
 
-
-tryfun<-function(data,name,lenght,iter){
-  e<-matrix(NA,32,iter)
+tryfun<-function(liste,name,lenght,iter,yoy,freq){
+  
+  e<-matrix(NA,lenght,iter)
   for (i in 1:iter){
-    e[,i]<-Q[[i]][,name]
+    e[,i]<-liste[[i]][,name]
   }
-  df<-data.frame(e)
-  time<-seq(as.Date("2010/1/1"), as.Date("2017/12/1"), by = "quarter")
-  df$time<-time
-  D=melt(df, id='time')
-  a<-ggplot(D,aes(time,value, group=variable, color=variable))+geom_line()
+  
+  if (yoy=="yes"){
+    
+    for (j in (freq+1):(lenght)){
+      e[j,]<-e[j,]-e[j-freq,]
+    }
+  
+    df<-data.frame(e[-(1:freq),])
+    time<-seq(as.Date("2008/1/1"), as.Date("2017/12/1"), by = "quarter")
+    df$time<-time
+    D=melt(df, id='time')
+    a<-ggplot(D,aes(time,value, group=variable, color=variable))+geom_line()
+    
+  } else {
+    df<-data.frame(e)
+    time<-seq(as.Date("2007/1/1"), as.Date("2017/12/1"), by = "quarter")
+    df$time<-time
+    D=melt(df, id='time')
+    a<-ggplot(D,aes(time,value, group=variable, color=variable))+geom_line()
+  }
+
   return(a)
 }
-tryfun(Q,"HICP_EZ",32,iter)
+tryfun(Q,"HICP_EZ",preforecast+horizon,iter,"yes",4)
 
 
 
