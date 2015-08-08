@@ -17,6 +17,7 @@ df<- df[81:176,]
 # data from Q4 1989 to 2013 Q4 (80:176)
 #df<-sub1[80:176,]
 df$date<-NULL
+Ddf <- tail(df,-1) - head(df,-1)
 
 #erstest<-function(data,trend,type,lagmax){
  # result<-NULL
@@ -32,7 +33,7 @@ df$date<-NULL
 
 
 
-#Ddf <- tail(df[,-1],-1) - head(df[,-1],-1)
+
 
 #data<-Ddf
 #data$STN<-df$STN[-1]
@@ -63,18 +64,16 @@ df$date<-NULL
 
 # bootlassovar
 iter=10
-adap="lasso"
+adap="none"
 lag=8
-preforecast=28
+preforecast=36
 horizon=16
 
-bootcoef<-bootlassovar(df,lag,iter,adap)
+bootcoef<-bootlassovar(df,lag,iter,adap,TRUE)
+
 Q<-bootlassovar.prediction(df,bootcoef,lag,preforecast,horizon)
 
-name="HICP_EZ"
-liste=Q
-lenght=preforecast+horizon
-freq=4
+
 
 tryfun<-function(liste,name,lenght,iter,yoy,freq){
   
@@ -89,8 +88,8 @@ tryfun<-function(liste,name,lenght,iter,yoy,freq){
       f[j,]<-e[j+freq,]-e[j,]
     }
   
-    df<-data.frame(f[-(1:freq),])
-    time<-seq(as.Date("2009/1/1"), as.Date("2017/12/1"), by = "quarter")
+    df<-data.frame(f)
+    time<-seq(as.Date("2006/1/1"), as.Date("2017/12/1"), by = "quarter")
     df$time<-time
     D=melt(df, id='time')
     a<-ggplot(D,aes(time,value, group=variable, color=variable))+geom_line()
@@ -98,7 +97,7 @@ tryfun<-function(liste,name,lenght,iter,yoy,freq){
   } else {
     
     df<-data.frame(e)
-    time<-seq(as.Date("2008/1/1"), as.Date("2017/12/1"), by = "quarter")
+    time<-seq(as.Date("2007/1/1"), as.Date("2017/12/1"), by = "quarter")
     df$time<-time
     D=melt(df, id='time')
     a<-ggplot(D,aes(time,value, group=variable, color=variable))+geom_line()
@@ -106,6 +105,9 @@ tryfun<-function(liste,name,lenght,iter,yoy,freq){
 
   return(a)
 }
-tryfun(Q,"HICP_EZ",preforecast+horizon,iter,"yes",4)
+name="HICP_EZ"
+
+
+tryfun(Q,name,preforecast+horizon,iter,"yes",4)
 
 

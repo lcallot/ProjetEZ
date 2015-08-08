@@ -1,10 +1,16 @@
-bootlassovar<-function(data,lag,iter,adap){
+bootlassovar<-function(data,lag,iter,adap,TREND){
   
-  lv<-lassovar(data,lags=lag,adaptive=adap)
+  lv<-lassovar(data,lags=lag,adaptive=adap,trend=TREND)
   res<-residuals(lv)
   pred<-lv$y-res
   coef<-as.matrix(lv$coefficients[2:(lag*dim(data)[2]+1),],lag*dim(data)[2],dim(data)[2])
   intercept<-matrix(lv$coefficients[1,],1, dim(data)[2])
+  
+  if (TREND==TRUE){
+    trend<-as.matrix(lv$coefficients[lag*dim(data)[2]+2,],1,dim(data)[2])
+  } else {
+    trend<-matrix(0,1,dim(data)[2])
+  }
   
   residu<-NULL
   for (l in 1:dim(res)[2]){
@@ -30,9 +36,10 @@ bootlassovar<-function(data,lag,iter,adap){
       } 
       ystar[t,]<-intercept + ystar[t,]
       ystar[t,]<- ystar[t,] + estar[t,]
+      ystar[t,]<- ystar[t,] + trend*t
     }
     
-    lvboot<-lassovar(ystar,lags=lag,adaptive=adap)
+    lvboot<-lassovar(ystar,lags=lag,adaptive=adap,trend=TREND)
     bootcoef[[i]]<-lvboot$coef
   }
   return(bootcoef)
