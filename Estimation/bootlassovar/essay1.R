@@ -1,4 +1,4 @@
-load("Agrege/Base/vardata.Rdata")
+load("data/vardatam.RData")
 
 require('reshape2')
 require('ggplot2')
@@ -11,22 +11,22 @@ source("Functions/forecastfunction.R")
 source("Functions/bootlassovar.R")
 source("Functions/bootlassovarprediction.R")
 
-df<- var[,c('date','M3','STN','HICP_EZ','URX','ULC','WIN','YWR','YER','PPI','POILU','EEN','EXR')]
-df<- df[81:176,]
+df<- vardatam
+df<- df[85:288,]
 #df<-var
 # data from Q4 1989 to 2013 Q4 (80:176)
 #df<-sub1[80:176,]
-df$date<-NULL
-
+df$time<-NULL
+df<-df[,(1:109)]
 #erstest<-function(data,trend,type,lagmax){
- # result<-NULL
-  #for (i in seq(1,dim(data)[2],1)){
-   # ers<-ur.ers(data[,i], type = type, model=trend, lag.max = lagmax)
-    #stat<-ers@teststat
-    #value5pc<-ers@cval[2]
-    #result[i]<-stat>value5pc
-  #}
-  #return(rbind(names(data),result))
+# result<-NULL
+#for (i in seq(1,dim(data)[2],1)){
+# ers<-ur.ers(data[,i], type = type, model=trend, lag.max = lagmax)
+#stat<-ers@teststat
+#value5pc<-ers@cval[2]
+#result[i]<-stat>value5pc
+#}
+#return(rbind(names(data),result))
 #}
 #erstest(df[,-1],"trend","P-test",10)
 
@@ -64,7 +64,7 @@ df$date<-NULL
 # bootlassovar
 iter=10
 adap="lasso"
-lag=8
+lag=1
 preforecast=28
 horizon=16
 
@@ -88,7 +88,7 @@ tryfun<-function(liste,name,lenght,iter,yoy,freq){
     for (j in 1:(lenght-freq)){
       f[j,]<-e[j+freq,]-e[j,]
     }
-  
+    
     df<-data.frame(f[-(1:freq),])
     time<-seq(as.Date("2009/1/1"), as.Date("2017/12/1"), by = "quarter")
     df$time<-time
@@ -103,7 +103,7 @@ tryfun<-function(liste,name,lenght,iter,yoy,freq){
     D=melt(df, id='time')
     a<-ggplot(D,aes(time,value, group=variable, color=variable))+geom_line()
   }
-
+  
   return(a)
 }
 tryfun(Q,"HICP_EZ",preforecast+horizon,iter,"yes",4)
