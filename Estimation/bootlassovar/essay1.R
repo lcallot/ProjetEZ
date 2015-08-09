@@ -12,64 +12,64 @@ source("Functions/bootlassovar.R")
 source("Functions/bootlassovarprediction.R")
 
 df<- vardatam
-df<- df[85:288,]
+df<- df[109:288,]
 #df<-var
 # data from Q4 1989 to 2013 Q4 (80:176)
 #df<-sub1[80:176,]
 df$time<-NULL
-df<-df[,(1:109)]
-#erstest<-function(data,trend,type,lagmax){
-# result<-NULL
-#for (i in seq(1,dim(data)[2],1)){
-# ers<-ur.ers(data[,i], type = type, model=trend, lag.max = lagmax)
-#stat<-ers@teststat
-#value5pc<-ers@cval[2]
-#result[i]<-stat>value5pc
-#}
-#return(rbind(names(data),result))
-#}
-#erstest(df[,-1],"trend","P-test",10)
-
-
 
 #Ddf <- tail(df[,-1],-1) - head(df[,-1],-1)
 
-#data<-Ddf
-#data$STN<-df$STN[-1]
-#data$EEN<-df$EEN[-1]
-#data$EXR<-df$EXR[-1]
+dput(names(df))
+
+#df2<-df[,c("HICP_AUS", "HICP_BEL",  "HICP_GER",  "HICP_DEN",  "HICP_SPA",  
+ #          "HICP_FIN",  "HICP_FRA", "HICP_UKI",  "HICP_GRE",  "HICP_IRL",  
+  #         "HICP_ITA",  "HICP_NET", "HICP_POR",  "HICP_SWE", 
+           
+  #      "UNPLOY_AUS", "UNPLOY_BEL", "UNPLOY_GER", "UNPLOY_DEN", "UNPLOY_SPA", 
+   #        "UNPLOY_FIN", "UNPLOY_FRA", "UNPLOY_UKI",  "UNPLOY_IRL", 
+    #       "UNPLOY_ITA", "UNPLOY_NET", "UNPLOY_POR", "UNPLOY_SWE", 
+     #      "exchrate", "M1_ZE", "M3_ZE", "OIL_ROW", "LIB3_US",  
+   #        "POLRATE_ZE",  "POLRATE_US", "PINDUS_AUS", "PINDUS_BEL", 
+    #       "PINDUS_DEN", "PINDUS_FIN", "PINDUS_FRA", "PINDUS_GER", "PINDUS_GRE", 
+    #      "PINDUS_IRL", "PINDUS_ITA",  "PINDUS_NET", "PINDUS_POR", 
+    #      "PINDUS_SPA", "PINDUS_SWE", "PINDUS_UKI", "STR_AUS", "STR_BEL", 
+     #      "STR_DEN", "STR_FIN", "STR_FRA", "STR_GER", "STR_GRE", "STR_IRL", 
+      #     "STR_ITA",  "STR_NET", "STR_POR", "STR_SPA", "STR_SWE", 
+       #    "STR_UKI", "LTR_AUS", "LTR_BEL", "LTR_DEN", "LTR_FIN", "LTR_FRA", 
+        #   "LTR_GER", "LTR_GRE", "LTR_IRL", "LTR_ITA",  "LTR_NET", 
+        #  "LTR_POR", "LTR_SPA", "LTR_SWE", "LTR_UKI")]
+
+df2<-df[,c("HICP_AUS", "HICP_BEL",  "HICP_GER",  "HICP_DEN",  "HICP_SPA",  
+          "HICP_FIN",  "HICP_FRA", "HICP_UKI",  "HICP_GRE",  "HICP_IRL",  
+         "HICP_ITA",  "HICP_NET", "HICP_POR",  "HICP_SWE",  "UNPLOY_FRA", 
+       "exchrate",  "M3_ZE", "OIL_ROW", "LIB3_US",  "POLRATE_ZE",
+       "POLRATE_US", "PINDUS_FRA", "STR_FRA", "LTR_FRA")]
 
 
-#plot(df$HICP_EZ)
-#x<-df$HICP_EZ
-#z<-NULL
-#for (i in 5:length(x)){
-#  z[i]<-x[i]-x[i-4]
-#}
 
-#plot(100*z[-(1:4)],type="l")
+foreca<-forecast(df2,4,12,16,"lasso",TRUE)
+foreca<-data.frame(foreca)
+var1<-foreca[,1:4]
+time<-seq(as.Date("2011/1/1"), as.Date("2017/12/1"), by = "quarter")
+var1$time<-time
+mvar1 <- melt(var1,  id = 'time', variable.name = 'series')
+ggplot(mvar1, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="free")
 
-#foreca<-forecast(sub[,-1],1,12,16,"none",FALSE)
-#foreca<-data.frame(foreca)
-#var1<-foreca[,1:4]
-#time<-seq(as.Date("2011/1/1"), as.Date("2017/12/1"), by = "quarter")
-#var1$time<-time
-#mvar1 <- melt(var1,  id = 'time', variable.name = 'series')
-#ggplot(mvar1, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="free")
-
-# postestimation ? 
-#lv<-lassovar(sub[,-1], lags=4, adaptive="lasso", post = TRUE, ncores =1)$post
 
 
 # bootlassovar
-iter=10
+iter=1
 adap="lasso"
-lag=1
+lag=4
 preforecast=28
 horizon=16
+TREND=TRUE
+data=df2
 
-bootcoef<-bootlassovar(df,lag,iter,adap)
-Q<-bootlassovar.prediction(df,bootcoef,lag,preforecast,horizon)
+
+bootcoef<-bootlassovar(df2,lag,iter,adap,TRUE)
+Q<-bootlassovar.prediction(df2,bootcoef,lag,preforecast,horizon)
 
 name="HICP_EZ"
 liste=Q

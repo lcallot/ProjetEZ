@@ -21,6 +21,10 @@ bootlassovar<-function(data,lag,iter,adap,TREND){
   for (i in 1:iter){
     estar=matrix(0,dim(data)[1],dim(data)[2])
     ystar=matrix(0,dim(data)[1],dim(data)[2])
+    allzero<-TRUE
+    while(allzero==TRUE){ 
+      
+    
     for (j in 1:dim(data)[1]){
       estar[j,]<-residu[sample(seq(from=1,to=dim(residu)[1],by=1),1,replace = T),]
     }
@@ -39,6 +43,9 @@ bootlassovar<-function(data,lag,iter,adap,TREND){
       ystar[t,]<- ystar[t,] + trend*t
     }
     
+    allzero<-(sum((lassovar(ystar,lags=lag,adaptive="none",trend=TREND)$coef[(2:(lag*dim(data)[2]+1)),])!=0)==0) 
+    }
+      
     lvboot<-lassovar(ystar,lags=lag,adaptive=adap,trend=TREND)
     bootcoef[[i]]<-lvboot$coef
   }

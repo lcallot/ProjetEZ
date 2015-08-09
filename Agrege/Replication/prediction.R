@@ -50,13 +50,13 @@ Ddf <- tail(df,-1) - head(df,-1)
 
 #plot(100*z[-(1:4)],type="l")
 
-#foreca<-forecast(sub[,-1],1,12,16,"none",FALSE)
-#foreca<-data.frame(foreca)
-#var1<-foreca[,1:4]
-#time<-seq(as.Date("2011/1/1"), as.Date("2017/12/1"), by = "quarter")
-#var1$time<-time
-#mvar1 <- melt(var1,  id = 'time', variable.name = 'series')
-#ggplot(mvar1, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="free")
+foreca<-forecast(Ddf,4,12,16,"lasso",FALSE)
+foreca<-data.frame(foreca)
+var1<-foreca[,1:4]
+time<-seq(as.Date("2011/1/1"), as.Date("2017/12/1"), by = "quarter")
+var1$time<-time
+mvar1 <- melt(var1,  id = 'time', variable.name = 'series')
+ggplot(mvar1, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="free")
 
 # postestimation ? 
 #lv<-lassovar(sub[,-1], lags=4, adaptive="lasso", post = TRUE, ncores =1)$post
@@ -64,14 +64,14 @@ Ddf <- tail(df,-1) - head(df,-1)
 
 # bootlassovar
 iter=10
-adap="none"
-lag=8
+adap="lasso"
+lag=4
 preforecast=36
 horizon=16
 
-bootcoef<-bootlassovar(df,lag,iter,adap,TRUE)
+bootcoef<-bootlassovar(Ddf,lag,iter,adap,FALSE)
 
-Q<-bootlassovar.prediction(df,bootcoef,lag,preforecast,horizon)
+Q<-bootlassovar.prediction(Ddf,bootcoef,lag,preforecast,horizon)
 
 
 
@@ -108,6 +108,6 @@ tryfun<-function(liste,name,lenght,iter,yoy,freq){
 name="HICP_EZ"
 
 
-tryfun(Q,name,preforecast+horizon,iter,"yes",4)
+tryfun(Q,name,preforecast+horizon,iter,"no",4)
 
 
