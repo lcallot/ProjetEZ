@@ -1,9 +1,4 @@
-                #### MONTE CARLO STUDY ####
-
-
-# Generate the statistics
-
-mcfunction<-function(x,p,nonzero,beta,n,boot,alpha,type){
+mcfunction2<-function(x,p,nonzero,beta,n,boot,alpha,type,N){
   allzero<-TRUE
   while(allzero==TRUE){ 
     #1 : generate the data
@@ -22,7 +17,7 @@ mcfunction<-function(x,p,nonzero,beta,n,boot,alpha,type){
             if (type=="AR3"){
               df<-depAR3(p,beta,n)
             } else {
-                df<-NULL
+              df<-NULL
             }
           } 
         }
@@ -32,37 +27,37 @@ mcfunction<-function(x,p,nonzero,beta,n,boot,alpha,type){
     # estimate 1st LASSO in case of all coefficient = 0
     allzero<-(sum((lasso(y~.,df)$coef[-1])!=0)==0)
   }
-    # Calculate the statistics
-    
+  # Calculate the statistics
   
-    if (type=="iid1"){
-      result<-lahiriboot2(df,boot,alpha,nonzero,beta)
+  
+  if (type=="iid1"){
+    result<-lahiriboot3(df,p,nonzero,boot,beta,alpha,N)
+  } else {
+    if (type=="iid5"){
+      result<-lahiriboot3(df,p,nonzero,boot,c(beta,beta,beta,-beta,-beta),alpha,N)
     } else {
-      if (type=="iid5"){
-        result<-lahiriboot2(df,boot,alpha,nonzero,c(beta,beta,beta,-beta,-beta))
+      if (type=="iid10"){
+        result<-lahiriboot3(df,p,nonzero,boot,c(beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-beta),alpha,N)
       } else {
-        if (type=="iid10"){
-          result<-lahiriboot2(df,boot,alpha,nonzero,c(beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-beta))
+        if (type=="AR1"){
+          result<-lahiriboot3(df,p,nonzero,boot,beta,alpha,N)
         } else {
-          if (type=="AR1"){
-            result<-lahiriboot2(df,boot,alpha,nonzero,beta)
+          if (type=="AR3"){
+            result<-lahiriboot3(df,p,nonzero,boot,c(2.65*beta,-2.355*beta,0.684*beta),alpha,N)
           } else {
-            if (type=="AR3"){
-              result<-lahiriboot2(df,boot,alpha,nonzero,c(2.65*beta,-2.355*beta,0.684*beta))
-            } else {
-              df<-NULL
-            }
-          } 
-        }
+            df<-NULL
+          }
+        } 
       }
     }
-    
+  }
+  
   return(result)
 }
 
 
-# Replicate and mean of the statistics
-MC<-function(iter,p,nonzero,beta,n,boot,alpha,type){
+
+MC2<-function(iter,p,nonzero,beta,n,boot,alpha,type,N){
   #a<-replicate(iter, mcfunction(p,nonzero,beta,n,boot,alpha,type))
   #res<-list()
   #for (i in 1:5){
@@ -71,9 +66,7 @@ MC<-function(iter,p,nonzero,beta,n,boot,alpha,type){
   
   #b<-lapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type)
   b<-mclapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type,mc.cores = 8)
-  res <- matrix(unlist(b),nrow=5)
+  res <- matrix(unlist(b),nrow=2)
   
   return(res)
 }
-
-
