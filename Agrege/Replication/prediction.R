@@ -37,9 +37,13 @@ data=Ddf
 
 
 bootcoef<-bootlassovar(Ddf,lag,iter,adap,FALSE)
-Q<-bootlassovar.prediction(Ddf,bootcoef,lag,preforecast,horizon,"no")
+Q1<-bootlassovar.prediction(Ddf,bootcoef,lag,preforecast,horizon,"no")
+save(Q1,file="Agrege/Replication/Q1.Rdata")
 
-save(Q,file="Agrege/Replication/Q.Rdata")
+iter=1000
+bootcoef<-bootlassovar(Ddf,lag,iter,adap,FALSE)
+Q2<-bootlassovar.prediction(Ddf,bootcoef,lag,preforecast,horizon,"no")
+save(Q2,file="Agrege/Replication/Q2.Rdata")
 
 #name="HICPSA"
 #plotfunction(Q,name,preforecast+horizon,iter,"no",4)
