@@ -10,6 +10,7 @@ mcfunction<-function(x,p,nonzero,beta,n,boot,alpha,type){
   allzero<-TRUE
   while(allzero==TRUE){ 
     #1 : generate the data
+<<<<<<< HEAD
     if (type=="iid1")   df<-iid1(p,beta,n)
     if (type=="iid5")   df<-iid5(p,beta,beta,beta,-beta,-beta,n)
     if (type=="iid10")  df<-iid10(p,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-beta,n)
@@ -17,6 +18,31 @@ mcfunction<-function(x,p,nonzero,beta,n,boot,alpha,type){
     if (type=="AR3")    df<-depAR3(p,beta,n)
 
     # estimate ALASSO
+=======
+    if (type=="iid1"){
+      df<-iid1(p,beta,n)
+    } else {
+      if (type=="iid5"){
+        df<-iid5(p,beta,beta,beta,-beta,-beta,n)
+      } else {
+        if (type=="iid10"){
+          df<-iid10(p,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-beta,n)
+        } else {
+          if (type=="AR1"){
+            df<-depAR1(p,beta,n)
+          } else {
+            if (type=="AR3"){
+              df<-depAR3(p,beta,n)
+            } else {
+                df<-NULL
+            }
+          } 
+        }
+      }
+    }
+    
+    # estimate 1st LASSO in case of all coefficient = 0
+>>>>>>> upstream/master
     allzero<-(sum((lasso(y~.,df)$coef[-1])!=0)==0)
   }
     # Calculate the statistics
@@ -57,3 +83,5 @@ MC<-function(iter,p,nonzero,beta,n,boot,alpha,type){
   
   return(res)
 }
+
+

@@ -18,10 +18,6 @@ source("Functions/montecarlo.R")
 ################
 
 
-
-
-
-
 iter=50
 boot=10
 n=100
@@ -32,17 +28,12 @@ rowMeans(Q)
 
 
 
-
-
-
 ###################
-
-
 
 # Simulated data
 
 # iid variable
-df1<-iid1(10,0.3,100)
+df1<-iid1(10,2,100)
 df2<-iid5(10,0.2,4,5,-3,-1,100)
 df3<-depAR1(10,0.9,100)
 
@@ -61,18 +52,6 @@ prediction<-function(data,iter,betatrue){
   }
   
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

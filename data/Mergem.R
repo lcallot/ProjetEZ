@@ -14,7 +14,10 @@ load("data/ECB/ecb.RData")
 
 # Save database 
 vardatam<-data.frame(ecb,imf,oecd)
+vardatam$STR_SWE[143]=0.0370
 save(vardatam, file="data/vardatam.RData")
+
+
 
 # Save diferentiated data from Q2 1990
 difvardatam <- tail(vardatam[,-1],-1) - head(vardatam[,-1],-1)

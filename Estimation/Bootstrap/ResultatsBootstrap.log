@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.6.17)  7 AUG 2015 17:32
+=======
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  7 AUG 2015 11:34
+>>>>>>> upstream/master
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -724,6 +728,7 @@ Overfull \hbox (31.51122pt too wide) in paragraph at lines 147--149
  []
 
 
+<<<<<<< HEAD
 Overfull \hbox (35.22925pt too wide) in paragraph at lines 176--178
  [][] 
  []
@@ -762,16 +767,27 @@ Overfull \hbox (10.10892pt too wide) in paragraph at lines 194--194
 
 
 Overfull \hbox (44.30696pt too wide) in paragraph at lines 216--218
+=======
+Overfull \hbox (44.30696pt too wide) in paragraph at lines 178--180
+>>>>>>> upstream/master
  [][] 
  []
 
 
+<<<<<<< HEAD
 Overfull \hbox (35.05702pt too wide) in paragraph at lines 244--246
+=======
+Overfull \hbox (35.05702pt too wide) in paragraph at lines 206--208
+>>>>>>> upstream/master
  [][] 
  []
 
 
+<<<<<<< HEAD
 Overfull \hbox (35.17992pt too wide) in paragraph at lines 274--276
+=======
+Overfull \hbox (35.17992pt too wide) in paragraph at lines 236--238
+>>>>>>> upstream/master
  [][] 
  []
 
@@ -786,6 +802,7 @@ LaTeX Warning: There were multiply-defined labels.
 ### semi simple group (level 1) entered at line 92 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
+<<<<<<< HEAD
  15633 strings out of 493105
  297419 string characters out of 6137072
  362248 words of memory out of 5000000
@@ -801,9 +818,26 @@ e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texlive/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
 Output written on ResultatsBootstrap.pdf (2 pages, 90261 bytes).
+=======
+ 13775 strings out of 493488
+ 247415 string characters out of 3141326
+ 321265 words of memory out of 3000000
+ 16614 multiletter control sequences out of 15000+200000
+ 8940 words of font info for 34 fonts, out of 3000000 for 9000
+ 1118 hyphenation exceptions out of 8191
+ 56i,10n,55p,465b,1276s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmbx10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmcsc10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr10.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmr8.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r9.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9
+.pfb>
+Output written on ResultatsBootstrap.pdf (2 pages, 76879 bytes).
+>>>>>>> upstream/master
 PDF statistics:
- 42 PDF objects out of 1000 (max. 8388607)
- 30 compressed objects within 1 object stream
+ 38 PDF objects out of 1000 (max. 8388607)
+ 27 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

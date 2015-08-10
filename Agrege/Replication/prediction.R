@@ -4,40 +4,48 @@ require('reshape2')
 require('ggplot2')
 library('lassovar')
 #library('dplyr')
-#library('urca')
+library('urca')
 #library('stats')
 
 source("Functions/forecastfunction.R")
 source("Functions/bootlassovar.R")
+source("Functions/bootlassovarprediction.R")
+source("Functions/plotfunction.R")
 
-sub1<- var[,c('date','M3','STN','LTN','YED')]
+#dput(names(var))
+df<-var[,c("date", "YER", "PCR", "GCR", "ITR", "XTR", "MTR", "YED",  
+           "GCD", "ITD", "XTD", "MTD", "YFD", "YIN", "WIN", "TIN", 
+           "YFN",  "HICPSA", "URX", "STN", "LTN","POILU", 
+           "PCOMU", "YWR","WRN",  "EEN", "EXR",  "M1",
+           "M3", "ESI", "LIB", "PPI", "DJES")]
 
-# data from Q1 1990 to 2013 Q4 (81:176)
-sub<-sub1[81:176,]
+df<- df[81:176,]
+df$date<-NULL
+Ddf <- tail(df,-1) - head(df,-1)
 
-
-foreca<-forecast(sub[,-1],1,12,16,"none",FALSE)
-foreca<-data.frame(foreca)
-var1<-foreca[,1:4]
-time<-seq(as.Date("2011/1/1"), as.Date("2017/12/1"), by = "quarter")
-var1$time<-time
-mvar1 <- melt(var1,  id = 'time', variable.name = 'series')
-ggplot(mvar1, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="free")
 
 
 # bootlassovar
-bootcoef<-bootlassovar(sub[,-1],4,10,"lasso")
+iter=100
+adap="none"
+lag=8
+preforecast=28
+horizon=16
+TREND="no"
+
+data=Ddf
 
 
+bootcoef<-bootlassovar(Ddf,lag,iter,adap,FALSE)
+Q1<-bootlassovar.prediction(Ddf,bootcoef,lag,preforecast,horizon,"no")
+save(Q1,file="Agrege/Replication/Q1.Rdata")
 
+iter=1000
+bootcoef<-bootlassovar(Ddf,lag,iter,adap,FALSE)
+Q2<-bootlassovar.prediction(Ddf,bootcoef,lag,preforecast,horizon,"no")
+save(Q2,file="Agrege/Replication/Q2.Rdata")
 
-lv<-lassovar(sub[,-1], lags=4, adaptive="lasso",post = TRUE)
-res<-residuals(lv)
-pred<-lv$y-res
-coef<-as.matrix(lv$coefficients[2:(lag*dim(data)[2]+1),],lag*dim(data)[2],dim(data)[2])
-intercept<-matrix(lv$coefficients[1,],1, dim(data)[2])
-
-
-
+#name="HICPSA"
+#plotfunction(Q,name,preforecast+horizon,iter,"no",4)
 
 

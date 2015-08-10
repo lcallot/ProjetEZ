@@ -10,7 +10,7 @@ iid1<-function(p,beta,n){
   df<-data.frame(y,norm)
   return(df)
 }
-iid1(10,3,100)
+
 
 #iid5
 
