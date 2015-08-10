@@ -1,4 +1,4 @@
-load("data/vardatam.RData")
+load("data/difvardatam.RData")
 
 require('reshape2')
 require('ggplot2')
@@ -11,14 +11,15 @@ source("Functions/forecastfunction.R")
 source("Functions/bootlassovar.R")
 source("Functions/bootlassovarprediction.R")
 
-df<- vardatam
+df<- difvardatam
+#df<- vardatam
 df<- df[109:288,]
 #df<-var
 # data from Q4 1989 to 2013 Q4 (80:176)
 #df<-sub1[80:176,]
 df$time<-NULL
 
-#Ddf <- tail(df[,-1],-1) - head(df[,-1],-1)
+
 
 dput(names(df))
 
@@ -40,15 +41,18 @@ dput(names(df))
         #   "LTR_GER", "LTR_GRE", "LTR_IRL", "LTR_ITA",  "LTR_NET", 
         #  "LTR_POR", "LTR_SPA", "LTR_SWE", "LTR_UKI")]
 
-df2<-df[,c("HICP_AUS", "HICP_BEL",  "HICP_GER",  "HICP_DEN",  "HICP_SPA",  
-          "HICP_FIN",  "HICP_FRA", "HICP_UKI",  "HICP_GRE",  "HICP_IRL",  
-         "HICP_ITA",  "HICP_NET", "HICP_POR",  "HICP_SWE",  "UNPLOY_FRA", 
-       "exchrate",  "M3_ZE", "OIL_ROW", "LIB3_US",  "POLRATE_ZE",
-       "POLRATE_US", "PINDUS_FRA", "STR_FRA", "LTR_FRA")]
+#df2<-df[,c("HICP_AUS", "HICP_BEL",  "HICP_GER",  "HICP_DEN",  "HICP_SPA",  
+#          "HICP_FIN",  "HICP_FRA", "HICP_UKI",  "HICP_GRE",  "HICP_IRL",  
+#         "HICP_ITA",  "HICP_NET", "HICP_POR",  "HICP_SWE",  "UNPLOY_FRA", 
+#       "exchrate",  "M3_ZE", "OIL_ROW", "LIB3_US",  "POLRATE_ZE",
+#       "POLRATE_US", "PINDUS_FRA", "STR_FRA", "LTR_FRA")]
+
+df2<-df[,c( "HICP_FRA", "UNPLOY_FRA", "exchrate",  "M3_ZE", "OIL_ROW", "LIB3_US",  
+             "POLRATE_ZE", "POLRATE_US", "PINDUS_FRA", "STR_FRA", "LTR_FRA")]
 
 
 
-foreca<-forecast(df2,4,12,16,"lasso",TRUE)
+foreca<-forecast(df2,4,12,16,"lasso",FALSE)
 foreca<-data.frame(foreca)
 var1<-foreca[,1:4]
 time<-seq(as.Date("2011/1/1"), as.Date("2017/12/1"), by = "quarter")
@@ -59,22 +63,22 @@ ggplot(mvar1, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="fr
 
 
 # bootlassovar
-iter=1
+iter=100
 adap="lasso"
-lag=4
+lag=1
 preforecast=28
 horizon=16
 TREND=TRUE
 data=df2
 
 
-bootcoef<-bootlassovar(df2,lag,iter,adap,TRUE)
-Q<-bootlassovar.prediction(df2,bootcoef,lag,preforecast,horizon)
+bootcoef<-bootlassovar(Ddf2,lag,iter,adap,FALSE)
+Q<-bootlassovar.prediction(Ddf2,bootcoef,lag,preforecast,horizon)
 
-name="HICP_EZ"
-liste=Q
-lenght=preforecast+horizon
-freq=4
+#name="HICP_FRA"
+#liste=Q
+#lenght=preforecast+horizon
+#freq=4
 
 tryfun<-function(liste,name,lenght,iter,yoy,freq){
   
@@ -89,8 +93,8 @@ tryfun<-function(liste,name,lenght,iter,yoy,freq){
       f[j,]<-e[j+freq,]-e[j,]
     }
     
-    df<-data.frame(f[-(1:freq),])
-    time<-seq(as.Date("2009/1/1"), as.Date("2017/12/1"), by = "quarter")
+    df<-data.frame(f)
+    time<-seq(as.Date("2008/1/1"), as.Date("2017/12/1"), by = "quarter")
     df$time<-time
     D=melt(df, id='time')
     a<-ggplot(D,aes(time,value, group=variable, color=variable))+geom_line()
@@ -98,7 +102,7 @@ tryfun<-function(liste,name,lenght,iter,yoy,freq){
   } else {
     
     df<-data.frame(e)
-    time<-seq(as.Date("2008/1/1"), as.Date("2017/12/1"), by = "quarter")
+    time<-seq(as.Date("2007/1/1"), as.Date("2017/12/1"), by = "quarter")
     df$time<-time
     D=melt(df, id='time')
     a<-ggplot(D,aes(time,value, group=variable, color=variable))+geom_line()
@@ -106,6 +110,6 @@ tryfun<-function(liste,name,lenght,iter,yoy,freq){
   
   return(a)
 }
-tryfun(Q,"HICP_EZ",preforecast+horizon,iter,"yes",4)
+tryfun(Q,"HICP_FRA",preforecast+horizon,iter,"no",4)
 
 
