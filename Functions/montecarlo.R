@@ -4,31 +4,18 @@
 # Generate the statistics
 
 mcfunction<-function(x,p,nonzero,beta,n,boot,alpha,type){
+  
+  type <- match.arg(type,c('iid1','iid5','iid10','AR1','AR3'))
+  
   allzero<-TRUE
   while(allzero==TRUE){ 
     #1 : generate the data
-    if (type=="iid1"){
-      df<-iid1(p,beta,n)
-    } else {
-      if (type=="iid5"){
-        df<-iid5(p,beta,beta,beta,-beta,-beta,n)
-      } else {
-        if (type=="iid10"){
-          df<-iid10(p,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-beta,n)
-        } else {
-          if (type=="AR1"){
-            df<-depAR1(p,beta,n)
-          } else {
-            if (type=="AR3"){
-              df<-depAR3(p,beta,n)
-            } else {
-                df<-NULL
-            }
-          } 
-        }
-      }
-    }
-    
+    if (type=="iid1")   df<-iid1(p,beta,n)
+    if (type=="iid5")   df<-iid5(p,beta,beta,beta,-beta,-beta,n)
+    if (type=="iid10")  df<-iid10(p,beta,beta,beta,beta,beta,-beta,-beta,-beta,-beta,-beta,n)
+    if (type=="AR1")    df<-depAR1(p,beta,n)
+    if (type=="AR3")    df<-depAR3(p,beta,n)
+
     # estimate ALASSO
     allzero<-(sum((lasso(y~.,df)$coef[-1])!=0)==0)
   }
@@ -63,15 +50,10 @@ mcfunction<-function(x,p,nonzero,beta,n,boot,alpha,type){
 
 # Replicate and mean of the statistics
 MC<-function(iter,p,nonzero,beta,n,boot,alpha,type){
-  #a<-replicate(iter, mcfunction(p,nonzero,beta,n,boot,alpha,type))
-  #res<-list()
-  #for (i in 1:5){
-  #  res[[i]]<-unlist(a[i,]) 
-  #}
-  
+
   #b<-lapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type)
-  b<-mclapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type,mc.cores = 8)
-  res <- matrix(unlist(b),nrow=5)
+  b<-mclapply(1:iter, mcfunction,p,nonzero,beta,n,boot,alpha,type,mc.cores = 10)
+  res <- do.call(cbind,b)
   
   return(res)
 }

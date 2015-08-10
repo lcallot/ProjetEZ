@@ -15,7 +15,7 @@ lahiriboot2<-function(data,iter,alpha,nonzero,betatrue){
 
   dist<-rep(0,nonzero)
   betastar<-rep(0,nonzero)
-  cove1<-rep(0,nonzero)
+  cove1 <- covt <- rep(0,nonzero)
 
   fn<-rep(0,nonzero)
   
@@ -28,6 +28,14 @@ lahiriboot2<-function(data,iter,alpha,nonzero,betatrue){
       fauxnegatif[i]<-sum((las[j,i]==0))
     }
     
+    #t-stat coverage
+    that <- (beta[j]-betatrue[j])/sqrt(lass[[3]])
+    tstar <- (las[j,]-beta[j])/sqrt(lass[[4]])
+    qt1 <- quantile(tstar,1-alpha/2)
+    qt2 <- quantile(tstar,alpha/2)
+    covt[j] <- (that<=qt1)&(that>=qt2) 
+    
+    # std coverage
     cove1[j]<-sum((betatrue[j]<=quantile(las[j,]-mean(las[j,])+beta[j], 1-alpha/2))&(betatrue[j]>=quantile(las[j,]-mean(las[j,])+beta[j], alpha/2)))
     fn[j]<-sum(fauxnegatif)
   }  
@@ -37,5 +45,5 @@ lahiriboot2<-function(data,iter,alpha,nonzero,betatrue){
   sumfn<-sum(fn)
   bias1<-mean(abs(betatrue)-abs(beta[1:nonzero]))
   bias2<-mean(abs(beta[1:nonzero])-abs(betastar))
-  return(list(distnonzero,cover1,sumfn,bias1,bias2))
+  return(c(distnonzero,cover1,sumfn,bias1,bias2,mean(covt)))
 }
