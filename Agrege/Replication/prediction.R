@@ -87,7 +87,8 @@ bootcoef<-bootlassovar(Ddf,lag,iter,adap,FALSE)
 Q<-bootlassovar.prediction(Ddf,bootcoef,lag,preforecast,horizon,"no")
 
 
-tryfun<-function(liste,name,lenght,iter,yoy,freq){
+
+plotfunction<-function(liste,name,lenght,iter,yoy,freq){
   
   e<-matrix(NA,lenght,iter)
   for (i in 1:iter){
@@ -120,6 +121,6 @@ tryfun<-function(liste,name,lenght,iter,yoy,freq){
 name="HICPSA"
 
 
-tryfun(Q,name,preforecast+horizon,iter,"no",4)
+plotfunction(Q,name,preforecast+horizon,iter,"no",4)
 
 
