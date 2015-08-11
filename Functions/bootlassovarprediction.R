@@ -6,7 +6,7 @@ bootlassovar.prediction<-function(data,bootcoefficient,lag,preforecast,horizon,T
     coef<-as.matrix(bootcoef[[j]][2:(lag*dim(bootcoef[[j]])[2]+1),],
                     lag*dim(bootcoef[[j]])[2],dim(bootcoef[[j]])[2])
     
-    if (TREND=="yes"){
+    if (TREND==TRUE){
       trend<-as.matrix(bootcoef[[j]][lag*dim(bootcoef[[j]])[2]+2,])
     } else {
       trend<-rep(0,dim(data)[2])
