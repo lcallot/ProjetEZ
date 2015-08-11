@@ -41,11 +41,10 @@ dput(names(df))
         #   "LTR_GER", "LTR_GRE", "LTR_IRL", "LTR_ITA",  "LTR_NET", 
         #  "LTR_POR", "LTR_SPA", "LTR_SWE", "LTR_UKI")]
 
-#df2<-df[,c("HICP_AUS", "HICP_BEL",  "HICP_GER",  "HICP_DEN",  "HICP_SPA",  
-#          "HICP_FIN",  "HICP_FRA", "HICP_UKI",  "HICP_GRE",  "HICP_IRL",  
-#         "HICP_ITA",  "HICP_NET", "HICP_POR",  "HICP_SWE",  "UNPLOY_FRA", 
-#       "exchrate",  "M3_ZE", "OIL_ROW", "LIB3_US",  "POLRATE_ZE",
-#       "POLRATE_US", "PINDUS_FRA", "STR_FRA", "LTR_FRA")]
+df2<-df[,c("HICP_AUS", "HICP_BEL",  "HICP_GER",  "HICP_DEN",  "HICP_SPA",            "HICP_FIN",  "HICP_FRA", "HICP_UKI",  "HICP_GRE",  "HICP_IRL",  
+         "HICP_ITA",  "HICP_NET", "HICP_POR",  "HICP_SWE",  "UNPLOY_FRA", 
+       "exchrate",  "M3_ZE", "OIL_ROW", "LIB3_US",  "POLRATE_ZE",
+       "POLRATE_US", "PINDUS_FRA", "STR_FRA", "LTR_FRA")]
 
 df2<-df[,c( "HICP_FRA", "UNPLOY_FRA", "exchrate",  "M3_ZE", "OIL_ROW", "LIB3_US",  
              "POLRATE_ZE", "POLRATE_US", "PINDUS_FRA", "STR_FRA", "LTR_FRA")]
@@ -63,17 +62,17 @@ ggplot(mvar1, aes(time,value)) + geom_line() + facet_grid(series ~ . ,scales="fr
 
 
 # bootlassovar
-iter=100
+iter=10
 adap="lasso"
-lag=1
+lag=4
 preforecast=28
 horizon=16
 TREND=TRUE
 data=df2
 
 
-bootcoef<-bootlassovar(Ddf2,lag,iter,adap,FALSE)
-Q<-bootlassovar.prediction(Ddf2,bootcoef,lag,preforecast,horizon)
+bootcoef<-bootlassovar(df2,lag,iter,adap,FALSE)
+Q<-bootlassovar.prediction(df2,bootcoef,lag,preforecast,horizon)
 
 #name="HICP_FRA"
 #liste=Q

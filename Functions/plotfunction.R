@@ -13,7 +13,7 @@ plotfunction<-function(liste,name,lenght,iter,yoy,freq){
     }
     
     df<-data.frame(f)
-    time<-seq(as.Date("2008/1/1"), as.Date("2017/12/1"), by = "quarter")
+    time<-seq(as.Date("2008/1/1"), as.Date("2016/12/1"), by = "quarter")
     df$time<-time
     D=melt(df, id='time')
     a<-ggplot(D,aes(time,value, group=variable, color=variable))+geom_line()
@@ -21,7 +21,7 @@ plotfunction<-function(liste,name,lenght,iter,yoy,freq){
   } else {
     
     df<-data.frame(e)
-    time<-seq(as.Date("2007/1/1"), as.Date("2017/12/1"), by = "quarter")
+    time<-seq(as.Date("2007/1/1"), as.Date("2016/12/1"), by = "quarter")
     df$time<-time
     D=melt(df, id='time')
     a<-ggplot(D,aes(time,value, group=variable, color=variable))+geom_line()
