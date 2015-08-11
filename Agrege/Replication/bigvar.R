@@ -1,4 +1,4 @@
-
+library(BigVAR)
 
 load("Agrege/Base/vardata.Rdata")
 df<-var[,c("date", "YER", "PCR", "GCR", "ITR", "XTR", "MTR", "YED",  
