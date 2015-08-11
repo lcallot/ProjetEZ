@@ -34,11 +34,9 @@ df4<-ts(df2)
 
 #load("/Users/carrierclement/Documents/Stage VU/BigVAR/BigVAR/data/Y.RData")
 
-bvdata<-constructModel(df3, p=4, "Lag",gran=c(50,10) , h = 1, cv = "Rolling")
-
-
+bvdata<-constructModel(df3, p=12, "Lag",gran=c(50,10) , h = 12, cv = "Rolling")
 results=cv.BigVAR(bvdata)
-results
+save(results,file="Agrege/Replication/results.Rdata")
 
 
 
