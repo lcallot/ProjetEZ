@@ -44,7 +44,7 @@ df3<-as.matrix(df2,92,dim(df)[2])
 bvdata<-constructModel(df3, p=4, "Lag",gran=c(50,10) , h = 1, cv = "Rolling")
 results=cv.BigVAR(bvdata)
 
-save(results,file="Agrege/Replication/results.Rdata")
+save(results,file="Agrege/Replication/results2.Rdata")
 
 
 
