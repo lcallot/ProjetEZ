@@ -47,11 +47,11 @@ results=cv.BigVAR(bvdata)
 save(results,file="Agrege/Replication/results2.Rdata")
 
 
-
-#results
-#str(results)
-#plot(results)
-#SparsityPlot.BigVAR.results(results)
+load("Agrege/Replication/results.Rdata")
+results
+str(results)
+plot(results)
+SparsityPlot.BigVAR.results(results)
 
 
 
