@@ -15,8 +15,7 @@ source("Functions/plotfunction.R")
 
 
 #dput(names(var))
-df<-var[,c("date", "YER", "PCR", "GCR", "ITR", "XTR", "MTR", "YED",  
-           "GCD", "ITD", "XTD", "MTD", "YFD", "YIN", "WIN", "TIN", 
+df<-var[,c("date", "YER", "PCR", "GCR", "ITR", "XTR", "MTR",  "ITD", "XTD", "MTD", "YFD", "YIN", "WIN", "TIN", 
            "YFN",  "HICPSA", "URX", "STN", "LTN","POILU", 
            "PCOMU", "YWR","WRN",  "EEN", "EXR",  "M1",
            "M3", "ESI", "LIB", "PPI", "DJES")]
@@ -35,22 +34,25 @@ df$date<-NULL
 
 lag=4
 lv<-lassovar(df,lags=lag,adaptive="none", post=TRUE ,ncores=TRUE)
-
+lv$coef
 dim(lv$post)
+
 
 cons<-lv$post[1,]
 coef<-matrix(lv$post[2:(lag*dim(df)[2]+1),],lag*dim(df)[2])
 
 h=12
+lag=4
 
 psy<-vector("list",h)
 psy[[1]]<-diag(x = 1, dim(df)[2], dim(df)[2])
-psy[[2]]<-psy[[1]]%*%coef[1:(dim(df)[2]),]
-psy[[3]]<-psy[[2]]%*%coef[1:(dim(df)[2]),] + psy[[1]]%*%coef[(dim(df)[2]+1):(2*dim(df)[2]),]
+for (s in 2:h){
 
-for (i in 0:(h-1)){
-  
-
-   
+  for (j in 1:(min(lag-1,s-1))){
+    if (is.null(psy[[s]])){
+      psy[[s]]<-matrix(0,dim(df)[2],dim(df)[2])
+    } else {}
+    psy[[s]]<-psy[[s]]+psy[[s-j]]%*%coef[(dim(df)[2]*(j-1)+1):(j*dim(df)[2]),]
+  }
 }
 
