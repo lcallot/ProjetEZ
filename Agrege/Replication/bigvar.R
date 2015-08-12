@@ -65,6 +65,6 @@ save(results5,file="Agrege/Replication/results5.Rdata")
 #plot(results)
 #SparsityPlot.BigVAR.results(results)
 
-help(constructModel)
+
 
 
