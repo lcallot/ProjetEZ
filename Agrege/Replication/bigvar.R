@@ -8,7 +8,7 @@ df<-var[,c("date", "YER", "PCR", "GCR", "ITR", "XTR", "MTR", "YED",
            "PCOMU", "YWR","WRN",  "EEN", "EXR",  "M1",
            "M3", "ESI", "LIB", "PPI", "DJES")]
 
-df<-var[,c("date", "YER", "PCR", "GCR")]
+#df<-var[,c("date", "YER", "PCR", "GCR")]
 
 Ddf <- tail(df,-1) - head(df,-1)
 
