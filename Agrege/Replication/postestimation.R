@@ -29,40 +29,22 @@ for (i in 1:92){
   x[i]<-df$HICPSA[i+4]-df$HICPSA[i]
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 7f7f4b636ac849ab99294b21e09afcba7def60b4
 #Dsub <- tail(sub,-1) - head(sub,-1)
 df$date<-NULL
 
-lag=4
+lag=12
 lv<-lassovar(df,lags=lag,adaptive="none", post=TRUE ,ncores=TRUE)
-lv$coef
-dim(lv$post)
 
-
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-
-=======
 cons<-lv$post[1,]
 coef<-matrix(lv$post[2:(lag*dim(df)[2]+1),],lag*dim(df)[2])
 
 h=12
-lag=4
+
 
 psy<-vector("list",h)
 psy[[1]]<-diag(x = 1, dim(df)[2], dim(df)[2])
 for (s in 2:h){
-
   for (j in 1:(min(lag-1,s-1))){
     if (is.null(psy[[s]])){
       psy[[s]]<-matrix(0,dim(df)[2],dim(df)[2])
@@ -70,5 +52,5 @@ for (s in 2:h){
     psy[[s]]<-psy[[s]]+psy[[s-j]]%*%coef[(dim(df)[2]*(j-1)+1):(j*dim(df)[2]),]
   }
 }
->>>>>>> 7f7f4b636ac849ab99294b21e09afcba7def60b4
+
 
