@@ -18,14 +18,14 @@ forecastci<-function(data,lag,preforecast,horizon,adap,TREND,name,alpha,post){
   }
   coef<-as.matrix(lv$coefficients[2:(lag*dim(data)[2]+1),],lag*dim(data)[2],dim(data)[2])
   
-  #residu 
+  #quantile 
   q1<-rep(0,horizon)
   q2<-rep(0,horizon)
   for (i in 1:horizon){
-    q1[i]<-qnorm( 1-alpha/2)*(ci(data,lag,adap,post,horizon)[[i]])[a,a]
-    q2[i]<-qnorm(alpha/2)*(ci(data,lag,adap,post,horizon)[[i]])[a,a]
+    c<-ci(data,lag,adap,post,horizon)
+    q1[i]<-qnorm( 1-alpha/2)*sqrt((c[[i]])[a,a])
+    q2[i]<-qnorm(alpha/2)*sqrt((c[[i]])[a,a])
   }
-  
 
   for (i in (preforecast+1):(horizon+preforecast)){
     M<-NULL
@@ -41,3 +41,5 @@ forecastci<-function(data,lag,preforecast,horizon,adap,TREND,name,alpha,post){
   rownames(foreca)<-c(name,"ci1","ci2")
   return(t(foreca))
 }
+
+
